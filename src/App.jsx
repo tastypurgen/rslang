@@ -1,10 +1,12 @@
 import React from 'react';
 import './App.scss';
+import Header from './components/header/header';
 
 function App() {
   return (
     <div>
-      <h1>Hello RsLang!</h1>
+      <Header />
+      <h2>Dashboard</h2>
     </div>
   );
 }
