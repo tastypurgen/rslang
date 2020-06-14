@@ -1,9 +1,11 @@
 import React from 'react';
-import './App.css';
+import './App.scss';
 
 function App() {
   return (
-    <h1>Hello RsLang!</h1>
+    <div>
+      <h1>Hello RsLang!</h1>
+    </div>
   );
 }
 
