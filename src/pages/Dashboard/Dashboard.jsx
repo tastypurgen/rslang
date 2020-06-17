@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './dashboard.scss';
+import './Dashboard.scss';
 
 // eslint-disable-next-line arrow-body-style
 const Dashboard = () => {
