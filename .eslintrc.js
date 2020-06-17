@@ -22,5 +22,8 @@ module.exports = {
     'react',
   ],
   rules: {
+    "linebreak-style": "off",
+    "react/prop-types": "off",
+    "react/destructuring-assignment": "off",
   },
 };
