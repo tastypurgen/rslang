@@ -9,8 +9,7 @@ const ErrSignIn = (props) => {
   document.addEventListener('click', closePopupEventFunction);
   return (
     <div className="ErrSignIn__container">
-      <h1>signIn err</h1>
-      <h2>Юзер даз нот экзист или пароль был введен неверно</h2>
+      <h2>Неверный логин или пароль</h2>
     </div>
   );
 };

@@ -10,11 +10,6 @@ class Authorization extends PureComponent {
     signIn: true,
   };
 
-  // сохранение данных о юзере
-  toSaveUserData = (userData) => {
-    localStorage.setItem('userData', userData);
-  }
-
   toChangeSignInState = () => {
     const { signIn } = this.state;
     this.setState({

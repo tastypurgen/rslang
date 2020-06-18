@@ -13,26 +13,49 @@ import Sprint from './pages/Sprint/Sprint';
 import Dictionary from './pages/Dictionary/Dictionary';
 import EnglishPuzzle from './pages/EnglishPuzzle/EnglishPuzzle';
 import GamesPanel from './pages/GamesPanel/GamesPanel';
+import Spinner from './components/Spinner/Spinner';
+import toPostUserdata from './services/toPostUserData';
 
 export default class App extends Component {
   state = {
-    isAuthenticated: true,
+    isAuthenticated: false,
+    isSpinnerOn: true,
   };
 
+  componentDidMount() {
+    if (localStorage.userData) {
+      const userData = JSON.parse(localStorage.userData);
+      toPostUserdata(userData, 'signin').then(() => {
+        this.setState({
+          isAuthenticated: true,
+          isSpinnerOn: false,
+        });
+      });
+    } else {
+      this.setState({
+        isSpinnerOn: false,
+      });
+    }
+  }
+
   changeAuthenticatedState = () => {
+    console.log('changeAuthenticatedState');
+    const { isAuthenticated } = this.state;
     this.setState({
-      isAuthenticated: true,
+      isAuthenticated: !isAuthenticated,
     });
   }
 
   render() {
-    const { isAuthenticated } = this.state;
+    // localStorage.clear();
+    const { isAuthenticated, isSpinnerOn } = this.state;
     let component;
-
-    if (isAuthenticated) {
+    if (isSpinnerOn) {
+      component = (<Spinner />);
+    } else if (isAuthenticated) {
       component = (
         <div>
-          <Header />
+          <Header changeAuthenticatedState={this.changeAuthenticatedState} />
           <Route exact path="/" component={Dashboard} />
           <Route path="/dashboard" component={Dashboard} />
           <Route path="/games-panel" component={GamesPanel} />
@@ -53,7 +76,9 @@ export default class App extends Component {
             exact
             to="/"
             render={() => (
-              <Authorization changeAuthenticatedState={this.changeAuthenticatedState} />
+              <Authorization
+                changeAuthenticatedState={this.changeAuthenticatedState}
+              />
             )}
           />
         </div>
