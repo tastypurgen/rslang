@@ -5,7 +5,7 @@ const checkUserToken = async () => {
       Authorization: `Bearer ${localStorage.userToken}`,
     },
   });
-  if (rawResponse.status === 200) {
+  if (rawResponse.ok) {
     return true;
   }
   localStorage.clear();

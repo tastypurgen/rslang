@@ -22,25 +22,19 @@ export default class App extends Component {
     isSpinnerOn: true,
   };
 
-  componentDidMount() {
+  componentDidMount = async () => {
+    // check if token valid
     if (localStorage.userToken) {
-      checkUserToken().then((response) => {
-        if (response) {
-          this.setState({
-            isAuthenticated: true,
-            isSpinnerOn: false,
-          });
-        } else {
-          this.setState({
-            isSpinnerOn: false,
-          });
-        }
-      });
-    } else {
-      this.setState({
-        isSpinnerOn: false,
-      });
+      const response = await checkUserToken();
+      if (response) {
+        this.setState({
+          isAuthenticated: true,
+        });
+      }
     }
+    this.setState({
+      isSpinnerOn: false,
+    });
   }
 
   changeAuthenticatedState = () => {
@@ -54,8 +48,9 @@ export default class App extends Component {
     const { isAuthenticated, isSpinnerOn } = this.state;
     let component;
     if (isSpinnerOn) {
-      component = (<Spinner />);
-    } else if (isAuthenticated) {
+      return (<Spinner />);
+    }
+    if (isAuthenticated) {
       component = (
         <div>
           <Header changeAuthenticatedState={this.changeAuthenticatedState} />

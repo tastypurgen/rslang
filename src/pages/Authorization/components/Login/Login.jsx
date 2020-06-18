@@ -4,7 +4,7 @@ import './Login.css';
 
 import ErrorLogin from './ErrorLogin/ErrorLogin';
 import toPostUserData from '../../../../services/toPostUserData';
-import toValidateUserData from '../../../../utils/toValidateUserData';
+import validateUserData from '../../../../utils/validateUserData';
 
 const Login = (props) => {
   const emailRef = React.createRef();
@@ -33,7 +33,7 @@ const Login = (props) => {
                 password: passwordRef.current.value,
               };
               if (userData.password === confirmPasswordRef.current.value) {
-                if (toValidateUserData(userData)) {
+                if (validateUserData(userData)) {
                   toPostUserData(userData, 'users').then((response) => {
                     if (response) {
                       toPostUserData(userData, 'signin').then(() => {

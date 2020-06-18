@@ -3,7 +3,7 @@ import './SignIn.css';
 import { withRouter } from 'react-router-dom';
 import ErrSignIn from './ErrSignIn/ErrSignIn';
 import toPostUserData from '../../../../services/toPostUserData';
-import toValidateUserData from '../../../../utils/toValidateUserData';
+import validateUserData from '../../../../utils/validateUserData';
 
 const SignIn = (props) => {
   const mailInputRef = React.createRef();
@@ -28,7 +28,7 @@ const SignIn = (props) => {
                 email: mailInputRef.current.value,
                 password: passwordInputRef.current.value,
               };
-              const validateResult = toValidateUserData(userData);
+              const validateResult = validateUserData(userData);
               if (validateResult) {
                 toPostUserData(userData, 'signin').then((response) => {
                   if (response) {
