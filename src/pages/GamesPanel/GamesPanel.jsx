@@ -2,13 +2,6 @@ import React from 'react';
 
 import './GamesPanel.scss';
 import { NavLink } from 'react-router-dom';
-// import Dashboard from '../Dashboard/Dashboard';
-// import SpeakIt from '../SpeakIt/SpeakIt';
-// import Savannah from '../Savannah/Savannah';
-// import AudioChallenge from '../AudioChallenge/AudioChallenge';
-// import Sprint from '../Sprint/Sprint';
-// import Dictionary from '../Dictionary/Dictionary';
-// import EnglishPuzzle from '../EnglishPuzzle/EnglishPuzzle';
 import GameCard from '../../components/GameCard/GameCard';
 
 const GamesPanel = () => (

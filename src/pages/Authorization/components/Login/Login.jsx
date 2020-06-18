@@ -2,11 +2,9 @@
 import React, { useState } from 'react';
 import './Login.css';
 
-// import SuccesLogin from './SuccesLogin/SuccesLogin';
 import ErrorLogin from './ErrorLogin/ErrorLogin';
 import toPostUserData from '../../../../services/toPostUserData';
 import toValidateUserData from '../../../../utils/toValidateUserData';
-import toSaveUserData from '../../../../utils/toSaveUserData';
 
 const Login = (props) => {
   const emailRef = React.createRef();
@@ -14,7 +12,6 @@ const Login = (props) => {
   const confirmPasswordRef = React.createRef();
 
   const [errorLogin, setErrorSignIn] = useState(false);
-  // const [succesLogin, setSuccesLogin] = useState(false);
 
   let component;
 
@@ -40,11 +37,9 @@ const Login = (props) => {
                   toPostUserData(userData, 'users').then((response) => {
                     if (response) {
                       toPostUserData(userData, 'signin').then(() => {
-                        toSaveUserData(userData);
                         props.changeAuthenticatedState();
                       });
                     } else {
-                      console.log('Login false');
                       setErrorSignIn(true);
                     }
                   });

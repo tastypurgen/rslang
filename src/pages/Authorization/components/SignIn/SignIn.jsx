@@ -1,18 +1,14 @@
 import React, { useState } from 'react';
 import './SignIn.css';
 import { withRouter } from 'react-router-dom';
-// import SuccSignIn from './SuccSignIn/SuccSignIn';
 import ErrSignIn from './ErrSignIn/ErrSignIn';
 import toPostUserData from '../../../../services/toPostUserData';
 import toValidateUserData from '../../../../utils/toValidateUserData';
-import toSaveUserData from '../../../../utils/toSaveUserData';
 
 const SignIn = (props) => {
-  console.log(props);
   const mailInputRef = React.createRef();
   const passwordInputRef = React.createRef();
 
-  // const [succesSignIn, setSuccesSignIn] = useState(false);
   const [errorSignIn, setErrorSignIn] = useState(false);
 
   let component;
@@ -35,13 +31,9 @@ const SignIn = (props) => {
               const validateResult = toValidateUserData(userData);
               if (validateResult) {
                 toPostUserData(userData, 'signin').then((response) => {
-                  console.log('Сюда');
                   if (response) {
-                    console.log('Успешно');
-                    toSaveUserData(userData);
                     props.changeAuthenticatedState();
                   } else {
-                    console.log('не Успешно');
                     setErrorSignIn(true);
                   }
                 });

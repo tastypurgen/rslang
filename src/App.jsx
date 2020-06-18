@@ -14,7 +14,7 @@ import Dictionary from './pages/Dictionary/Dictionary';
 import EnglishPuzzle from './pages/EnglishPuzzle/EnglishPuzzle';
 import GamesPanel from './pages/GamesPanel/GamesPanel';
 import Spinner from './components/Spinner/Spinner';
-import toPostUserdata from './services/toPostUserData';
+import checkUserToken from './services/checkUserToken';
 
 export default class App extends Component {
   state = {
@@ -23,13 +23,18 @@ export default class App extends Component {
   };
 
   componentDidMount() {
-    if (localStorage.userData) {
-      const userData = JSON.parse(localStorage.userData);
-      toPostUserdata(userData, 'signin').then(() => {
-        this.setState({
-          isAuthenticated: true,
-          isSpinnerOn: false,
-        });
+    if (localStorage.userToken) {
+      checkUserToken().then((response) => {
+        if (response) {
+          this.setState({
+            isAuthenticated: true,
+            isSpinnerOn: false,
+          });
+        } else {
+          this.setState({
+            isSpinnerOn: false,
+          });
+        }
       });
     } else {
       this.setState({
@@ -39,7 +44,6 @@ export default class App extends Component {
   }
 
   changeAuthenticatedState = () => {
-    console.log('changeAuthenticatedState');
     const { isAuthenticated } = this.state;
     this.setState({
       isAuthenticated: !isAuthenticated,
@@ -47,7 +51,6 @@ export default class App extends Component {
   }
 
   render() {
-    // localStorage.clear();
     const { isAuthenticated, isSpinnerOn } = this.state;
     let component;
     if (isSpinnerOn) {
@@ -65,7 +68,7 @@ export default class App extends Component {
           <Route path="/audio-challenge" component={AudioChallenge} />
           <Route path="/sprint" component={Sprint} />
           <Route path="/english-puzzle" component={EnglishPuzzle} />
-          <Redirect to="/dashboard" component={Dashboard} />
+          <Redirect to="/" component={Dashboard} />
           <Footer />
         </div>
       );
@@ -81,6 +84,7 @@ export default class App extends Component {
               />
             )}
           />
+          <Redirect to="/" component={Authorization} />
         </div>
       );
     }

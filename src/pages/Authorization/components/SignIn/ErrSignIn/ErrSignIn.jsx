@@ -2,7 +2,7 @@ import React from 'react';
 import './ErrSignIn.css';
 
 const ErrSignIn = (props) => {
-  const closePopupEventFunction = (evt) => {
+  const closePopupEventFunction = () => {
     props.setErrorSignIn();
     document.removeEventListener('click', closePopupEventFunction);
   };

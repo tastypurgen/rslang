@@ -10,14 +10,11 @@ const toPostUserData = async (userData, endPoint) => {
       body: JSON.stringify(userData),
     });
     response = await request.json();
-    console.log(response);
-    window.userToken = response.token;
-    window.userId = response.userId;
-    console.log(window.userToken);
-    console.log(window.userId);
+    localStorage.userToken = response.token;
+    localStorage.userId = response.userId;
   } catch (e) {
     return false;
   }
-  return response;
+  return true;
 };
 export default toPostUserData;

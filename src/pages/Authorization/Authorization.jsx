@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 import React, { PureComponent } from 'react';
-// import '.Authorization.css';
 
 import Login from './components/Login/Login';
 import SignIn from './components/SignIn/SignIn';
@@ -18,7 +17,6 @@ class Authorization extends PureComponent {
   }
 
   render() {
-    console.log(this.props);
     const { signIn } = this.state;
     const { changeAuthenticatedState } = this.props;
     const components = [];
