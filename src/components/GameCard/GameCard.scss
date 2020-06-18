@@ -1,4 +1,35 @@
 .game-card {
-  border: 1px solid black;
-  margin: 10px;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  background: #ffffff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  margin: 15px 5px;
+  width: 300px;
+  height: 220px;
+  transition: 0.5s;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+
+  .title {
+    padding: 22px 0 12px 30px;
+    color: #000000;
+    font-size: 28px;
+    line-height: 38px;
+  }
+
+  .subtitle {
+    padding: 0 0 0 30px;
+    font-size: 18px;
+    line-height: 25px;
+    color: #ababab;
+  }
+
+  .img {
+    margin: 10px;
+    text-align: end;
+  }
 }

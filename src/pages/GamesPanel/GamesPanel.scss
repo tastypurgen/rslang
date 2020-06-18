@@ -1,0 +1,40 @@
+.games-panel {
+  background: #f8f2ee;
+
+  .mode {
+    padding: 50px;
+
+    span {
+      margin-right: 20px;
+    }
+  }
+
+  .container {
+    margin: 0 auto;
+    max-width: 1200px;
+
+    .mode {
+      // font-family: Rubik;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 20px;
+      line-height: 24px;
+
+      color: #000000;
+
+      select {
+        background: #ffffff;
+        border: 1px solid #c6c3bd;
+        box-sizing: border-box;
+        border-radius: 5px;
+      }
+    }
+
+    .cards-container {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      padding: 0 30px 50px;
+    }
+  }
+}
