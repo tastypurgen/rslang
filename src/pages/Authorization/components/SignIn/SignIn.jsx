@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import './SignIn.css';
-
+import { withRouter } from 'react-router-dom';
 import SuccSignIn from './SuccSignIn/SuccSignIn';
 import ErrSignIn from './ErrSignIn/ErrSignIn';
+import toPostUserData from '../../../../services/toPostUserData';
+import toValidateUserData from '../../../../utils/toValidateUserData';
 
 const SignIn = (props) => {
+  console.log(props);
   const mailInputRef = React.createRef();
   const passwordInputRef = React.createRef();
 
@@ -13,7 +16,12 @@ const SignIn = (props) => {
 
   let component;
   if (succesSignIn) {
-    component = (<SuccSignIn setSuccesSignIn={setSuccesSignIn} />);
+    component = (
+      <SuccSignIn
+        changeAuthenticatedState={props.changeAuthenticatedState}
+        setSuccesSignIn={setSuccesSignIn}
+      />
+    );
   } else if (errorSignIn) {
     component = (<ErrSignIn setErrorSignIn={setErrorSignIn} />);
   } else {
@@ -29,9 +37,9 @@ const SignIn = (props) => {
               email: mailInputRef.current.value,
               password: passwordInputRef.current.value,
             };
-            const validateResult = props.toValidateUserData(userData);
+            const validateResult = toValidateUserData(userData);
             if (validateResult) {
-              props.toPostUserData(userData, 'signin').then((res) => {
+              toPostUserData(userData, 'signin').then((res) => {
                 if (res) {
                   console.log('Успешно');
                   setSuccesSignIn(true);
@@ -66,4 +74,4 @@ const SignIn = (props) => {
   return (component);
 };
 
-export default SignIn;
+export default withRouter(SignIn);

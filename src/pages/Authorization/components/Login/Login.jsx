@@ -4,6 +4,8 @@ import './Login.css';
 
 import SuccesLogin from './SuccesLogin/SuccesLogin';
 import ErrorLogin from './ErrorLogin/ErrorLogin';
+import toPostUserData from '../../../../services/toPostUserData';
+import toValidateUserData from '../../../../utils/toValidateUserData';
 
 const Login = (props) => {
   const emailRef = React.createRef();
@@ -18,7 +20,7 @@ const Login = (props) => {
   if (errorLogin) {
     component = (<ErrorLogin />);
   } else if (succesLogin) {
-    component = (<SuccesLogin />);
+    component = (<SuccesLogin changeAuthenticatedState={props.changeAuthenticatedState} />);
   } else {
     component = (
       <div className="Login__container">
@@ -34,9 +36,9 @@ const Login = (props) => {
               password: passwordRef.current.value,
             };
             if (userData.password === confirmPasswordRef.current.value) {
-              if (props.toValidateUserData(userData)) {
+              if (toValidateUserData(userData)) {
                 // console.log(toPostUserData);
-                props.toPostUserData(userData, 'users').then((res) => {
+                toPostUserData(userData, 'users').then((res) => {
                   if (res) {
                     console.log('Login true');
                     setSuccesLogin(true);

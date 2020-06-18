@@ -1,10 +1,10 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 import './SuccSignIn.css';
 
 const SuccSignIn = (props) => {
-  const closePopupEventFunction = (evt) => {
-    props.history.push('/main-page');
+  console.log(props);
+  const closePopupEventFunction = () => {
+    props.changeAuthenticatedState();
     document.removeEventListener('click', closePopupEventFunction);
   };
   document.addEventListener('click', closePopupEventFunction);
@@ -21,4 +21,4 @@ const SuccSignIn = (props) => {
   );
 };
 
-export default withRouter(SuccSignIn);
+export default SuccSignIn;
