@@ -42,7 +42,7 @@ export default class App extends Component {
           <Route path="/audio-challenge" component={AudioChallenge} />
           <Route path="/sprint" component={Sprint} />
           <Route path="/english-puzzle" component={EnglishPuzzle} />
-          <Redirect component={Dashboard} />
+          <Redirect to="/dashboard" component={Dashboard} />
           <Footer />
         </div>
       );
