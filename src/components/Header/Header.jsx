@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import './Header.scss';
 
-const Header = () => (
+const Header = (props) => (
   <div className="header">
     <h1>RSLang Header</h1>
     <ul>
@@ -14,6 +14,18 @@ const Header = () => (
       </li>
       <li>
         <NavLink to="/dictionary">Словарь</NavLink>
+      </li>
+      <li>
+        <button
+          type="button"
+          onClick={() => {
+            localStorage.clear();
+            props.changeAuthenticatedState();
+          }}
+        >
+          Выйти
+
+        </button>
       </li>
     </ul>
   </div>

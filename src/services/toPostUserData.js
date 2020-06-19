@@ -1,4 +1,5 @@
 const toPostUserData = async (userData, endPoint) => {
+  let response;
   try {
     const request = await fetch(`https://afternoon-falls-25894.herokuapp.com/${endPoint}`, {
       method: 'POST',
@@ -8,8 +9,9 @@ const toPostUserData = async (userData, endPoint) => {
       },
       body: JSON.stringify(userData),
     });
-    const response = await request.json();
-    console.log(response);
+    response = await request.json();
+    localStorage.userToken = response.token;
+    localStorage.userId = response.userId;
   } catch (e) {
     return false;
   }
