@@ -1,4 +1,4 @@
-const toPostUserData = async (userData, endPoint) => {
+const postUserData = async (userData, endPoint) => {
   let response;
   try {
     const request = await fetch(`https://afternoon-falls-25894.herokuapp.com/${endPoint}`, {
@@ -17,4 +17,4 @@ const toPostUserData = async (userData, endPoint) => {
   }
   return true;
 };
-export default toPostUserData;
+export default postUserData;

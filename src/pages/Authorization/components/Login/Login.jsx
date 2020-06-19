@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import './Login.css';
 
 import ErrorLogin from './ErrorLogin/ErrorLogin';
-import toPostUserData from '../../../../services/toPostUserData';
+import postUserData from '../../../../services/postUserData';
 import validateUserData from '../../../../utils/validateUserData';
 
 const Login = (props) => {
@@ -34,9 +34,9 @@ const Login = (props) => {
               };
               if (userData.password === confirmPasswordRef.current.value) {
                 if (validateUserData(userData)) {
-                  toPostUserData(userData, 'users').then((response) => {
+                  postUserData(userData, 'users').then((response) => {
                     if (response) {
-                      toPostUserData(userData, 'signin').then(() => {
+                      postUserData(userData, 'signin').then(() => {
                         props.changeAuthenticatedState();
                       });
                     } else {

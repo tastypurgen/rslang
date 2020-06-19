@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './SignIn.css';
 import { withRouter } from 'react-router-dom';
 import ErrSignIn from './ErrSignIn/ErrSignIn';
-import toPostUserData from '../../../../services/toPostUserData';
+import postUserData from '../../../../services/postUserData';
 import validateUserData from '../../../../utils/validateUserData';
 
 const SignIn = (props) => {
@@ -30,7 +30,7 @@ const SignIn = (props) => {
               };
               const validateResult = validateUserData(userData);
               if (validateResult) {
-                toPostUserData(userData, 'signin').then((response) => {
+                postUserData(userData, 'signin').then((response) => {
                   if (response) {
                     props.changeAuthenticatedState();
                   } else {
