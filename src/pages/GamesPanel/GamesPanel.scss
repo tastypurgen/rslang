@@ -1,32 +1,31 @@
 .games-panel {
   background: #f8f2ee;
 
-  .mode {
-    padding: 50px;
-
-    span {
-      margin-right: 20px;
-    }
-  }
-
   .container {
     margin: 0 auto;
     max-width: 1200px;
 
     .mode {
-      // font-family: Rubik;
+      font-family: Rubik;
       font-style: normal;
       font-weight: 500;
       font-size: 20px;
       line-height: 24px;
 
+      padding: 50px 70px 20px;
       color: #000000;
+
+      span {
+        margin-right: 20px;
+      }
 
       select {
         background: #ffffff;
         border: 1px solid #c6c3bd;
         box-sizing: border-box;
         border-radius: 5px;
+        outline: none;
+        cursor: pointer;
       }
     }
 
