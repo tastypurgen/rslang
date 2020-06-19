@@ -25,5 +25,8 @@ module.exports = {
     "linebreak-style": "off",
     "react/prop-types": "off",
     "react/destructuring-assignment": "off",
+    "react/state-in-constructor": "off",
+    "no-console": "off"
   },
+  parser: "babel-eslint"
 };

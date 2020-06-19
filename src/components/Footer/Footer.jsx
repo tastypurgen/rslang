@@ -1,9 +1,10 @@
 import React from 'react';
-import './header.scss';
+
+import './Footer.scss';
 
 const Header = () => (
-  <div className="header">
-    <h1>RSLang Header</h1>
+  <div className="footer">
+    <h2>Footer</h2>
   </div>
 );
 
