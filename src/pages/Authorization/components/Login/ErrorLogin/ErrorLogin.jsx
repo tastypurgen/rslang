@@ -1,16 +1,14 @@
 import React from 'react';
 import './ErrorLogin.css';
 
-const ErrorLogin = (props) => (
+const ErrorLogin = () => (
   <button
     type="button"
     onClick={() => {
-      console.log(props);
     }}
     className="ErrorLogin__container"
   >
-    <h1>Login failed</h1>
-    <h2>Что-то пошло нахер... ой, то бишь не так...</h2>
+    <h2>Неверный логин или пароль</h2>
   </button>
 );
 

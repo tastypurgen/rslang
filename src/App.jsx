@@ -13,26 +13,47 @@ import Sprint from './pages/Sprint/Sprint';
 import Dictionary from './pages/Dictionary/Dictionary';
 import EnglishPuzzle from './pages/EnglishPuzzle/EnglishPuzzle';
 import GamesPanel from './pages/GamesPanel/GamesPanel';
+import Spinner from './components/Spinner/Spinner';
+import checkUserToken from './services/checkUserToken';
 
 export default class App extends Component {
   state = {
-    isAuthenticated: true,
+    isAuthenticated: false,
+    isSpinnerOn: true,
   };
 
-  changeAuthenticatedState = () => {
+  componentDidMount = async () => {
+    // check if token valid
+    if (localStorage.userToken) {
+      const response = await checkUserToken();
+      if (response) {
+        this.setState({
+          isAuthenticated: true,
+        });
+      }
+    }
     this.setState({
-      isAuthenticated: true,
+      isSpinnerOn: false,
+    });
+  }
+
+  changeAuthenticatedState = () => {
+    const { isAuthenticated } = this.state;
+    this.setState({
+      isAuthenticated: !isAuthenticated,
     });
   }
 
   render() {
-    const { isAuthenticated } = this.state;
+    const { isAuthenticated, isSpinnerOn } = this.state;
     let component;
-
+    if (isSpinnerOn) {
+      return (<Spinner />);
+    }
     if (isAuthenticated) {
       component = (
         <div>
-          <Header />
+          <Header changeAuthenticatedState={this.changeAuthenticatedState} />
           <Route exact path="/" component={Dashboard} />
           <Route path="/dashboard" component={Dashboard} />
           <Route path="/games-panel" component={GamesPanel} />
@@ -42,7 +63,7 @@ export default class App extends Component {
           <Route path="/audio-challenge" component={AudioChallenge} />
           <Route path="/sprint" component={Sprint} />
           <Route path="/english-puzzle" component={EnglishPuzzle} />
-          <Redirect to="/dashboard" component={Dashboard} />
+          <Redirect to="/" component={Dashboard} />
           <Footer />
         </div>
       );
@@ -53,9 +74,12 @@ export default class App extends Component {
             exact
             to="/"
             render={() => (
-              <Authorization changeAuthenticatedState={this.changeAuthenticatedState} />
+              <Authorization
+                changeAuthenticatedState={this.changeAuthenticatedState}
+              />
             )}
           />
+          <Redirect to="/" component={Authorization} />
         </div>
       );
     }
