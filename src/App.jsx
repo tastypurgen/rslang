@@ -8,7 +8,7 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import Authorization from './pages/Authorization/Authorization';
 import SpeakIt from './pages/SpeakIt/SpeakIt';
 import Savannah from './pages/Savannah/Savannah';
-import AudioChallenge from './pages/AudioChallenge/AudioChallenge';
+import AudioChallenge from './pages/AudioChallenge/MainPage';
 import Sprint from './pages/Sprint/Sprint';
 import Dictionary from './pages/Dictionary/Dictionary';
 import EnglishPuzzle from './pages/EnglishPuzzle/EnglishPuzzle';
