@@ -23,7 +23,13 @@ module.exports = {
   ],
   rules: {
     "react/state-in-constructor": "off",
-    "no-console": "off"
+    "no-console": "off",
+    "jsx-a11y/label-has-associated-control": [
+      "error",
+      {        
+        "assert": "either",       
+      }
+    ],
   },
   parser: "babel-eslint"
 };
