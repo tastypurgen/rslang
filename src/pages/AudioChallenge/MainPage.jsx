@@ -2,7 +2,8 @@ import React from 'react';
 import AudioChallenge from './AudioChallenge';
 import getRandomWords from '../../services/getWords';
 
-const difficulty = ['basic', 'easy', 'medium', 'hard', 'very hard', 'advanced'];
+// const difficulty = ['basic', 'easy', 'medium', 'hard', 'very hard', 'advanced'];
+const difficulty = ['начальный', 'легко', 'средне', 'трудно', 'очень трудно', 'продвинутый'];
 
 export default class MainPage extends React.PureComponent {
   constructor(props) {
@@ -30,10 +31,10 @@ export default class MainPage extends React.PureComponent {
       return (
         <div>
           <div>
-            <h1>Audio Challenge</h1>
-            <h2>Listen and guess</h2>
+            <h1>Аудиовызов</h1>
+            <h2>Слушай и угадывай</h2>
           </div>
-          <p><b>Choose difficulty:</b></p>
+          <p><b>Выберите уровень сложности:</b></p>
           <select value={value} onChange={this.handleChange}>
             {difficulty.map((item, index) => (
               <option
@@ -46,7 +47,7 @@ export default class MainPage extends React.PureComponent {
             ))}
           </select>
           <br />
-          <input type="button" value="Play" onClick={this.handleClick} />
+          <input type="button" value="Играть" onClick={this.handleClick} />
         </div>
       );
     }

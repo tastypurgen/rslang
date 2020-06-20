@@ -110,10 +110,10 @@ export default class AudioChallenge extends React.PureComponent {
       return (
         <div className="audio-challenge">
           <div>
-            Right answers:
+            Правильных ответов:
             {right}
             <br />
-            Wrong answers:
+            Ошибок:
             {wrong}
           </div>
           <Word word={word} nameClass={active ? '' : 'hidden'} />
@@ -131,9 +131,9 @@ export default class AudioChallenge extends React.PureComponent {
     }
     return (
       <div className="audio-challenge">
-        <h2>Results:</h2>
+        <h2>Результаты:</h2>
         <span style={{ color: 'red' }}>
-          Mistakes:
+          Ошибок:
           {wrong}
         </span>
         {mistakes.map((item) => (
@@ -157,7 +157,7 @@ export default class AudioChallenge extends React.PureComponent {
         ))}
         <br />
         <span style={{ color: 'green' }}>
-          I know:
+          Знаю:
           {right}
         </span>
         {know.map((item) => (
