@@ -24,8 +24,9 @@ export default class MainPage extends React.PureComponent {
   }
 
   render() {
-    if (!this.state.play) {
-      getRandomWords(this.state.value, 3);
+    const { play, value } = this.state;
+    if (!play) {
+      getRandomWords(value, 3);
       return (
         <div>
           <div>
@@ -33,7 +34,7 @@ export default class MainPage extends React.PureComponent {
             <h2>Listen and guess</h2>
           </div>
           <p><b>Choose difficulty:</b></p>
-          <select value={this.state.value} onChange={this.handleChange}>
+          <select value={value} onChange={this.handleChange}>
             {difficulty.map((item, index) => (
               <option
                 tabIndex={0}

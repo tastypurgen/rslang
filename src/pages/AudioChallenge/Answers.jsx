@@ -1,6 +1,4 @@
 /* eslint-disable no-param-reassign */
-/* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 
 import React from 'react';
 
@@ -20,27 +18,30 @@ export default class Answers extends React.PureComponent {
   }
 
   handleKeyPress(e) {
-    if (e.key > 0 && e.key < 6 && !this.props.active) {
-      const target = document.getElementById(this.props.word.answers[e.key - 1]);
+    const { active, word, handleClick } = this.props;
+    if (e.key > 0 && e.key < 6 && !active) {
+      const target = document.getElementById(word.answers[e.key - 1]);
       this.checkAnswer(target, e.key - 1);
-    } else if (e.key === 'Enter' && this.props.active) {
-      this.props.handleClick();
+    } else if (e.key === 'Enter' && active) {
+      handleClick();
     }
   }
 
   checkAnswer(target, index) {
-    if (index === this.props.word.rightAnswerIndex) {
+    const { word, nextLevel, wrongAnswer } = this.props;
+    if (index === word.rightAnswerIndex) {
       target.className = 'correct';
-      this.props.nextLevel();
+      nextLevel();
     } else {
       target.className = 'wrong';
-      document.getElementById(this.props.word.translation).className = 'correct';
-      this.props.wrongAnswer();
+      document.getElementById(word.translation).className = 'correct';
+      wrongAnswer();
     }
   }
 
   render() {
-    const { answers } = this.props.word;
+    const { word, active, children } = this.props;
+    const { answers } = word;
     return (
       <div>
         <div style={{ border: '1px solid red' }}>
@@ -48,7 +49,7 @@ export default class Answers extends React.PureComponent {
             {answers.map((item, index) => (
               <li
                 style={{ border: '1px solid black', margin: '20px' }}
-                onClick={!this.props.active
+                onClick={!active
                   ? ((e) => this.checkAnswer(e.target, index))
                   : undefined}
                 role="button"
@@ -61,7 +62,7 @@ export default class Answers extends React.PureComponent {
             ))}
           </ol>
         </div>
-        {this.props.children}
+        {children}
       </div>
     );
   }
