@@ -1,8 +1,5 @@
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable no-console */
 /* eslint-disable react/prop-types */
 import React, { PureComponent } from 'react';
-import { NavLink } from 'react-router-dom';
 import capitalizeWord from '../../utils/capitalizeWord';
 import './Savannah.scss';
 import Word from './Word';
@@ -10,12 +7,13 @@ import Answers from './Answers';
 import Lives from './Lives';
 
 const gameWords = [];
+const maxLevel = 9;
 
 export default class Savannah extends PureComponent {
   state = {
     isGameStarted: true,
     currentLevel: 0,
-    lives: 5,
+    lives: 3,
   }
 
   setWords = () => {
@@ -47,6 +45,11 @@ export default class Savannah extends PureComponent {
   }
 
   nextLevel = () => {
+    const { lives, currentLevel } = this.state;
+
+    if (lives < 1 || currentLevel >= maxLevel) {
+      this.setState({ isGameStarted: false });
+    }
     this.setState((prevState) => ({ currentLevel: prevState.currentLevel + 1 }));
   }
 
@@ -62,8 +65,6 @@ export default class Savannah extends PureComponent {
     if (isGameStarted) {
       return (
         <div className="savannah">
-          <NavLink to="/">Go to dashboard</NavLink>
-          <div><b>Let&apos;s play Savannah! :)</b></div>
 
           <Lives lives={lives} />
 

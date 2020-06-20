@@ -1,5 +1,3 @@
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable no-console */
 /* eslint-disable react/prop-types */
 import React, { PureComponent } from 'react';
 import './Savannah.scss';
@@ -9,27 +7,24 @@ import Game from './Game';
 const wordsLevel = ['Очень легко', 'Легко', 'Средне', 'Тяжело', 'Очень тяжело', "I'm from England"];
 
 export default class Savannah extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      play: false,
-      value: 0,
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleClick = this.handleClick.bind(this);
+  state = {
+    play: false,
+    value: 0,
   }
 
-  handleChange(e) {
+  handleChange = (e) => {
     this.setState({ value: e.target.value });
   }
 
-  handleClick() {
+  handleClick = () => {
     this.setState({ play: true });
   }
 
   render() {
-    if (!this.state.play) {
-      getWords(this.state.value, 2);
+    const { play, value } = this.state;
+
+    if (!play) {
+      getWords(value, 2);
       return (
         <div>
           <div>
@@ -37,7 +32,7 @@ export default class Savannah extends PureComponent {
             <h2>Угадай правильное слово</h2>
           </div>
           <p><b>Уровень сложности:</b></p>
-          <select value={this.state.value} onChange={this.handleChange}>
+          <select value={value} onChange={this.handleChange}>
             {wordsLevel.map((item, index) => (
               <option
                 tabIndex={0}

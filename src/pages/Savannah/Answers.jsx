@@ -1,23 +1,20 @@
-/* eslint-disable react/destructuring-assignment */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/prop-types */
-/* eslint-disable no-console */
 import React from 'react';
 
 export default class Answers extends React.PureComponent {
   checkAnswer = (index) => {
-    if (index === this.props.rightAnswerIndex) {
+    const { rightAnswerIndex, nextLevel, removeLife } = this.props;
+    if (index === rightAnswerIndex) {
       console.log('right');
-      this.props.nextLevel();
+      nextLevel();
     } else {
       console.log('wrong');
-      this.props.removeLife();
+      removeLife();
     }
   }
 
   render() {
-    console.log(this.props);
-    console.log(this.props.rightAnswerIndex);
     const { answers } = this.props;
     return (
       <div style={{ border: '1px solid red' }}>
