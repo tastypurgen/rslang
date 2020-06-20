@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 
 import './App.scss';
 import Header from './components/Header/Header';
@@ -86,9 +86,7 @@ export default class App extends Component {
 
     return (
       <div>
-        <Switch>
-          {component}
-        </Switch>
+        {component}
       </div>
     );
   }
