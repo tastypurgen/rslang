@@ -1,7 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable class-methods-use-this */
-/* eslint-disable react/no-unused-state */
-/* eslint-disable react/self-closing-comp */
 import React, { PureComponent } from 'react';
 import './Settings.scss';
 
