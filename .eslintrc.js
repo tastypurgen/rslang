@@ -22,8 +22,11 @@ module.exports = {
     'react',
   ],
   rules: {
+    "react/prop-types": "off",
     "react/state-in-constructor": "off",
-    "no-console": "off"
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-noninteractive-element-to-interactive-role": "off",
+    "jsx-a11y/media-has-caption": "off",
   },
   parser: "babel-eslint"
 };
