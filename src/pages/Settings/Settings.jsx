@@ -79,6 +79,7 @@ export default class Settings extends PureComponent {
                 value={settings.wordsPerDay}
                 onChange={this.setRange.bind(this)}
               />
+              <span className="settings__range_value">{settings.wordsPerDay}</span>
             </div>
             <div className="settings__input-group">
               <label htmlFor="settings__max_cards_per_day">Максимальное количество карточек на день</label>
@@ -93,6 +94,7 @@ export default class Settings extends PureComponent {
                 value={settings.maxCardsPerDay}
                 onChange={this.setRange.bind(this)}
               />
+              <span className="settings__range_value">{settings.maxCardsPerDay}</span>
             </div>
           </div>
           <div className="settings__form-group">
