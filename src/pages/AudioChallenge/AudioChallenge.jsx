@@ -4,6 +4,7 @@ import React from 'react';
 import './AudioChallenge.scss';
 import Answers from './Answers';
 import Word from './Word';
+import img from './img/audio.png';
 
 export default class AudioChallenge extends React.PureComponent {
   constructor(props) {
@@ -140,7 +141,7 @@ export default class AudioChallenge extends React.PureComponent {
           <div key={`wrong_${item.word}`}>
             <audio id={item.word} src={item.audio} />
             <img
-              src={require('./img/audio.png')}
+              src={img}
               alt="audio"
               role="button"
               tabIndex={0}
@@ -164,7 +165,7 @@ export default class AudioChallenge extends React.PureComponent {
           <div key={`correct_${item.word}`}>
             <audio id={item.word} src={item.audio} />
             <img
-              src={require('./img/audio.png')}
+              src={img}
               alt="audio"
               role="button"
               tabIndex={0}

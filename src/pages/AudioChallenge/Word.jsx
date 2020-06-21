@@ -1,4 +1,5 @@
 import React from 'react';
+import img from './img/audio.png';
 
 export default class Word extends React.PureComponent {
   render() {
@@ -9,7 +10,7 @@ export default class Word extends React.PureComponent {
         <br />
         <audio id="play-word" src={word.audio} autoPlay />
         <img
-          src={require('./img/audio.png')}
+          src={img}
           alt="audio"
           role="button"
           tabIndex={0}
