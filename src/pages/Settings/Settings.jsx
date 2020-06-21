@@ -24,6 +24,7 @@ export default class Settings extends PureComponent {
       displayDeleteBtn: true,
       displayDifficultBtn: false,
       displayAssessmentBtns: false,
+      isRequiredInputChecked: true,
     };
   }
 
@@ -35,15 +36,26 @@ export default class Settings extends PureComponent {
     this.setState({ [event.target.dataset.setting_name]: event.target.checked });
   }
 
-  setCheckBoxGroup(event) {
+  async setCheckBoxGroup(event) {
     const settingName = event.target.dataset.setting_name;
     const isChecked = event.target.checked;
-    this.setState((prevState) => ({
+    await this.setState((prevState) => ({
       cardInfo: {
         ...prevState.cardInfo,
         [settingName]: isChecked,
       },
     }));
+    this.isRequiredInputChecked();
+  }
+
+  isRequiredInputChecked() {
+    const settings = this.state;
+    const { cardInfo } = settings;
+    this.setState({ isRequiredInputChecked: Object.values(cardInfo).includes(true) });
+  }
+
+  saveSettings() {
+    console.log(this.state);
   }
 
   render() {
@@ -146,6 +158,15 @@ export default class Settings extends PureComponent {
                   />
                   <label htmlFor="settings__association_image">Картинка-ассоциация</label>
                 </div>
+                <div
+                  className={
+                    `settings__error ${
+                      settings.isRequiredInputChecked ? 'hidden' : ''
+                    }`
+                    }
+                >
+                  Необходимо выбрать хотя бы одну настройку карточки
+                </div>
               </div>
             </div>
           </div>
@@ -217,7 +238,17 @@ export default class Settings extends PureComponent {
               <label htmlFor="settings__display_assessment_btns">Отображать кнопки “Снова”, “Трудно”, “Хорошо”, “Легко”</label>
             </div>
           </div>
-          <button type="button">Сохранить</button>
+          <button
+            type="button"
+            className={
+              `settings__btn ${
+                !settings.isRequiredInputChecked ? 'inactive' : ''
+              }`
+              }
+            onClick={this.saveSettings.bind(this)}
+          >
+            Сохранить
+          </button>
         </form>
       </div>
     );
