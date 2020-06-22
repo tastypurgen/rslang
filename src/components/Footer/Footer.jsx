@@ -4,7 +4,7 @@ import './Footer.scss';
 
 const Header = () => (
   <div className="footer">
-    <h2>Footer</h2>
+    <span>Copyright &#169; 2020 Все права защищены</span>
   </div>
 );
 
