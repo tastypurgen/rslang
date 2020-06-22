@@ -8,7 +8,7 @@ const wordsLevel = ['Очень легко', 'Легко', 'Средне', 'Тя
 
 export default class Savannah extends PureComponent {
   state = {
-    play: false,
+    isStarted: false,
     value: 0,
   }
 
@@ -17,13 +17,13 @@ export default class Savannah extends PureComponent {
   }
 
   handleClick = () => {
-    this.setState({ play: true });
+    this.setState({ isStarted: true });
   }
 
   render() {
-    const { play, value } = this.state;
+    const { isStarted, value } = this.state;
 
-    if (!play) {
+    if (!isStarted) {
       getWords(value, 2);
       return (
         <div>
