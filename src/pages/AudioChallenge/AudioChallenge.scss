@@ -1,23 +1,238 @@
 html {
     height: 100%;
   }
-  
-.audio-challenge {
-  background: rgba(236, 206, 255, 0.568);
 
-  div {
-    margin: 10px;
+.flex-center {
+  display: flex;
+  align-items: center;
+}
+
+.audio-hover {
+  filter: invert(1);
+  transition: ease-in-out 0.2s;
+}
+
+$difference: (#b6a4ff - #09607d) / 10;
+
+@for $i from 0 through 10 {
+  #level-#{$i} {
+    background-color: #09607d + $difference * $i;
   }
 }
+  
+.audio-challenge {
+  
+  @extend .flex-center;
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  background: url('./img/audiochallenge-background.png') no-repeat;
+  background-blend-mode: soft-light;
+  background-position: center;
+  background-size: cover;
+  min-height: 84vh;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 22px;
+  text-align: center;
+  padding: 20px;
 
-.hidden {
-  display: none;
-}
+  h1 {
+    font-size: 50px;
+    font-weight: 500;
+    line-height: 2em;
+  }
 
-.correct {
-  background-color: green;
-}
+  h2 {
+    @extend h1;
+    font-size: 35px;
+  }
 
-.wrong {
-  background-color: red;
+  .progress {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    position: absolute;
+    height: 5px;
+    width: 100%;
+    top: 0;
+
+    .white {
+      background-color: #ffffff;
+      transition: cubic-bezier(0.01, 0, 0.01, 0.14) 0.2s;
+    }
+  }
+
+  .button {
+    margin: 5%;
+    font-family: Rubik;
+    width: 149px;
+    height: 34px;
+    font-size: 18px;
+    line-height: 21px;
+    color: #ffffff;
+    background: #32bea6;
+    outline: none;
+    border-radius: 320px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
+    transition: 0.2s;
+
+    &:hover {
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+    }
+    
+    &:active {
+      @extend .button:hover;
+      box-shadow: inset 0px 8px 8px rgba(0, 0, 0, 0.2);
+    }
+  }
+  
+  .return-button {
+    @extend .button;
+    width: 280px;
+    background: #25B6D2;
+    margin: 5% 0;
+  }
+
+  .answers {
+    width: 90%;
+
+    @media (max-width: 500px) {
+      width: 76%;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+
+      @media (max-width: 500px) {
+        text-align: left;
+      }      
+      
+      li {
+        outline: none;
+        position: relative;
+        margin: 0 20px;
+        cursor: pointer;
+
+        @media (max-width: 500px) {
+          flex-basis: 100%;
+        } 
+      }
+
+      .correct {
+        list-style: none;
+
+        &::before {
+          content: url("./img/ok.png");
+          border: 1px solid rgba(0, 0, 0, 0.2);
+          display: inline-flex;
+          padding-bottom: 8px;
+          margin-right: 5px;
+          box-sizing: border-box;
+          justify-content: center;
+          align-items: center;
+          height: 20px;
+          width: 20px;
+          background-color: #82D243;
+          border-radius: 50%;
+          position: absolute;
+          top: 6px;
+          left: -25px;
+        }
+      }
+
+      .wrong {
+        text-decoration: line-through;
+      }
+
+      .pale {
+        color: rgba(0, 0, 0, 0.5);
+      }
+
+      .correct,
+      .pale {
+        cursor: default;
+      }
+    }
+  }
+
+  .audio {
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.2);
+    filter: drop-shadow(2px 4px 20px #000000);
+    border-radius: 50%;
+    box-sizing: content-box;
+    outline: none;
+    float: left;
+    height: 30px;
+    width: 30px;
+    padding: 15px;
+    margin: 0 20px;
+    cursor: pointer;
+
+    &:hover {
+      @extend .audio-hover;
+    }
+
+    img {
+      width: 100%;
+    }
+  }
+
+  .play {
+    @extend .audio;
+    width: 60px;
+    height: 60px;
+    padding: 25px;
+  }
+
+  .word-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 35px;
+
+    .word {
+      @extend .flex-center;
+      flex-direction: column;
+    }
+
+    .word-image {
+      flex-basis: 100%;
+      margin-bottom: 20px;
+
+      img {
+        max-width: 300px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+
+  .results {
+    text-align: left;
+    line-height: 35px;
+    background-color: #F8F2EE;
+    padding: 15px;
+    border-radius: 10px;
+
+    img {
+      margin-right: 10px;
+      cursor: pointer;
+      outline: none;
+
+      &:hover {
+        @extend .audio-hover;
+      }
+    }
+  }
+
+  .hidden {
+    display: none;
+  }
 }

@@ -30,11 +30,21 @@ export default class Answers extends React.PureComponent {
   checkAnswer(target, index) {
     const { word, nextLevel, wrongAnswer } = this.props;
     if (index === word.rightAnswerIndex) {
-      target.className = 'correct';
+      document.querySelectorAll('.container li').forEach((li) => {
+        if (li.id !== word.translation) {
+          li.className = 'pale';
+        } else {
+          target.className = 'correct';
+        }
+      });
       nextLevel();
     } else {
-      target.className = 'wrong';
-      document.getElementById(word.translation).className = 'correct';
+      document.querySelectorAll('.container li').forEach((li) => {
+        if (li.id !== word.translation) {
+          li.className = 'pale';
+        }
+      });
+      target.className += ' wrong';
       wrongAnswer();
     }
   }
@@ -43,25 +53,22 @@ export default class Answers extends React.PureComponent {
     const { word, active, children } = this.props;
     const { answers } = word;
     return (
-      <div>
-        <div style={{ border: '1px solid red' }}>
-          <ol>
-            {answers.map((item, index) => (
-              <li
-                style={{ border: '1px solid black', margin: '20px' }}
-                onClick={!active
-                  ? ((e) => this.checkAnswer(e.target, index))
-                  : undefined}
-                role="button"
-                tabIndex={0}
-                key={item}
-                id={item}
-              >
-                {item}
-              </li>
-            ))}
-          </ol>
-        </div>
+      <div className="answers">
+        <ol className="container">
+          {answers.map((item, index) => (
+            <li
+              onClick={!active
+                ? ((e) => this.checkAnswer(e.target, index))
+                : undefined}
+              role="button"
+              tabIndex={0}
+              key={item}
+              id={item}
+            >
+              {item}
+            </li>
+          ))}
+        </ol>
         {children}
       </div>
     );
