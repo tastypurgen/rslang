@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import getUserSettings from '../../services/settingsService';
+import { getUserSettings, setUserSettings, setDefaultSettings } from '../../services/settingsService';
 import SettingsForm from './SettingsForm/SettingsForm';
 
 export default class Settings extends PureComponent {
@@ -7,6 +7,8 @@ export default class Settings extends PureComponent {
     super(props);
     this.state = {
       isDataLoaded: false,
+      token: localStorage.getItem('userToken'),
+      userId: localStorage.getItem('userId'),
     };
   }
 
@@ -34,32 +36,42 @@ export default class Settings extends PureComponent {
     this.isRequiredInputChecked();
   }
 
+  setStateFromObj(response) {
+    this.setState({
+      isDataLoaded: true,
+      wordsPerDay: response.wordsPerDay,
+      maxCardsPerDay: response.optional.maxCardsPerDay,
+      cardInfo: {
+        wordTranslation: response.optional.wordTranslation,
+        explanationSentence: response.optional.explanationSentence,
+        exampleSentence: response.optional.exampleSentence,
+        wordTranscription: response.optional.wordTranscription,
+        associationImage: response.optional.associationImage,
+      },
+      autoPronunciation: response.optional.autoPronunciation,
+      showWordAndSentenceTranslation: response.optional.showWordAndSentenceTranslation,
+      displayShowAnswerBtn: response.optional.displayShowAnswerBtn,
+      displayDeleteBtn: response.optional.displayDeleteBtn,
+      displayDifficultBtn: response.optional.displayDifficultBtn,
+      displayAssessmentBtns: response.optional.displayAssessmentBtns,
+      isRequiredInputChecked: response.optional.isRequiredInputChecked,
+      setRange: this.setRange.bind(this),
+      setCheckBox: this.setCheckBox.bind(this),
+      setCheckBoxGroup: this.setCheckBoxGroup.bind(this),
+      saveSettings: this.saveSettings.bind(this),
+    });
+  }
+
   loadUserSettings = async () => {
-    const response = await getUserSettings();
+    const curState = this.state;
+    let response = await getUserSettings(curState.token, curState.userId);
     if (response.status === 200) {
-      this.setState({
-        isDataLoaded: true,
-        wordsPerDay: response.wordsPerDay,
-        maxCardsPerDay: response.optional.maxCardsPerDay,
-        cardInfo: {
-          wordTranslation: response.optional.wordTranslation,
-          explanationSentence: response.optional.explanationSentence,
-          exampleSentence: response.optional.exampleSentence,
-          wordTranscription: response.optional.wordTranscription,
-          associationImage: response.optional.associationImage,
-        },
-        autoPronunciation: response.optional.autoPronunciation,
-        showWordAndSentenceTranslation: response.optional.showWordAndSentenceTranslation,
-        displayShowAnswerBtn: response.optional.displayShowAnswerBtn,
-        displayDeleteBtn: response.optional.displayDeleteBtn,
-        displayDifficultBtn: response.optional.displayDifficultBtn,
-        displayAssessmentBtns: response.optional.displayAssessmentBtns,
-        isRequiredInputChecked: response.optional.isRequiredInputChecked,
-        setRange: this.setRange.bind(this),
-        setCheckBox: this.setCheckBox.bind(this),
-        setCheckBoxGroup: this.setCheckBoxGroup.bind(this),
-        saveSettings: this.saveSettings.bind(this),
-      });
+      this.setStateFromObj(response);
+    } else if (response.status === 404) {
+      response = await setDefaultSettings(curState.token, curState.userId);
+      if (response.status === 200) {
+        this.setStateFromObj(response);
+      }
     }
   };
 
@@ -70,7 +82,27 @@ export default class Settings extends PureComponent {
   }
 
   async saveSettings() {
-    console.log(this.state);
+    const curState = this.state;
+    const settingsObj = {
+      wordsPerDay: curState.wordsPerDay,
+      optional: {
+        associationImage: curState.cardInfo.associationImage,
+        autoPronunciation: curState.autoPronunciation,
+        displayAssessmentBtns: curState.displayAssessmentBtns,
+        displayDeleteBtn: curState.displayDeleteBtn,
+        displayDifficultBtn: curState.displayDifficultBtn,
+        displayShowAnswerBtn: curState.displayShowAnswerBtn,
+        exampleSentence: curState.cardInfo.exampleSentence,
+        explanationSentence: curState.cardInfo.explanationSentence,
+        isRequiredInputChecked: curState.isRequiredInputChecked,
+        maxCardsPerDay: curState.maxCardsPerDay,
+        showWordAndSentenceTranslation: curState.showWordAndSentenceTranslation,
+        wordTranscription: curState.cardInfo.wordTranscription,
+        wordTranslation: curState.cardInfo.wordTranslation,
+      },
+    };
+    const response = await setUserSettings(curState.token, curState.userId, settingsObj);
+    return response;
   }
 
   render() {
@@ -78,6 +110,11 @@ export default class Settings extends PureComponent {
     return (
       <SettingsForm
         settings={settings}
+        isDataLoaded={settings.isDataLoaded}
+        setRange={settings.setRange}
+        setCheckBox={settings.setCheckBox}
+        setCheckBoxGroup={settings.setCheckBoxGroup}
+        saveSettings={settings.saveSettings}
       />
     );
   }
