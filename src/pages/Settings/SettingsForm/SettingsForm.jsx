@@ -15,6 +15,15 @@ export default class SettingsForm extends PureComponent {
     return (
       <div>
         <h1>Настройки</h1>
+        <div
+          className={
+            `settings__save-alert ${
+              !settings.isDataSaved ? 'hidden' : ''
+            }`
+            }
+        >
+          Настройки успешно сохранены
+        </div>
         <form action="" method="post">
           <div className="settings__form-group">
             <h2 className="settings__form-group__title">Настройки приложения</h2>

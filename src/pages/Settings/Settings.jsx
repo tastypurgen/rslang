@@ -7,6 +7,7 @@ export default class Settings extends PureComponent {
     super(props);
     this.state = {
       isDataLoaded: false,
+      isDataSaved: false,
       token: localStorage.getItem('userToken'),
       userId: localStorage.getItem('userId'),
     };
@@ -17,11 +18,17 @@ export default class Settings extends PureComponent {
   }
 
   setRange(event) {
-    this.setState({ [event.target.dataset.setting_name]: +event.target.value });
+    this.setState({
+      [event.target.dataset.setting_name]: +event.target.value,
+      isDataSaved: false,
+    });
   }
 
   setCheckBox(event) {
-    this.setState({ [event.target.dataset.setting_name]: event.target.checked });
+    this.setState({
+      [event.target.dataset.setting_name]: event.target.checked,
+      isDataSaved: false,
+    });
   }
 
   async setCheckBoxGroup(event) {
@@ -31,6 +38,7 @@ export default class Settings extends PureComponent {
       cardInfo: {
         ...prevState.cardInfo,
         [settingName]: isChecked,
+        isDataSaved: false,
       },
     }));
     this.isRequiredInputChecked();
@@ -62,7 +70,7 @@ export default class Settings extends PureComponent {
     });
   }
 
-  loadUserSettings = async () => {
+  async loadUserSettings() {
     const curState = this.state;
     let response = await getUserSettings(curState.token, curState.userId);
     if (response.status === 200) {
@@ -73,7 +81,7 @@ export default class Settings extends PureComponent {
         this.setStateFromObj(response);
       }
     }
-  };
+  }
 
   isRequiredInputChecked() {
     const settings = this.state;
@@ -102,6 +110,9 @@ export default class Settings extends PureComponent {
       },
     };
     const response = await setUserSettings(curState.token, curState.userId, settingsObj);
+    if (response.status === 200) {
+      this.setState({ isDataSaved: true });
+    }
     return response;
   }
 
@@ -111,6 +122,7 @@ export default class Settings extends PureComponent {
       <SettingsForm
         settings={settings}
         isDataLoaded={settings.isDataLoaded}
+        isDataSaved={settings.isDataSaved}
         setRange={settings.setRange}
         setCheckBox={settings.setCheckBox}
         setCheckBoxGroup={settings.setCheckBoxGroup}
