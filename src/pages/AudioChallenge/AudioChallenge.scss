@@ -17,6 +17,10 @@ $difference: (#b6a4ff - #09607d) / 10;
 @for $i from 0 through 10 {
   #level-#{$i} {
     background-color: #09607d + $difference * $i;
+
+    @if($i == 10) {
+      text-shadow: none;
+    }
   }
 }
   
@@ -31,10 +35,11 @@ $difference: (#b6a4ff - #09607d) / 10;
   background-position: center;
   background-size: cover;
   min-height: 84vh;
-  font-family: Open Sans;
+  font-family: "Open Sans";
   font-style: normal;
   font-weight: normal;
   font-size: 22px;
+  text-shadow: 0.5px 0px 0px #000000, 0px 0px 3px #ffffff, 0px 0px 20px #ffffff, 0px 0px 3px #ffffff;
   text-align: center;
   padding: 20px;
 
@@ -152,6 +157,7 @@ $difference: (#b6a4ff - #09607d) / 10;
 
       .pale {
         color: rgba(0, 0, 0, 0.5);
+        text-shadow: none;
       }
 
       .correct,
@@ -225,6 +231,7 @@ $difference: (#b6a4ff - #09607d) / 10;
       margin-right: 10px;
       cursor: pointer;
       outline: none;
+      width: 20px;
 
       &:hover {
         @extend .audio-hover;

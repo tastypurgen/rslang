@@ -1,10 +1,10 @@
 /* eslint-disable no-param-reassign */
 
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 import './AudioChallenge.scss';
 import Answers from './Answers';
 import Word from './Word';
+import getRandomWords from '../../services/getWords';
 import audioImg from './img/audio.png';
 
 const wordsPerGame = 10;
@@ -27,7 +27,7 @@ export default class AudioChallenge extends React.PureComponent {
   }
 
   setWords() {
-    const address = 'https://raw.githubusercontent.com/irinainina/rslang-data/master/';
+    const address = 'https://raw.githubusercontent.com/tastypurgen/rslang-data/master/';
     const words = JSON.parse(localStorage.words).sort(() => Math.random() - 0.5);
     this.gameWords.splice(0);
 
@@ -86,6 +86,21 @@ export default class AudioChallenge extends React.PureComponent {
     this.setState({ isGameStarted: false });
   }
 
+  startGame() {
+    const { difficulty } = this.props;
+    this.setState({
+      isGameStarted: true,
+      currentLevel: 0,
+      active: false,
+      right: 0,
+      wrong: 0,
+      mistakes: [],
+      know: [],
+    });
+    getRandomWords(difficulty, 3);
+    this.setWords();
+  }
+
   render() {
     const {
       isGameStarted,
@@ -120,7 +135,7 @@ export default class AudioChallenge extends React.PureComponent {
       return (
         <div className="audio-challenge" id={`level-${currentLevel}`}>
           <div className={isGameStarted ? 'progress' : 'hidden'}>
-            {array.map((el) => (<div id={el} />))}
+            {array.map((el) => (<div id={el} key={`progress-${el}`} />))}
           </div>
           <Word word={word} nameClass={active ? '' : 'hidden'} />
           <Answers
@@ -186,9 +201,14 @@ export default class AudioChallenge extends React.PureComponent {
             </div>
           ))}
         </div>
-        <NavLink to="/games-panel">
-          <input className="return-button" type="button" value="К списку тренировок" />
-        </NavLink>
+        <input
+          className="return-button"
+          type="button"
+          value="Попробовать еще раз"
+          onClick={() => {
+            this.startGame();
+          }}
+        />
       </div>
     );
   }

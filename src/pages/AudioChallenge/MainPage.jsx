@@ -31,7 +31,7 @@ export default class MainPage extends React.PureComponent {
       );
     }
     return (
-      <AudioChallenge />
+      <AudioChallenge difficulty={value} />
     );
   }
 }
