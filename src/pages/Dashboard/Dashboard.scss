@@ -7,36 +7,4 @@
   min-height: 82vh;
   font-style: normal;
   font-weight: normal;
-
-  .info {
-    position: absolute;
-    display: inline-flex;
-    align-items: center;
-    margin-left: 8.33%;
-    bottom: 0;
-  }
-
-  .promo {
-    font-family: Rubik;
-    font-size: 16px;
-    line-height: 19px;
-    color: #37383C;
-    display: inline-flex;
-    align-items: center;
-    margin-right: 45px;
-
-    &::before {
-      content: url('./img/question.png');
-      margin-right: 15px;
-    }
-  }
-
-  .about {
-    @extend .promo;
-    margin-right: 0;
-
-    &::before {
-      content: url('./img/team.png');
-    }
-  }
 }

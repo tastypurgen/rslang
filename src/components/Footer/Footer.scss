@@ -13,8 +13,41 @@
 
   span {
     position: absolute;
-    left: 8.33%;
+    right: 8.33%;
     top: 38%;
     bottom: 38%;
+  }
+
+  .info {
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    left: 8.33%;
+    bottom: 0;
+  }
+
+  .promo {
+    font-family: Rubik;
+    font-size: 16px;
+    line-height: 19px;
+    color: #F8F2EE;
+    display: inline-flex;
+    align-items: center;
+    margin-right: 45px;
+
+    &::before {
+      content: url('./img/question.png');
+      margin-right: 15px;
+      filter: invert(1);
+    }
+  }
+
+  .about {
+    @extend .promo;
+    margin-right: 0;
+
+    &::before {
+      content: url('./img/team.png');
+    }
   }
 }
