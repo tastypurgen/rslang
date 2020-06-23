@@ -109,6 +109,7 @@ export default class Savannah extends PureComponent {
               <div>
                 <audio id={word.word + index} src={word.audio} />
                 <img
+                  className="audio-img"
                   src={audioImg}
                   alt="audio"
                   role="button"
@@ -123,6 +124,7 @@ export default class Savannah extends PureComponent {
               <div>
                 <audio id={word.word + index} src={word.audio} />
                 <img
+                  className="audio-img"
                   src={audioImg}
                   alt="audio"
                   role="button"
