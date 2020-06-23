@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { PureComponent } from 'react';
 import './Savannah.scss';
 import getWords from '../../services/getWords';
@@ -26,25 +25,27 @@ export default class Savannah extends PureComponent {
     if (!isStarted) {
       getWords(value, 2);
       return (
-        <div>
-          <div>
-            <h2>Саванна</h2>
-            <h2>Угадай правильное слово</h2>
+        <div className="savannah">
+          <div className="start-board">
+            <div>
+              <h2>Саванна</h2>
+              <h3>Тренировка слов на время</h3>
+            </div>
+            <p><b>Уровень сложности:</b></p>
+            <select value={value} onChange={this.handleChange}>
+              {wordsLevel.map((item, index) => (
+                <option
+                  tabIndex={0}
+                  key={(`${item}`)}
+                  value={index}
+                >
+                  {item}
+                </option>
+              ))}
+            </select>
+            <br />
+            <input className="btn" type="button" value="Play" onClick={this.handleClick} />
           </div>
-          <p><b>Уровень сложности:</b></p>
-          <select value={value} onChange={this.handleChange}>
-            {wordsLevel.map((item, index) => (
-              <option
-                tabIndex={0}
-                key={(`${item}`)}
-                value={index}
-              >
-                {item}
-              </option>
-            ))}
-          </select>
-          <br />
-          <input type="button" value="Play" onClick={this.handleClick} />
         </div>
       );
     }

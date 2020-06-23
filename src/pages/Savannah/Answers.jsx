@@ -6,10 +6,8 @@ export default class Answers extends React.PureComponent {
   checkAnswer = (index) => {
     const { rightAnswerIndex, nextLevel, removeLife } = this.props;
     if (index === rightAnswerIndex) {
-      console.log('right');
       nextLevel();
     } else {
-      console.log('wrong');
       removeLife();
     }
   }
@@ -17,13 +15,10 @@ export default class Answers extends React.PureComponent {
   render() {
     const { answers } = this.props;
     return (
-      <div style={{ border: '1px solid red' }}>
+      <div className="answers">
         {answers.map((item, index) => (
           <div
-            style={{
-              border: '1px solid green',
-              margin: '10px',
-            }}
+            className="answer-btn"
             onClick={() => this.checkAnswer(index)}
             role="button"
             tabIndex={0}

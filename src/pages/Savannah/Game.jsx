@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { NavLink } from 'react-router-dom';
 import capitalizeWord from '../../utils/capitalizeWord';
 import './Savannah.scss';
 import Word from './Word';
@@ -22,7 +23,7 @@ export default class Savannah extends PureComponent {
   }
 
   setWords = () => {
-    const uri = 'https://raw.githubusercontent.com/irinainina/rslang-data/master/';
+    const uri = 'https://raw.githubusercontent.com/tastypurgen/rslang-data/master/';
     const words = JSON.parse(localStorage.words).sort(() => Math.random() - 0.5);
     const wordsPerGame = 10;
     gameWords.splice(0);
@@ -45,6 +46,10 @@ export default class Savannah extends PureComponent {
       newWord.rightAnswerIndex = newWord.answers.indexOf(newWord.translation);
       return newWord;
     });
+  }
+
+  restartGame = () => {
+    this.setState({ isGameStarted: true });
   }
 
   nextLevel = () => {
@@ -74,7 +79,7 @@ export default class Savannah extends PureComponent {
     this.setWords();
     if (isGameStarted && currentLevel < maxLevel && lives > 0) {
       return (
-        <div className="savannah">
+        <div className="savannah-game">
           <Lives lives={lives} />
 
           <Word
@@ -94,40 +99,52 @@ export default class Savannah extends PureComponent {
       );
     }
     return (
-      <div>
-        <h2>Конец игры!</h2>
-        <h3>результаты</h3>
-        <div>
-          <div>Правильно:</div>
-          {rightAnswers.map((word, index) => (
-            <div>
-              {console.log(word)}
-              <audio id={word.word + index} src={word.audio} />
-              <img
-                src={audioImg}
-                alt="audio"
-                role="button"
-                tabIndex={0}
-                onClick={() => document.getElementById(word.word + index).play()}
-              />
-              <span>{`${word.word} - ${word.translation}`}</span>
+      <div className="savannah-game">
+        <div className="game-stats">
+          <h2>Конец игры!</h2>
+          <h3>результаты</h3>
+          <div>
+            <div className="stats-section">Правильно:</div>
+            {rightAnswers.map((word, index) => (
+              <div>
+                <audio id={word.word + index} src={word.audio} />
+                <img
+                  src={audioImg}
+                  alt="audio"
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => document.getElementById(word.word + index).play()}
+                />
+                <span>{`${word.word} - ${word.translation}`}</span>
+              </div>
+            ))}
+            <div className="stats-section">Неправильно:</div>
+            {wrongAnswers.map((word, index) => (
+              <div>
+                <audio id={word.word + index} src={word.audio} />
+                <img
+                  src={audioImg}
+                  alt="audio"
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => document.getElementById(word.word + index).play()}
+                />
+                <span>{`${word.word} - ${word.translation}`}</span>
+              </div>
+            ))}
+
+            <div
+              className="btn reload-btn"
+              role="button"
+              tabIndex="0"
+              onClick={this.restartGame()}
+            >
+              Еще раз
             </div>
-          ))}
-          <div>Неправильно:</div>
-          {wrongAnswers.map((word, index) => (
-            <div>
-              {console.log(word)}
-              <audio id={word.word + index} src={word.audio} />
-              <img
-                src={audioImg}
-                alt="audio"
-                role="button"
-                tabIndex={0}
-                onClick={() => document.getElementById(word.word + index).play()}
-              />
-              <span>{`${word.word} - ${word.translation}`}</span>
-            </div>
-          ))}
+            <NavLink to="/games-panel">
+              <div className="btn exit-btn">Выйти</div>
+            </NavLink>
+          </div>
         </div>
       </div>
     );
