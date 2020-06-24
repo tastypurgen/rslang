@@ -18,6 +18,7 @@ import checkUserToken from './services/checkUserToken';
 import WordConstructor from './pages/WordСonstructor/WordСonstructor';
 import AboutTeam from './pages/AboutTeam/AboutTeam';
 import Promo from './pages/Promo/Promo';
+import Settings from './pages/Settings/Settings';
 
 export default class App extends Component {
   state = {
@@ -69,6 +70,7 @@ export default class App extends Component {
           <Route path="/word-constructor" component={WordConstructor} />
           <Route path="/promo-page" component={Promo} />
           <Route path="/about-team" component={AboutTeam} />
+          <Route path="/settings" component={Settings} />
           <Redirect to="/" component={Dashboard} />
           <Footer />
         </div>

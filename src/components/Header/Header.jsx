@@ -13,6 +13,9 @@ const Header = (props) => (
         <NavLink to="/games-panel">Мини-игры</NavLink>
       </li>
       <li>
+        <NavLink to="/settings">Настройки</NavLink>
+      </li>
+      <li>
         <NavLink to="/dictionary">Словарь</NavLink>
       </li>
       <li>
