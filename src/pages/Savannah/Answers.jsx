@@ -12,7 +12,7 @@ export default class Answers extends React.PureComponent {
   }
 
   handleKeyPress = (e) => {
-    if (e.key > 0 && e.key < 4) {
+    if (e.key > 0 && e.key <= 4) {
       this.checkAnswer(e.key - 1);
     }
   }
