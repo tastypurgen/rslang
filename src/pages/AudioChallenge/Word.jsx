@@ -4,21 +4,27 @@ import img from './img/audio.png';
 export default class Word extends React.PureComponent {
   render() {
     const { nameClass, word } = this.props;
+    const play = nameClass === '' ? '' : 'play';
     return (
-      <div>
-        <img className={nameClass} src={word.img} alt={word.word} />
-        <br />
+      <div className="word-wrapper">
+        <div className="word-image">
+          <img className={nameClass} src={word.img} alt={word.word} />
+        </div>
         <audio id="play-word" src={word.audio} autoPlay />
-        <img
-          src={img}
-          alt="audio"
+        <div
+          className={`audio ${play}`}
           role="button"
           tabIndex={0}
           onClick={() => document.getElementById('play-word').play()}
-        />
-        <div>
-          <h1 className={nameClass}>{word.word}</h1>
-          <h2 className={nameClass}>{word.transcription}</h2>
+        >
+          <img
+            src={img}
+            alt="audio"
+          />
+        </div>
+        <div className="word">
+          <span className={nameClass}>{word.word}</span>
+          <span className={nameClass}>{word.transcription}</span>
         </div>
       </div>
     );
