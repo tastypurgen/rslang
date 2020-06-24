@@ -31,6 +31,7 @@ $media-width: 574px;
 
     &:hover {
       filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.2));
+      transition: ease-in-out 0.2s;
     }
   }
 
@@ -46,6 +47,7 @@ $media-width: 574px;
     background: #ffffff;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
+    z-index: 999;
 
     @media (max-width: $media-width) {
       top: 80px;
@@ -61,6 +63,7 @@ $media-width: 574px;
       &:hover {
         background-color: #25B6D2;
         color: #ffffff;
+        transition: ease-in-out 0.2s;
 
         a {
           @extend span:hover;
@@ -73,11 +76,6 @@ $media-width: 574px;
       &::before {
         content: url('./img/settings.png');
         margin-right: 25px;
-      }
-
-      &:hover {
-        background-color: #25B6D2;
-        color: #ffffff;
       }
     }
 
@@ -129,6 +127,7 @@ $media-width: 574px;
       .active{
         background-color: #25B6D2;
         color: #ffffff;
+        transition: ease-in-out 0.2s;
       }
 
       a:hover {
