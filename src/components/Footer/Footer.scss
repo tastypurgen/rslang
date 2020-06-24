@@ -1,8 +1,15 @@
+$media-width: 574px;
+
 .footer {
   font-family: Rubik;
   font-style: normal;
   font-weight: normal;
   position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 8.33%;
   height: 50px;
   width: 100%;
   text-align: center;
@@ -11,19 +18,20 @@
   color: #F8F2EE;
   background-color: #37383C;
 
-  span {
-    position: absolute;
-    right: 8.33%;
-    top: 38%;
-    bottom: 38%;
+  @media (max-width: $media-width) {
+    align-items: inherit;
+    justify-content: center;
+    height: 70px;
   }
 
   .info {
-    position: absolute;
     display: inline-flex;
     align-items: center;
-    left: 8.33%;
-    bottom: 0;
+
+    @media (max-width: $media-width) {
+      justify-content: center;
+      flex-basis: 100%;
+    }
   }
 
   .promo {
