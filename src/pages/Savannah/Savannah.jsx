@@ -9,10 +9,6 @@ export default class Savannah extends PureComponent {
     difficulty: document.getElementById('difficulty') ? document.getElementById('difficulty').value : 1,
   }
 
-  // handleChange = (e) => {
-  //   this.setState({ value: e.target.value });
-  // }
-
   handleClick = () => {
     this.setState({ isStarted: true });
   }

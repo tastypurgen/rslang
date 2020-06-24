@@ -102,7 +102,6 @@ export default class Savannah extends PureComponent {
       <div className="savannah-game">
         <div className="game-stats">
           <h2>Конец игры!</h2>
-          <h3>результаты</h3>
           <div>
             <div className="stats-section">Правильно:</div>
             {rightAnswers.map((word, index) => (
