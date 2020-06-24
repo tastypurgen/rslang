@@ -1,0 +1,23 @@
+@import 'RangeInput.scss';
+.settings__form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.settings__checkbox-group {
+  display: flex;
+}
+
+.settings__error {  
+  color: #ff0808;
+  &.hidden {
+    display: none;
+  } 
+}
+
+.settings__btn {
+  &.inactive {
+    pointer-events: none;
+    opacity: 0.7;
+  }
+}
