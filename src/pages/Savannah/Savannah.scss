@@ -17,7 +17,7 @@ html {
     font-size: 18px;
     line-height: 21px;
     color: #ffffff;
-    background: #ffd07d;
+    background: #25b6d2;
     outline: none;
     border-radius: 20px;
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -52,12 +52,11 @@ html {
   .btn {
     text-align: center;
     margin: 5%;
-    width: 149px;
     height: 34px;
     font-size: 18px;
     line-height: 21px;
     color: #ffffff;
-    background: #ffd07d;
+    background: #25b6d2;
     outline: none;
     border-radius: 20px;
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -79,12 +78,16 @@ html {
   }
 
   .game-word {
-    font-size: 2rem;
+    position: absolute;
+    font-size: 1.4rem;
     text-align: center;
     user-select: none;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   .answers {
+    max-width: 100%;
     display: flex;
     justify-self: center;
     position: absolute;
@@ -93,8 +96,8 @@ html {
     transform: translateX(-50%);
 
     .answer-btn {
-      margin: 0 10px;
-      padding: 20px 30px;
+      margin: 0 5px;
+      padding: 15px 20px;
       background-color: #ffffff0e;
       border-radius: 5px;
       cursor: pointer;

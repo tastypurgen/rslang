@@ -49,7 +49,13 @@ export default class Savannah extends PureComponent {
   }
 
   restartGame = () => {
-    this.setState({ isGameStarted: true });
+    this.setState({
+      isGameStarted: true,
+      currentLevel: 0,
+      lives: 3,
+      wrongAnswers: [],
+      rightAnswers: [],
+    });
   }
 
   nextLevel = () => {
@@ -105,7 +111,7 @@ export default class Savannah extends PureComponent {
           <div>
             <div className="stats-section">Правильно:</div>
             {rightAnswers.map((word, index) => (
-              <div>
+              <div key={Math.random()}>
                 <audio id={word.word + index} src={word.audio} />
                 <img
                   className="audio-img"
@@ -120,7 +126,7 @@ export default class Savannah extends PureComponent {
             ))}
             <div className="stats-section">Неправильно:</div>
             {wrongAnswers.map((word, index) => (
-              <div>
+              <div key={Math.random()}>
                 <audio id={word.word + index} src={word.audio} />
                 <img
                   className="audio-img"
@@ -138,7 +144,7 @@ export default class Savannah extends PureComponent {
               className="btn reload-btn"
               role="button"
               tabIndex="0"
-              onClick={this.restartGame()}
+              onClick={() => this.restartGame()}
             >
               Еще раз
             </div>
