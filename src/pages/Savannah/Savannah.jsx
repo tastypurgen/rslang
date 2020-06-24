@@ -17,7 +17,7 @@ export default class Savannah extends PureComponent {
     const { isStarted, difficulty } = this.state;
 
     if (!isStarted) {
-      getWords(difficulty, 5);
+      getWords(difficulty, 2);
       return (
         <div className="savannah">
           <div className="start-board">

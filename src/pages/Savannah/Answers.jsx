@@ -3,6 +3,20 @@
 import React from 'react';
 
 export default class Answers extends React.PureComponent {
+  componentDidMount() {
+    document.addEventListener('keypress', this.handleKeyPress);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keypress', this.handleKeyPress);
+  }
+
+  handleKeyPress = (e) => {
+    if (e.key > 0 && e.key < 4) {
+      this.checkAnswer(e.key - 1);
+    }
+  }
+
   checkAnswer = (index) => {
     const { rightAnswerIndex, nextLevel, removeLife } = this.props;
     if (index === rightAnswerIndex) {
@@ -24,6 +38,8 @@ export default class Answers extends React.PureComponent {
             tabIndex={0}
             key={(`${item}`)}
           >
+            {index + 1}
+            {'. '}
             {item}
           </div>
         ))}

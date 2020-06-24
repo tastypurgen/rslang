@@ -117,7 +117,8 @@ html {
     margin: 0 auto;
     background: #31313144;
     color: whitesmoke;
-    width: 500px;
+    width: 100%;
+    max-width: 500px;
     border-radius: 10px;
     padding: 50px 20px;
 
@@ -145,6 +146,17 @@ html {
 
     .audio-img {
       cursor: pointer;
+    }
+  }
+  @media (max-width: 777px) {
+    .answers {
+      z-index: 3;
+      flex-wrap: wrap;
+      .answer-btn {
+        text-align: center;
+        width: 100%;
+        margin: 5px;
+      }
     }
   }
 }
