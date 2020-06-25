@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import Spinner from '../../../components/Spinner/Spinner';
 import '../Settings.scss';
 
 export default class SettingsForm extends PureComponent {
@@ -7,9 +8,7 @@ export default class SettingsForm extends PureComponent {
     const { settings } = currentProps;
     if (!settings.isDataLoaded) {
       return (
-        <div>
-          <h1>Загрузка...</h1>
-        </div>
+        <Spinner />
       );
     }
     return (
