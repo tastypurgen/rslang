@@ -1,11 +1,12 @@
 import React from 'react';
 
-import './Spinner.css';
+import './Spinner.scss';
+import planeImg from './img/plane.png';
 
 const Spinner = () => (
-  <div>
-    <h1>SPinner</h1>
-    <h2>LoAdInG.........</h2>
+  <div className="spinner">
+    <img src={planeImg} alt="spinner" />
+    Загрузка...
   </div>
 );
 
