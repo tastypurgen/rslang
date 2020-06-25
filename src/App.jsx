@@ -16,6 +16,8 @@ import GamesPanel from './pages/GamesPanel/GamesPanel';
 import Spinner from './components/Spinner/Spinner';
 import checkUserToken from './services/checkUserToken';
 import WordConstructor from './pages/WordСonstructor/WordСonstructor';
+import Statistic from './pages/Statistic/Statistic';
+import Settings from './pages/Settings/Settings';
 
 export default class App extends Component {
   state = {
@@ -65,6 +67,8 @@ export default class App extends Component {
           <Route path="/audio-challenge" component={AudioChallenge} />
           <Route path="/sprint" component={Sprint} />
           <Route path="/word-constructor" component={WordConstructor} />
+          <Route path="/statistic" component={Statistic} />
+          <Route path="/settings" component={Settings} />
           <Redirect to="/" component={Dashboard} />
           <Footer />
         </div>

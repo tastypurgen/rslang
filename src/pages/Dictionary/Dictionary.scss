@@ -1,0 +1,61 @@
+.dictionary {
+  background: #f8f2ee;
+  height: calc(100vh - 65px - 50px);
+
+  .container {
+    margin: 0 auto;
+    max-width: 1200px;
+    padding: 35px 0;
+  }
+
+  .tab-list {
+    border-bottom: 1px solid #c4c4c4;
+    padding: 0;
+  }
+
+  .tab {
+    font-family: Rubik, sans-serif;
+    font-size: 18px;
+    display: inline-block;
+    border: 1px solid transparent;
+    border-bottom: none;
+    bottom: -1px;
+    position: relative;
+    list-style: none;
+    padding: 12px 30px;
+    margin-right: 15px;
+    cursor: pointer;
+    border-radius: 10px 10px 0 0;
+    user-select: none;
+  }
+
+  .learning-words {
+    color: #fff;
+    background: #32bea6;
+  }
+  .complex-words {
+    background: #ffd07d;
+  }
+  .deleted-words {
+    color: #fff;
+    background: #8ba0ae;
+  }
+
+  .react-tabs__tab--selected {
+    background: #fff;
+    border-color: #c4c4c4;
+    color: black;
+  }
+
+  .tab-panel {
+    background: #fff;
+  }
+
+  .react-tabs__tab-panel--selected {
+    padding: 20px 30px 20px 30px;
+    border-left: 1px solid #c4c4c4;
+    border-right: 1px solid #c4c4c4;
+    border-bottom: 1px solid #c4c4c4;
+    border-radius: 0 0 10px 10px;
+  }
+}
