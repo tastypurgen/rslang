@@ -1,4 +1,10 @@
 .dashboard {
-  background: rgb(243, 239, 202);
-  min-height: 50vh;
+  position: relative;
+  background: url('./img/Big-Ben.png') no-repeat;
+  background-position: bottom;
+  background-size: contain;
+  background-color: #f8f2ee;
+  min-height: 82vh;
+  font-style: normal;
+  font-weight: normal;
 }

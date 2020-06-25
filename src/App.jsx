@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 
 import './App.scss';
 import Header from './components/Header/Header';
@@ -16,6 +16,9 @@ import GamesPanel from './pages/GamesPanel/GamesPanel';
 import Spinner from './components/Spinner/Spinner';
 import checkUserToken from './services/checkUserToken';
 import WordConstructor from './pages/WordСonstructor/WordСonstructor';
+import AboutTeam from './pages/AboutTeam/AboutTeam';
+import Promo from './pages/Promo/Promo';
+import Statistic from './pages/Statistic/Statistic';
 import Settings from './pages/Settings/Settings';
 
 export default class App extends Component {
@@ -66,6 +69,9 @@ export default class App extends Component {
           <Route path="/audio-challenge" component={AudioChallenge} />
           <Route path="/sprint" component={Sprint} />
           <Route path="/word-constructor" component={WordConstructor} />
+          <Route path="/promo-page" component={Promo} />
+          <Route path="/about-team" component={AboutTeam} />
+          <Route path="/statistic" component={Statistic} />
           <Route path="/settings" component={Settings} />
           <Redirect to="/" component={Dashboard} />
           <Footer />
@@ -90,9 +96,7 @@ export default class App extends Component {
 
     return (
       <div>
-        <Switch>
-          {component}
-        </Switch>
+        {component}
       </div>
     );
   }
