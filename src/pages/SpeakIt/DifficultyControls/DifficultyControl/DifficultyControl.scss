@@ -1,0 +1,59 @@
+$warm-orange: #FFD07D;
+$green: #32BEA6;
+$blue: #25B6D2;
+
+.DifficultyControl {
+
+    border:2px solid $green;
+    z-index: 2;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.3s;
+    -ms-transition: 0.3s;
+    -o-transition: 0.3s;
+}
+
+.DifficultyControl:nth-child(1) {
+    width: 20px;
+    height: 20px;
+}
+
+.DifficultyControl:nth-child(2) {
+    width: 23px;
+    height: 23px;
+}
+
+.DifficultyControl:nth-child(3) {
+    width: 27px;
+    height: 27px;
+}
+
+.DifficultyControl:nth-child(4) {
+    width: 32px;
+    height: 32px;
+}
+
+.DifficultyControl:nth-child(5) {
+    width: 36px;
+    height: 36px;
+}
+
+.DifficultyControl:nth-child(6) {
+    width: 39px;
+    height: 39px;
+}
+
+.DifficultyControl:nth-child(7) {
+    width: 41px;
+    height: 41px;
+}
+
+.DifficultyControl--active {
+    background: $blue;
+}

@@ -1,0 +1,44 @@
+.Image {
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: white;
+
+    margin-bottom: 30px;
+
+    .Image__image {
+        margin: 0 auto;
+        margin-bottom: 10px;
+        margin-top: 20px;
+        border-radius: 10px;
+        width: 390px;
+        height: 260px;
+    }
+
+    .Image__caption {
+        padding-top: 6px;
+        margin: 0 auto;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        max-width: 300px;
+        width: 100%;
+        height: 40px;
+        font-size: 18px;
+        text-align: center;
+        outline: none;
+        display: block;
+        border: 2px solid black;
+        padding-left: 12px;
+        border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        -ms-border-radius: 5px;
+        -o-border-radius: 5px;
+    }
+}
+/*
+#32BEA6
+#FFD07D
+#25B6D2
+*/

@@ -1,0 +1,35 @@
+.SpeechInput {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+
+    .SpeechInput__input {
+        width: 100%;
+        height: 40px;
+        font-size: 18px;
+        text-align: center;
+        outline: none;
+        display: block;
+        border: 2px solid black;
+        padding-left: 12px;
+        border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        -ms-border-radius: 5px;
+        -o-border-radius: 5px;
+    }
+
+    .SpeechInput__icon {
+        position: absolute;
+        top: 6px;
+        left: 13px;
+    }
+
+    .SpeechInput__icon svg {
+        width: 20px;
+        height: 29px;
+    }
+}

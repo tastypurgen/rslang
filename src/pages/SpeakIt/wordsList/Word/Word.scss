@@ -1,0 +1,73 @@
+.Word {
+    position: relative;
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 20px;
+    padding-left: 47px;
+    width: 190px;
+    border: 2px solid gray;
+    border-radius: 5px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    transition: 0.3s;
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.3s;
+    -ms-transition: 0.3s;
+    -o-transition: 0.3s;
+
+    .Word__icon {
+        width: 30px;
+        height: 30px;
+        fill: white;
+        position: absolute;
+        top: 28px;
+        left: 14px;
+    }
+
+    .Word__icon svg {
+        fill: rgb(20, 14, 14);
+    }
+
+    .Word__icon--active svg {
+        fill: green;
+    }
+}
+
+.Word--active {
+    background: #32BEA6;
+    border-color: #32BEA6;
+    color: white;
+}
+
+.Word--active .Word__icon svg {
+    fill: white;
+}
+
+.Word:not(.Word--active):hover {
+    cursor: pointer;
+    background: rgba(50, 190, 167, 0.349);
+    border-color: rgba(50, 190, 167, 0.349);
+}
+
+.Word--right {
+    background: #32BEA6;
+    border-color: #32BEA6;
+    color: white;
+}
+
+.Word--right .Word__icon svg {
+    fill: white;
+}
+
+.Word--right:hover {
+
+}
+
+.Word--playing:hover {
+    cursor: auto !important;
+    background: transparent !important;
+    border: 2px solid gray !important;
+}
