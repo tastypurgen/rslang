@@ -13,4 +13,10 @@ const getRandomWords = async (group, pageAmount) => {
   });
 };
 
-export default getRandomWords;
+const getWordById = async (wordId) => {
+  const rawResponse = await fetch(`https://afternoon-falls-25894.herokuapp.com/words/${wordId}`);
+  const response = await rawResponse.json();
+  return response;
+};
+
+export { getRandomWords, getWordById };

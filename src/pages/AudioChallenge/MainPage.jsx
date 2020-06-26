@@ -1,6 +1,6 @@
 import React from 'react';
 import AudioChallenge from './AudioChallenge';
-import getRandomWords from '../../services/getWords';
+import { getRandomWords } from '../../services/getWords';
 
 export default class MainPage extends React.PureComponent {
   constructor(props) {
