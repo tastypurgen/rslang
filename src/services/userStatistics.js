@@ -1,9 +1,12 @@
+import API from '../utils/constants';
+import { getToken, getUserId } from './postUserData';
+
 const getUserStatistics = async () => {
-  const rawResponse = await fetch(`https://afternoon-falls-25894.herokuapp.com/users/${localStorage.userId}/statistics`,
+  const rawResponse = await fetch(`${API}users/${getUserId}/statistics`,
     {
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${localStorage.userToken}`,
+        Authorization: `Bearer ${getToken}`,
         Accept: 'application/json',
       },
     });
@@ -12,11 +15,11 @@ const getUserStatistics = async () => {
 };
 
 const upsertUserStatistics = async (body) => {
-  const rawResponse = await fetch(`https://afternoon-falls-25894.herokuapp.com/users/${localStorage.userId}/statistics`,
+  const rawResponse = await fetch(`${API}users/${getUserId}/statistics`,
     {
       method: 'PUT',
       headers: {
-        Authorization: `Bearer ${localStorage.userToken}`,
+        Authorization: `Bearer ${getToken}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
@@ -100,11 +103,11 @@ const setDefaultStatistics = async () => {
 
   let rawResponse = null;
   try {
-    rawResponse = await fetch(`https://afternoon-falls-25894.herokuapp.com/users/${localStorage.userId}/statistics`, {
+    rawResponse = await fetch(`${API}users/${getUserId}/statistics`, {
       method: 'PUT',
       withCredentials: true,
       headers: {
-        Authorization: `Bearer ${localStorage.userToken}`,
+        Authorization: `Bearer ${getToken}`,
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },

@@ -1,7 +1,9 @@
+import API from '../utils/constants';
+
 const getUserSettings = async (token, userId) => {
   let rawResponse = null;
   try {
-    rawResponse = await fetch(`https://afternoon-falls-25894.herokuapp.com/users/${userId}/settings`, {
+    rawResponse = await fetch(`${API}users/${userId}/settings`, {
       method: 'GET',
       withCredentials: true,
       headers: {
@@ -30,7 +32,7 @@ const setUserSettings = async (token, userId, settingsObj) => {
 
   let rawResponse = null;
   try {
-    rawResponse = await fetch(`https://afternoon-falls-25894.herokuapp.com/users/${userId}/settings`, {
+    rawResponse = await fetch(`${API}users/${userId}/settings`, {
       method: 'PUT',
       withCredentials: true,
       headers: {
@@ -78,7 +80,7 @@ const setDefaultSettings = async (token, userId) => {
 
   let rawResponse = null;
   try {
-    rawResponse = await fetch(`https://afternoon-falls-25894.herokuapp.com/users/${userId}/settings`, {
+    rawResponse = await fetch(`${API}users/${userId}/settings`, {
       method: 'PUT',
       withCredentials: true,
       headers: {

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './SignIn.css';
 import { withRouter } from 'react-router-dom';
 import ErrSignIn from './ErrSignIn/ErrSignIn';
-import postUserData from '../../../../services/postUserData';
+import { postUserData } from '../../../../services/postUserData';
 import validateUserData from '../../../../utils/validateUserData';
 
 const SignIn = (props) => {
