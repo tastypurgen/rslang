@@ -1,3 +1,5 @@
+import API from '../utils/constants';
+
 const getRandomWords = async (group, pageAmount) => {
   const pages = new Set();
   while (pages.size !== pageAmount) {
@@ -5,7 +7,7 @@ const getRandomWords = async (group, pageAmount) => {
   }
   Promise.all(
     Array.from(pages).map(async (page) => {
-      const rawResponse = await fetch(`https://afternoon-falls-25894.herokuapp.com/words?page=${page}&group=${group}`);
+      const rawResponse = await fetch(`${API}words?page=${page}&group=${group}`);
       return rawResponse.json();
     }),
   ).then((content) => {
@@ -13,4 +15,10 @@ const getRandomWords = async (group, pageAmount) => {
   });
 };
 
-export default getRandomWords;
+const getWordById = async (wordId) => {
+  const rawResponse = await fetch(`${API}words/${wordId}`);
+  const response = await rawResponse.json();
+  return response;
+};
+
+export { getRandomWords, getWordById };

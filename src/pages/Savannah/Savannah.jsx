@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import './Savannah.scss';
-import getWords from '../../services/getWords';
+import { getRandomWords } from '../../services/getWords';
 import Game from './Game';
 
 export default class Savannah extends PureComponent {
@@ -17,7 +17,7 @@ export default class Savannah extends PureComponent {
     const { isStarted, difficulty } = this.state;
 
     if (!isStarted) {
-      getWords(difficulty, 2);
+      getRandomWords(difficulty, 2);
       return (
         <div className="savannah">
           <div className="start-board">

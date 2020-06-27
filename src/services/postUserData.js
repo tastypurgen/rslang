@@ -1,7 +1,9 @@
+import API from '../utils/constants';
+
 const postUserData = async (userData, endPoint) => {
   let response;
   try {
-    const request = await fetch(`https://afternoon-falls-25894.herokuapp.com/${endPoint}`, {
+    const request = await fetch(`${API}${endPoint}`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -17,4 +19,8 @@ const postUserData = async (userData, endPoint) => {
   }
   return true;
 };
-export default postUserData;
+
+const getToken = localStorage.userToken || '';
+const getUserId = localStorage.userId || '';
+
+export { postUserData, getToken, getUserId };

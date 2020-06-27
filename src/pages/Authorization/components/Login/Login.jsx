@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import './Login.css';
 
 import ErrorLogin from './ErrorLogin/ErrorLogin';
-import postUserData from '../../../../services/postUserData';
+import { postUserData } from '../../../../services/postUserData';
 import validateUserData from '../../../../utils/validateUserData';
 
 const Login = (props) => {
