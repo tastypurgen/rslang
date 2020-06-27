@@ -5,56 +5,57 @@ import postUserData from '../../../../services/postUserData';
 import validateUserData from '../../../../utils/validateUserData';
 import eyeImg from '../../img/eye.png';
 
+const className = require('classnames');
+
 class SignIn extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       hidden: true,
+      hiddenError: true,
     };
+    this.mailInputRef = React.createRef();
+    this.passwordInputRef = React.createRef();
     this.handleError = this.handleError.bind(this);
   }
 
-  handleError(id) {
-    this.inputs = document.querySelectorAll('.signin__input');
-    document.getElementById(id).classList.remove('hidden');
-    this.inputs.forEach((el) => el.classList.add('signin__input_error'));
-    this.inputs[1].value = '';
-    this.inputs[1].focus();
+  handleError() {
+    this.setState({ hiddenError: false });
+    this.passwordInputRef.current.value = '';
+    this.passwordInputRef.current.focus();
   }
 
   render() {
-    const mailInputRef = React.createRef();
-    const passwordInputRef = React.createRef();
-
-    const { hidden } = this.state;
+    const { hidden, hiddenError } = this.state;
     const { changeAuthenticatedState, toChangeSignInState } = this.props;
+
+    const inputClasses = className('signin__input', { 'error-input': !hiddenError });
 
     return (
       <div className="signin">
         <div className="signin__container">
           <h1>Войти в систему</h1>
           <form action="" method="post">
-            <input minLength="6" maxLength="35" ref={mailInputRef} className="signin__input" type="email" placeholder="Email" />
-            <input minLength="8" maxLength="16" ref={passwordInputRef} className="signin__input" type={hidden ? 'password' : 'text'} placeholder="Пароль" />
+            <input minLength="6" maxLength="35" ref={this.mailInputRef} className={inputClasses} type="email" placeholder="Email" />
+            <input minLength="8" maxLength="16" ref={this.passwordInputRef} className={inputClasses} type={hidden ? 'password' : 'text'} placeholder="Пароль" />
             <span className="eye">
-              <div className="before">/</div>
+              <div className={`before ${!hidden ? 'hidden' : ''}`}>/</div>
               <img
                 role="button"
                 src={eyeImg}
                 alt="visible"
                 onClick={() => {
                   this.setState({ hidden: !hidden });
-                  document.querySelector('.before').classList.toggle('hidden');
                 }}
               />
             </span>
-            <p className="error hidden" id="error">Неверное имя пользователя или пароль</p>
+            <p className={`error ${hiddenError ? 'hidden' : ''}`}>Неверное имя пользователя или пароль</p>
             <button
               type="button"
               onClick={() => {
                 const userData = {
-                  email: mailInputRef.current.value,
-                  password: passwordInputRef.current.value,
+                  email: this.mailInputRef.current.value,
+                  password: this.passwordInputRef.current.value,
                 };
                 const validateResult = validateUserData(userData);
 
@@ -63,11 +64,11 @@ class SignIn extends React.PureComponent {
                     if (response) {
                       changeAuthenticatedState();
                     } else {
-                      this.handleError('error');
+                      this.handleError();
                     }
                   });
                 } else {
-                  this.handleError('error');
+                  this.handleError();
                 }
               }}
               className="signin__button"
