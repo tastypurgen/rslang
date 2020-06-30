@@ -1,5 +1,5 @@
 import React from 'react';
-import './AssesmentsButtons.scss';
+// import './AssesmentsButtons.scss';
 
 const AssesmentsButtons = () => (
   <div className="AssesmentsButtons">

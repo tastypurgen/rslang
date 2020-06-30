@@ -1,5 +1,21 @@
 import API from '../utils/constants';
 
+const getWordByPageAndDifficultyNumber = async (pageNumber, groupNumber) => {
+  const rawResponse = await fetch(`${API}words?page=${pageNumber}&group=${groupNumber}`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${localStorage.userToken}`,
+    },
+  });
+  try {
+    const response = await rawResponse.json();
+    return response;
+  } catch {
+    return false;
+  }
+};
+
 const getRandomWords = async (group, pageAmount) => {
   const pages = new Set();
   while (pages.size !== pageAmount) {
@@ -21,4 +37,4 @@ const getWordById = async (wordId) => {
   return response;
 };
 
-export { getRandomWords, getWordById };
+export { getWordByPageAndDifficultyNumber, getRandomWords, getWordById };

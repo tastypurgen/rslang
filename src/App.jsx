@@ -13,6 +13,7 @@ import Sprint from './pages/Sprint/Sprint';
 import Dictionary from './pages/Dictionary/Dictionary';
 import EnglishPuzzle from './pages/EnglishPuzzle/EnglishPuzzle';
 import GamesPanel from './pages/GamesPanel/GamesPanel';
+import MainGame from './pages/Dashboard/MainGame/MainGame';
 import Spinner from './components/Spinner/Spinner';
 import checkUserToken from './services/checkUserToken';
 import WordConstructor from './pages/WordСonstructor/WordСonstructor';
@@ -68,6 +69,7 @@ export default class App extends Component {
           <Route path="/savannah" component={Savannah} />
           <Route path="/audio-challenge" component={AudioChallenge} />
           <Route path="/sprint" component={Sprint} />
+          <Route path="/main-game" component={MainGame} />
           <Route path="/word-constructor" component={WordConstructor} />
           <Route path="/promo-page" component={Promo} />
           <Route path="/about-team" component={AboutTeam} />
