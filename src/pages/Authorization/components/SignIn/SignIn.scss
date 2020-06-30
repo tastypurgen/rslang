@@ -9,7 +9,6 @@ $media-width: 480px;
 .signin {
   @extend .flex-center;
   min-height: 100vh;
-  width: 100vw;
   background-color: #f8f2ee;
 
   .signin__container {
@@ -19,20 +18,20 @@ $media-width: 480px;
     padding-top: 58px;
     font-family: Rubik;
     font-style: normal;
-		font-weight: normal;
-		color: #37383C;
+    font-weight: normal;
+    color: #37383c;
     width: 438px;
     height: 574px;
-    background: #FFFFFF;
+    background: #ffffff;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
 
-    @media(max-width: $media-width) {
+    @media (max-width: $media-width) {
       width: 290px;
       height: 465px;
     }
 
-    h1 { 
+    h1 {
       font-size: 24px;
       line-height: 28px;
       font-weight: 400;
@@ -45,7 +44,7 @@ $media-width: 480px;
       flex-direction: column;
       width: 314px;
 
-      @media(max-width: $media-width) {
+      @media (max-width: $media-width) {
         width: 280px;
       }
 
@@ -62,12 +61,12 @@ $media-width: 480px;
           font-weight: normal;
           font-size: 16px;
           line-height: 19px;
-          color: #C6C3BD;
+          color: #c6c3bd;
         }
       }
 
       .error-input {
-        border-bottom: 1px solid #E04F5F;
+        border-bottom: 1px solid #e04f5f;
       }
 
       .eye {
@@ -90,7 +89,7 @@ $media-width: 480px;
       .error {
         font-family: "Open Sans";
         text-align: center;
-        color: #E04F5F;
+        color: #e04f5f;
         font-size: 14px;
         line-height: 17px;
       }
@@ -116,26 +115,26 @@ $media-width: 480px;
         transition: 0.2s;
 
         &:hover {
-            border: 1px solid rgba(0, 0, 0, 0.2);
-            box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
+          border: 1px solid rgba(0, 0, 0, 0.2);
+          box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.2);
+          cursor: pointer;
         }
       }
-		}
-		 .to-login {
-			font-size: 14px;
+    }
+    .to-login {
+      font-size: 14px;
       line-height: 17px;
-      
-      @media(max-width: $media-width) {
+
+      @media (max-width: $media-width) {
         text-align: center;
       }
 
-			span {
-				margin-left: 12px;
-				color: #2196F3;
-				outline: none;
-				cursor: pointer;
-			}
-		 }	
-  }  
+      span {
+        margin-left: 12px;
+        color: #2196f3;
+        outline: none;
+        cursor: pointer;
+      }
+    }
+  }
 }
