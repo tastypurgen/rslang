@@ -1,7 +1,7 @@
 import React from 'react';
 import './Login.scss';
 
-import postUserData from '../../../../services/postUserData';
+import { postUserData } from '../../../../services/postUserData';
 import validateUserData from '../../../../utils/validateUserData';
 import eyeImg from '../../img/eye.png';
 
