@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import './WordСonstructor.scss';
 import { getRandomWords } from '../../services/getWords';
+import Game from './components/Game';
 
 export default class WordConstructor extends PureComponent {
   constructor(props) {
@@ -34,7 +35,7 @@ export default class WordConstructor extends PureComponent {
       );
     }
     return (
-      <h1>WordConstructor</h1>
+      <Game />
     );
   }
 }
