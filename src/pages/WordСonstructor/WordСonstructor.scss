@@ -1,0 +1,41 @@
+.word-constructor {  
+  min-height: calc(100vh - 115px);
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url(./img/word-constructor.jpg); 
+}
+
+.word-constructor__start-panel {   
+  background-color: #31313185;
+  color: whitesmoke;
+  width: 500px;  
+  border-radius: 10px;
+  padding: 20px;
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+}
+
+.word-constructor__btn {
+  text-align: center;
+  font-family: 'Open Sans'; 
+  padding: 5px 20px;
+  display: block;
+  margin: 0 auto;    
+  margin-top: 20px;
+  font-size: 16px;  
+  color: #ffffff;
+  background-color: #ff570f;  
+  border-radius: 15px;
+  border: none;  
+  outline: none;
+  transition: 0.2s;
+  cursor: pointer;
+  &:hover {
+    box-shadow: 0px 8px 6px rgba(0, 0, 0, 0.2);
+  }
+}
