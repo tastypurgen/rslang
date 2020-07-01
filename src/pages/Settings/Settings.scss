@@ -21,3 +21,10 @@
     opacity: 0.7;
   }
 }
+
+.settings__save-alert {
+  color: green;
+  &.hidden {
+    display: none;
+  }
+}

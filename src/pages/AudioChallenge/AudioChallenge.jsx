@@ -4,7 +4,7 @@ import React from 'react';
 import './AudioChallenge.scss';
 import Answers from './Answers';
 import Word from './Word';
-import getRandomWords from '../../services/getWords';
+import { getRandomWords } from '../../services/getWords';
 import audioImg from './img/audio.png';
 
 const wordsPerGame = 10;

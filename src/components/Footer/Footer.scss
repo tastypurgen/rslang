@@ -1,6 +1,61 @@
+$media-width: 574px;
+
 .footer {
-  text-align: center;
-  color: white;
-  background: rgb(228, 228, 228);
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: normal;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 8.33%;
   height: 50px;
+  width: 100%;
+  text-align: center;
+  font-size: 10px;
+  line-height: 12px;
+  color: #F8F2EE;
+  background-color: #37383C;
+
+  @media (max-width: $media-width) {
+    align-items: inherit;
+    justify-content: center;
+    height: 70px;
+  }
+
+  .info {
+    display: inline-flex;
+    align-items: center;
+
+    @media (max-width: $media-width) {
+      justify-content: center;
+      flex-basis: 100%;
+    }
+  }
+
+  .promo {
+    font-family: Rubik;
+    font-size: 16px;
+    line-height: 19px;
+    color: #F8F2EE;
+    display: inline-flex;
+    align-items: center;
+    margin-right: 45px;
+
+    &::before {
+      content: url('./img/question.png');
+      margin-right: 15px;
+      filter: invert(1);
+    }
+  }
+
+  .about {
+    @extend .promo;
+    margin-right: 0;
+
+    &::before {
+      content: url('./img/team.png');
+    }
+  }
 }

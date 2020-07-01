@@ -18,7 +18,15 @@ const GamesPanel = () => {
       <div className="container">
         <div className="mode">
           <span>Тренировки</span>
-          <select name="difficulty" id="difficulty" value={difficulty} onChange={(e) => setDifficulty(e.target.value)}>
+          <select
+            name="difficulty"
+            id="difficulty"
+            value={localStorage.difficulty || difficulty}
+            onChange={(e) => {
+              setDifficulty(e.target.value);
+              localStorage.difficulty = e.target.value;
+            }}
+          >
             <option value="0">Очень легко</option>
             <option value="1">Легко</option>
             <option value="2">Средне</option>
