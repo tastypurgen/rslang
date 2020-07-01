@@ -1,4 +1,4 @@
-import API from '../utils/constants';
+import { API } from '../utils/constants';
 import { getToken, getUserId } from './postUserData';
 
 const createUserWord = async (wordId, body) => {

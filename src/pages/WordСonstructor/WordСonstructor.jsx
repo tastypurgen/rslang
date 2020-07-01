@@ -12,15 +12,19 @@ export default class WordConstructor extends PureComponent {
     };
   }
 
+  componentDidMount() {
+    const { difficulty } = this.state;
+    getRandomWords(difficulty, 2);
+  }
+
   handleClick = () => {
     this.setState({ isStarted: true });
   }
 
   render() {
-    const { isStarted, difficulty } = this.state;
+    const { isStarted } = this.state;
 
     if (!isStarted) {
-      getRandomWords(difficulty, 2);
       return (
         <div className="word-constructor">
           <div className="word-constructor__start-panel">

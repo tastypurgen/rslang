@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import Spinner from '../../../components/Spinner/Spinner';
+import { URI } from '../../../utils/constants';
 import '../WordСonstructor.scss';
 
 export default class Game extends PureComponent {
@@ -7,11 +8,15 @@ export default class Game extends PureComponent {
     super(props);
     this.state = {
       gameWords: [],
+      isWordsLoaded: false,
     };
   }
 
+  componentDidMount() {
+    this.setWords();
+  }
+
   setWords = () => {
-    const uri = 'https://raw.githubusercontent.com/tastypurgen/rslang-data/master/';
     const words = JSON.parse(localStorage.words).sort(() => Math.random() - 0.5);
     const wordsPerGame = 10;
     const { gameWords } = this.state;
@@ -21,15 +26,16 @@ export default class Game extends PureComponent {
       id: word.id,
       word: word.word,
       translation: word.wordTranslate,
-      audio: uri + word.audio,
-      img: uri + word.image,
+      audio: URI + word.audio,
+      img: URI + word.image,
     }));
+
+    this.setState({ isWordsLoaded: true });
   }
 
   render() {
-    this.setWords();
-    const { gameWords } = this.state;
-    if (gameWords.length) {
+    const { gameWords, isWordsLoaded } = this.state;
+    if (isWordsLoaded) {
       return (
         <ul>
           {gameWords.map((word) => (

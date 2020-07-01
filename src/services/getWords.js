@@ -1,4 +1,4 @@
-import API from '../utils/constants';
+import { API } from '../utils/constants';
 
 const getRandomWords = async (group, pageAmount) => {
   const pages = new Set();
