@@ -1,0 +1,53 @@
+.puzzle {
+  height: calc(100vh - 115px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("./img/people.jpg");
+  background-position: bottom;
+  background-size: 380px;
+  background-repeat: no-repeat;
+
+  .wrapper {
+    text-align: center;
+    max-width: 600px;
+    margin-bottom: 140px;
+  }
+
+  .title {
+    margin-bottom: 20px;
+    font-size: 32px;
+  }
+
+  .description {
+    margin-top: 15px;
+    margin-bottom: 50px;
+    font-size: 22px;
+    line-height: 32px;
+  }
+
+  .btn {
+    display: block;
+    font-size: 18px;
+    margin: 20px auto;
+    padding: 8px 15px;
+    border-radius: 20px;
+    max-width: 220px;
+
+    &:hover {
+      filter: grayscale(10%) saturate(200%);
+    }
+  }
+
+  .play-btn {
+    color: #fff;
+    background-color: #32bea6;
+    border: 1px solid #32bea6;
+  }
+
+  .close-btn {    
+    color: #c6c3bd;
+    border: 1px solid #c6c3bd;
+  }
+
+}
