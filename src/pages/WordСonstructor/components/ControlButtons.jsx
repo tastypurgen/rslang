@@ -1,0 +1,13 @@
+import React, { PureComponent } from 'react';
+
+export default class ControlButtons extends PureComponent {
+  render() {
+    const { nextLevel, skipLevel } = this.props;
+    return (
+      <div className="word-constructor__buttons">
+        <button className="word-constructor__btn word-constructor__btn_white" type="button" onClick={skipLevel}>Пропустить</button>
+        <button className="word-constructor__btn" type="button" onClick={nextLevel}>Далее</button>
+      </div>
+    );
+  }
+}
