@@ -1,6 +1,16 @@
-import API from '../utils/constants';
+import { API } from '../utils/constants';
 import { getToken, getUserId } from './postUserData';
 
+// example of body:
+// const testObj = {
+//   'difficulty': 'easy',
+//   'optional': {
+//       deleted: false,
+//       difficult: false,
+//   }
+// }
+
+// difficulty: easy, medium, hard
 const createUserWord = async (wordId, body) => {
   const rawResponse = await fetch(`${API}users/${getUserId}/words/${wordId}`, {
     method: 'POST',

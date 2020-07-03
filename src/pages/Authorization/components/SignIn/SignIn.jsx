@@ -1,98 +1,67 @@
-import React from 'react';
-import './SignIn.scss';
+import React, { useState } from 'react';
+import './SignIn.css';
 import { withRouter } from 'react-router-dom';
+import ErrSignIn from './ErrSignIn/ErrSignIn';
 import { postUserData } from '../../../../services/postUserData';
 import validateUserData from '../../../../utils/validateUserData';
-import eyeImg from '../../img/eye.png';
 
-const className = require('classnames');
+const SignIn = (props) => {
+  const mailInputRef = React.createRef();
+  const passwordInputRef = React.createRef();
 
-class SignIn extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      hidden: true,
-      hiddenError: true,
-    };
-    this.mailInputRef = React.createRef();
-    this.passwordInputRef = React.createRef();
-    this.handleError = this.handleError.bind(this);
-  }
+  const [errorSignIn, setErrorSignIn] = useState(false);
 
-  handleError() {
-    this.setState({ hiddenError: false });
-    this.passwordInputRef.current.value = '';
-    this.passwordInputRef.current.focus();
-  }
+  let component;
+  if (errorSignIn) {
+    component = (<ErrSignIn setErrorSignIn={setErrorSignIn} />);
+  } else {
+    component = (
+      <div className="SignIn__container">
+        <h1>Войти в систему</h1>
+        <form action="" method="post">
+          <input minLength="6" maxLength="35" ref={mailInputRef} className="SignIn__input" type="email" placeholder="email" />
+          <input minLength="8" maxLength="16" ref={passwordInputRef} className="SignIn__input" type="text" placeholder="Пароль" />
+          <button
+            type="button"
+            onClick={() => {
+              const userData = {
+                email: mailInputRef.current.value,
+                password: passwordInputRef.current.value,
+              };
+              const validateResult = validateUserData(userData);
+              if (validateResult) {
+                postUserData(userData, 'signin').then((response) => {
+                  if (response) {
+                    props.changeAuthenticatedState();
+                  } else {
+                    setErrorSignIn(true);
+                  }
+                });
+              }
+            }}
+            className="SignIn__button"
+          >
+            Войти
 
-  render() {
-    const { hidden, hiddenError } = this.state;
-    const { changeAuthenticatedState, toChangeSignInState } = this.props;
-
-    const inputClasses = className('signin__input', { 'error-input': !hiddenError });
-
-    return (
-      <div className="signin">
-        <div className="signin__container">
-          <h1>Войти в систему</h1>
-          <form action="" method="post">
-            <input minLength="6" maxLength="35" ref={this.mailInputRef} className={inputClasses} type="email" placeholder="Email" />
-            <input minLength="8" maxLength="16" ref={this.passwordInputRef} className={inputClasses} type={hidden ? 'password' : 'text'} placeholder="Пароль" />
-            <span className="eye">
-              <div className={`before ${!hidden ? 'hidden' : ''}`}>/</div>
-              <img
-                role="button"
-                src={eyeImg}
-                alt="visible"
-                onClick={() => {
-                  this.setState({ hidden: !hidden });
-                }}
-              />
-            </span>
-            <p className={`error ${hiddenError ? 'hidden' : ''}`}>Неверное имя пользователя или пароль</p>
+          </button>
+          <p>
+            или
             <button
               type="button"
               onClick={() => {
-                const userData = {
-                  email: this.mailInputRef.current.value,
-                  password: this.passwordInputRef.current.value,
-                };
-                const validateResult = validateUserData(userData);
-
-                if (validateResult) {
-                  postUserData(userData, 'signin').then((response) => {
-                    if (response) {
-                      changeAuthenticatedState();
-                    } else {
-                      this.handleError();
-                    }
-                  });
-                } else {
-                  this.handleError();
-                }
+                props.toChangeSignInState();
               }}
-              className="signin__button"
             >
-              Войти
+              зарегистрироваться
 
             </button>
-          </form>
-          <p className="to-login">
-            У вас нет учетной записи?
-            <span
-              role="button"
-              tabIndex={0}
-              onClick={() => {
-                toChangeSignInState();
-              }}
-            >
-              Зарегистрироваться
-            </span>
           </p>
-        </div>
+        </form>
       </div>
     );
   }
-}
+
+  return (component);
+};
 
 export default withRouter(SignIn);

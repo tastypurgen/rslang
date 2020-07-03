@@ -6,6 +6,7 @@ import Answers from './Answers';
 import Word from './Word';
 import { getRandomWords } from '../../services/getWords';
 import audioImg from './img/audio.png';
+import { uri } from '../../utils/constants';
 
 const wordsPerGame = 10;
 
@@ -27,14 +28,13 @@ export default class AudioChallenge extends React.PureComponent {
   }
 
   setWords() {
-    const address = 'https://raw.githubusercontent.com/tastypurgen/rslang-data/master/';
     const words = JSON.parse(localStorage.words).sort(() => Math.random() - 0.5);
     this.gameWords.splice(0);
 
     words.slice(0, wordsPerGame).map((word) => this.gameWords.push({
       word: word.word,
-      image: address + word.image,
-      audio: address + word.audio,
+      image: uri + word.image,
+      audio: uri + word.audio,
       translation: word.wordTranslate,
       transcription: word.transcription,
       answers: [word.wordTranslate],

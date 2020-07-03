@@ -5,6 +5,7 @@ import './Savannah.scss';
 import Word from './Word';
 import Answers from './Answers';
 import Lives from './Lives';
+import { uri } from '../../utils/constants';
 
 import audioImg from './img/audio.png';
 import wrongSound from './sounds/wrong.mp3';
@@ -23,7 +24,6 @@ export default class Savannah extends PureComponent {
   }
 
   setWords = () => {
-    const uri = 'https://raw.githubusercontent.com/tastypurgen/rslang-data/master/';
     const words = JSON.parse(localStorage.words).sort(() => Math.random() - 0.5);
     const wordsPerGame = 10;
     gameWords.splice(0);
