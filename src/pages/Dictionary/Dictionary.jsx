@@ -24,9 +24,7 @@ export default class Dictionary extends PureComponent {
   }
 
   setStateFromSettings = async () => {
-    console.log(getToken);
-    console.log(getUserId);
-    const response = await getUserSettings(getToken, getUserId);
+    const response = await getUserSettings(getToken(), getUserId());
     if (response.status === 200) {
       this.setState({
         isDataLoaded: true,

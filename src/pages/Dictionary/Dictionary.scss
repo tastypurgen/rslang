@@ -1,3 +1,5 @@
+$media-width: 699px;
+
 .dictionary {
   background: #f8f2ee;
   min-height: 84vh;
@@ -60,71 +62,77 @@
   }
 
   table {
-    width: 100%;
     border-spacing: 0;
-  }
 
-  .word-container {
-    position: relative;
-    // display: grid;
-    // grid-template-columns: 40px repeat(2, 1fr) 93px repeat(2, 3.5fr) 27px;
-    // grid-template-columns: min-content 90px fit-content(20em) max-content repeat(2, fit-content(24em)) fit-content(27px);
-    // align-items: center;
-    // grid-gap: 3vw;
-    // padding: 10px 0;
-    word-break: break-word;
-    font-family: Rubik;
-    font-style: normal;
-    font-size: 14px;
-    line-height: 14px;
-    color: #37383C;
+    .word-container {
+      position: relative;
+      word-break: break-word;
+      font-family: Rubik;
+      font-style: normal;
+      font-size: 14px;
+      line-height: 14px;
+      color: #37383C;
 
-    td {
-      border-bottom: 1px solid #c4c4c4;
-    }
+      .audio-container {
+        width: 23px;
 
-    .association-image {
-      height: 39px;
-    }
-
-    .audio {
-      cursor: pointer;
-      outline: none;
-
-      &:hover {
-        filter: invert(1);
-        transition: ease-in-out 0.2s;
+        @media (max-width: $media-width) {
+          width: 100%;
+        }        
       }
-    }
 
-    .word {
-      .word-name {
-        font-weight: bold;
-        font-size: 18px;
-        line-height: 21px;
-      }
-  
-      .word-translation {
-        color: #09607D;
-      }
-    }
+      td {
+        border-bottom: 1px solid #c4c4c4;
+        padding: 10px;
 
-    .sentences {
-      // display: flex;
-      // flex-direction: column;
-      // justify-content: space-between;
-      // height: 100%;
-
-      span {
-        &:first-child {
-          padding-bottom: 10px;
+        &:not(.hidden) {
+          @media (max-width: $media-width) {
+            display: block;
+          }
         }
       }
-    }
 
-    .return {
-      width: 27px;
-      cursor: pointer;
+      .association-image {
+        height: 39px;
+      }
+
+      .audio {
+        cursor: pointer;
+        outline: none;
+
+        &:hover {
+          filter: invert(1);
+          transition: ease-in-out 0.2s;
+        }
+      }
+
+      .word {
+        min-width: 90px;
+
+        .word-name {
+          font-weight: bold;
+          font-size: 18px;
+          line-height: 21px;
+        }
+    
+        .word-translation {
+          color: #09607D;
+        }
+      }
+
+      .sentences {
+        span {
+          &:first-child {
+            position: relative;
+            bottom: 10px;
+          }
+        }
+      }
+
+      .return {
+        width: 27px;
+        cursor: pointer;
+      }
     }
   }
 

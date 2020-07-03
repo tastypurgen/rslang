@@ -66,11 +66,11 @@ export default class Word extends PureComponent {
       return (<Spinner />);
     }
     return (
-      <table cellPadding="10">
+      <table>
         <tbody>
           {words.map((el) => (
             <tr className="word-container" key={el.word}>
-              <td>
+              <td className="audio-container">
                 <audio id={el.word} src={el.audio} />
                 <img
                   className="audio"
@@ -86,7 +86,7 @@ export default class Word extends PureComponent {
                 <br />
                 <span className="word-translation">{el.translation}</span>
               </td>
-              <td className={!wordInfo.wordTranscription ? 'hidden' : ''}>{el.transcription}</td>
+              <td style={{ minWidth: '70px' }} className={!wordInfo.wordTranscription ? 'hidden' : ''}>{el.transcription}</td>
               <td>
                 <img className={!wordInfo.associationImage ? 'hidden' : 'association-image'} src={el.image} alt={el.word} />
               </td>
