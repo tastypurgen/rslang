@@ -2,6 +2,7 @@ import API from '../utils/constants';
 import { getToken, getUserId } from './postUserData';
 
 const createUserWord = async (wordId, body) => {
+  console.log(getUserId);
   const rawResponse = await fetch(`${API}users/${getUserId}/words/${wordId}`, {
     method: 'POST',
     withCredentials: true,

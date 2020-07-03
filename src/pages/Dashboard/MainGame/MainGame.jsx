@@ -1,18 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { PureComponent } from 'react';
 import './MainGame.scss';
 import AssesmentsButtons from './AssesmentsButtons/AssesmentsButtons';
+import Input from './Input/Input';
+import getUserAggregatedWords from '../../../services/userAggregatedWords';
 import { getUserSettings } from '../../../services/settingsService';
-import { getWordByPageAndDifficultyNumber } from '../../../services/getWords';
+import { getWordByPageAndDifficultyNumber, getWordsByPageCount } from '../../../services/getWords';
+import { createUserWord, deleteUserWord, getAllUserWords } from '../../../services/userWords';
 
-const MainGame = () => {
-  const [settingsData, setSettingsData] = useState(null);
-  const [showRightAnswer, setShowRightAnswer] = useState(false);
-  const [wordsData, setWordsData] = useState([]);
-  const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  const [isDataEnabled, setIsDataEnabled] = useState(false);
-  // let wordsData = [];
+class MainGame extends PureComponent {
+  state = {
+    settingsData: null,
+    showRightAnswer: false,
+    isDataEnabled: false,
+    wordsData: [],
+    currentWordIndex: 0,
+  };
 
-  const getNecessaryWords = async (wordsPerDay) => {
+  setShowRightAnswer = () => {
+    this.setState({
+      showRightAnswer: true,
+    });
+  };
+
+  getNecessaryWords = async (wordsPerDay) => {
     const a = Math.ceil(wordsPerDay / 20);
     const valueToDelete = wordsPerDay - ((a - 1) * 20);
     let words = [];
@@ -26,19 +36,31 @@ const MainGame = () => {
       } else if (i === (a - 1)) {
         response.length = valueToDelete;
         words = words.concat(response);
-        setWordsData(words);
-        setIsDataEnabled(true);
+        this.setState({
+          wordsData: words,
+          isDataEnabled: true,
+        });
       }
     };
     recursionFecth();
   };
 
-  const initCardComponent = (wordData) => {
+  initCardComponent = (wordData) => {
     console.log(wordData);
     const {
-      textMeaningTranslate, textExample, transcription, textExampleTranslate, image,
-    } = wordData;
+      settingsData, showRightAnswer, wordsData, currentWordIndex,
+    } = this.state;
+
     let component;
+    const {
+      word,
+      textMeaning,
+      textMeaningTranslate,
+      textExample,
+      transcription,
+      textExampleTranslate,
+      image,
+    } = wordData;
     const {
       displayShowAnswerBtn,
       displayAssessmentBtns,
@@ -49,14 +71,28 @@ const MainGame = () => {
       showWordAndSentenceTranslation,
       associationImage,
       exampleSentence,
+      explanationSentence,
     } = settingsData;
     const buttonComponent = [];
     if (displayShowAnswerBtn && !showRightAnswer) {
       buttonComponent.push((
         <button
           type="button"
+          key={Math.random()}
           onClick={() => {
-            setShowRightAnswer(true);
+            const body = {
+              difficulty: 'false',
+              optional: {
+                indicator: 2,
+              },
+            };
+            getAllUserWords().then((res) => { // смотрим что у нас в юзерВордс
+              console.log(res);
+            });
+            createUserWord(wordsData[currentWordIndex].id, body).then((res) => {
+              console.log(res);
+            });
+            this.setShowRightAnswer(true);
           }}
           className="MainGame__answer-button"
         >
@@ -73,22 +109,30 @@ const MainGame = () => {
         <div className="MainGame__indicator">Индикатор</div>
         <p className="MainGame__card-sentence">
           {displayDeleteBtn ? (
-            <button type="button" className="MainGame__delete">
-              добавить в сложные
+            <button
+              onClick={() => {
+                deleteUserWord(wordsData[currentWordIndex].id);
+              }}
+              type="button"
+              className="MainGame__delete"
+            >
+              удалить
             </button>
           ) : null}
           {displayDifficultBtn ? (
-            <button type="button" className="MainGame__difficult">
+            <button type="button" className="MainGame__difficult-button">
               добавить в сложные
             </button>
           ) : null}
           <br />
-          The
-          <span><input type="text" /></span>
-          {' '}
-          lasted for many days
+          <Input
+            changeRightAnswerState={this.setShowRightAnswer}
+            word={word}
+            textExample={textExample}
+          />
         </p>
-        <p className="MainGame__card-sentence-translation">{textExampleTranslate}</p>
+        {exampleSentence ? <p className="MainGame__card-sentence-translation">{textExampleTranslate}</p>
+          : <p className="MainGame__card-sentence-translation">{wordData.wordTranslate}</p>}
         {showRightAnswer
           ? (
             <div className="MainGame__container">
@@ -97,10 +141,11 @@ const MainGame = () => {
                 <p className="word-info__full-word">
                   <span className="word-info__icon" />
                   <span className="word-info__word" />
+                  {word}
                   {wordTranscription ? <span className="word-info__transcription">{transcription}</span> : null}
-                  {wordTranslation ? <span className="word-info__translation">{wordData.wordTranslation}</span> : null}
+                  {wordTranslation ? <span className="word-info__translation">{wordData.wordTranslate}</span> : null}
                 </p>
-                {exampleSentence ? <p className="word-info__second-sentence-example">A battle is a fight between two armies during a war.</p> : null}
+                {explanationSentence ? <p className="word-info__second-sentence-example">{textMeaning}</p> : null}
                 {showWordAndSentenceTranslation ? <p className="word-info__second-sentence-translation">{textMeaningTranslate}</p> : null}
               </div>
             </div>
@@ -111,46 +156,64 @@ const MainGame = () => {
     return component;
   };
 
-  useEffect(() => {
-    getUserSettings(localStorage.userToken, localStorage.userId).then((response) => {
-      setSettingsData(response.optional);
-      getNecessaryWords(response.optional.maxCardsPerDay);
+  componentDidMount = async () => {
+    const responsee = await getUserAggregatedWords('{"userWord.optional.indicator": 2}');
+    console.log(responsee);
+    // console.log('componenDidMount');
+    // const wordsResponse = await getWordsByPageCount(77); //озарение важно не трогать
+    // console.log(wordsResponse);
+    const userWordsRequest = await getAllUserWords();
+    console.log(userWordsRequest);
+    const response = await getUserSettings(localStorage.userToken, localStorage.userId);
+    this.setState({
+      settingsData: response.optional,
     });
-  }, []);
+    this.getNecessaryWords(response.optional.maxCardsPerDay);
+  };
 
-  return (
-    <div className="MainGame">
-      {showRightAnswer ? (
-        <button
-          onClick={() => {
-            if (currentWordIndex !== 0) {
-              setCurrentWordIndex(currentWordIndex - 1);
-              setShowRightAnswer(false);
-            }
-          }}
-          type="button"
-        >
-          left arrow
-        </button>
-      ) : null}
-      {
-        isDataEnabled ? initCardComponent(wordsData[currentWordIndex]) : <h1>Loading...</h1>
+  render() {
+    const {
+      setCurrentWordIndex, changeRightAnswerState, initCardComponent, state, setShowRightAnswer,
+    } = this;
+    const {
+      showRightAnswer, currentWordIndex, wordsData, isDataEnabled,
+    } = state;
+    return (
+      <div className="MainGame">
+        {showRightAnswer ? (
+          <button
+            onClick={() => {
+              if (currentWordIndex !== 0) {
+                this.setState({
+                  currentWordIndex: currentWordIndex - 1,
+                  showRightAnswer: false,
+                });
+              }
+            }}
+            type="button"
+          >
+            left arrow
+          </button>
+        ) : null}
+        {
+        isDataEnabled ? initCardComponent(wordsData[currentWordIndex]) : ''
       }
-      {showRightAnswer ? (
-        <button
-          onClick={() => {
-            if (currentWordIndex !== wordsData.length) {
-              setCurrentWordIndex(currentWordIndex + 1);
-              setShowRightAnswer(false);
-            }
-          }}
-          type="button"
-        >
-          right arrow
-        </button>
-      ) : null}
-    </div>
-  );
-};
+        {showRightAnswer ? (
+          <button
+            onClick={() => {
+              this.setState({
+                currentWordIndex: currentWordIndex + 1,
+                showRightAnswer: false,
+              });
+            }}
+            type="button"
+          >
+            right arrow
+          </button>
+        ) : null}
+      </div>
+    );
+  }
+}
 
 export default MainGame;
