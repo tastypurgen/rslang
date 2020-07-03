@@ -6,7 +6,7 @@ import Answers from './Answers';
 import Word from './Word';
 import { getRandomWords } from '../../services/getWords';
 import audioImg from './img/audio.png';
-import { uri } from '../../utils/constants';
+import { URI } from '../../utils/constants';
 
 const wordsPerGame = 10;
 
@@ -33,8 +33,8 @@ export default class AudioChallenge extends React.PureComponent {
 
     words.slice(0, wordsPerGame).map((word) => this.gameWords.push({
       word: word.word,
-      image: uri + word.image,
-      audio: uri + word.audio,
+      image: URI + word.image,
+      audio: URI + word.audio,
       translation: word.wordTranslate,
       transcription: word.transcription,
       answers: [word.wordTranslate],

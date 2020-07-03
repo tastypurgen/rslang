@@ -7,7 +7,7 @@ import Spinner from '../../components/Spinner/Spinner';
 
 import audioImg from './img/audio.png';
 import returnImg from './img/return.png';
-import { uri } from '../../utils/constants';
+import { URI } from '../../utils/constants';
 
 export default class Word extends PureComponent {
   constructor(props) {
@@ -34,13 +34,13 @@ export default class Word extends PureComponent {
       wordId: el._id,
       word: el.word,
       translation: el.wordTranslate,
-      audio: uri + el.audio,
+      audio: URI + el.audio,
       meaning: el.textMeaning,
       meaningTranslate: el.textMeaningTranslate,
       example: el.textExample,
       exampleTranslate: el.textExampleTranslate,
       transcription: el.transcription,
-      image: uri + el.image,
+      image: URI + el.image,
     }));
 
     this.setState({ words: stateWords });

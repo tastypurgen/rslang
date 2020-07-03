@@ -5,7 +5,7 @@ import './Savannah.scss';
 import Word from './Word';
 import Answers from './Answers';
 import Lives from './Lives';
-import { uri } from '../../utils/constants';
+import { URI } from '../../utils/constants';
 
 import audioImg from './img/audio.png';
 import wrongSound from './sounds/wrong.mp3';
@@ -31,7 +31,7 @@ export default class Savannah extends PureComponent {
     words.slice(0, wordsPerGame).map((word) => gameWords.push({
       word: word.word,
       translation: word.wordTranslate,
-      audio: uri + word.audio,
+      audio: URI + word.audio,
       answers: [word.wordTranslate],
     }));
 
