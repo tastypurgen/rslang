@@ -10,12 +10,19 @@ import Word from './Word';
 import { getToken, getUserId } from '../../services/postUserData';
 import { getUserSettings } from '../../services/settingsService';
 
+const filters = [
+  '{"$and":[{"userWord.optional.deleted":false},{"userWord.optional.difficult":false}]}',
+  '{"$and":[{"userWord.optional.deleted":false},{"userWord.optional.difficult":true}]}',
+  '{"userWord.optional.deleted":true}',
+];
+const types = ['learning', 'difficult', 'deleted'];
+
 export default class Dictionary extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       wordInfo: {},
-      isDataLoaded: false,
+      isLoaded: false,
     };
   }
 
@@ -26,29 +33,32 @@ export default class Dictionary extends PureComponent {
   setStateFromSettings = async () => {
     const response = await getUserSettings(getToken(), getUserId());
     if (response.status === 200) {
+      const {
+        optional: {
+          explanationSentence,
+          exampleSentence,
+          wordTranscription,
+          associationImage,
+          showWordAndSentenceTranslation,
+        },
+      } = response;
       this.setState({
-        isDataLoaded: true,
+        isLoaded: true,
         wordInfo: {
-          explanationSentence: response.optional.explanationSentence,
-          exampleSentence: response.optional.exampleSentence,
-          wordTranscription: response.optional.wordTranscription,
-          associationImage: response.optional.associationImage,
-          showWordAndSentenceTranslation: response.optional.showWordAndSentenceTranslation,
+          explanationSentence,
+          exampleSentence,
+          wordTranscription,
+          associationImage,
+          showWordAndSentenceTranslation,
         },
       });
     }
   }
 
   render() {
-    const filters = [
-      '{"$and":[{"userWord.optional.deleted":false},{"userWord.optional.difficult":false}]}',
-      '{"$and":[{"userWord.optional.deleted":false},{"userWord.optional.difficult":true}]}',
-      '{"userWord.optional.deleted":true}',
-    ];
-    const types = ['learning', 'difficult', 'deleted'];
-    const { wordInfo, isDataLoaded } = this.state;
+    const { wordInfo, isLoaded } = this.state;
 
-    if (!isDataLoaded) {
+    if (!isLoaded) {
       return (
         <div className="dictionary">
           <div className="container" />
