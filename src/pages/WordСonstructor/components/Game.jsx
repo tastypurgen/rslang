@@ -1,7 +1,8 @@
-/* eslint-disable react/no-unused-state */
 import React, { PureComponent } from 'react';
 import Spinner from '../../../components/Spinner/Spinner';
 import { URI } from '../../../utils/constants';
+import shuffleLetters from '../utils/shuffleLetters';
+import createAnswerLetters from '../utils/createAnswerLetters';
 import '../WordСonstructor.scss';
 
 import AvailableSkips from './AvailableSkips';
@@ -18,10 +19,13 @@ export default class Game extends PureComponent {
       gameWords: [],
       isWordsLoaded: false,
       currentLevel: 0,
+      isCurrentWordResolved: false,
       availableSkips: 3,
       wrongAnswers: [],
       rightAnswers: [],
     };
+    this.pickLetter = this.pickLetter.bind(this);
+    this.unpickLetter = this.unpickLetter.bind(this);
   }
 
   componentDidMount() {
@@ -40,6 +44,8 @@ export default class Game extends PureComponent {
       translation: word.wordTranslate,
       audio: URI + word.audio,
       img: URI + word.image,
+      shuffledLetters: shuffleLetters(word.word, word.id),
+      answerLetters: createAnswerLetters(word.word.length, word.id),
     }));
 
     this.setState({ isWordsLoaded: true });
@@ -63,9 +69,58 @@ export default class Game extends PureComponent {
     }));
   }
 
+  pickLetter(event) {
+    const pickedElement = event.target;
+    const pickedLetter = pickedElement.innerHTML;
+    const pickedPosition = pickedElement.dataset.position;
+    const { gameWords, currentLevel } = this.state;
+    const newGameWords = gameWords.slice();
+    const newShuffledLetters = newGameWords[currentLevel].shuffledLetters.slice();
+    const newAnswerLetters = newGameWords[currentLevel].answerLetters.slice();
+    const newAnswerLettersEmptyPosition = newAnswerLetters
+      .find((answerLetter) => answerLetter.isEmpty === true)
+      .answerPosition;
+
+    newShuffledLetters[pickedPosition].isOpened = true;
+
+    newAnswerLetters[newAnswerLettersEmptyPosition].isEmpty = false;
+    newAnswerLetters[newAnswerLettersEmptyPosition].letter = pickedLetter;
+    newAnswerLetters[newAnswerLettersEmptyPosition].initialPosition = pickedPosition;
+
+    newGameWords[currentLevel].shuffledLetters = newShuffledLetters;
+    newGameWords[currentLevel].answerLetters = newAnswerLetters;
+
+    this.setState({ gameWords: newGameWords });
+  }
+
+  unpickLetter(event) {
+    const unPickedElement = event.target;
+    const unPickedPosition = unPickedElement.dataset.position;
+    const { gameWords, currentLevel } = this.state;
+    const newGameWords = gameWords.slice();
+    const newShuffledLetters = newGameWords[currentLevel].shuffledLetters.slice();
+    const newAnswerLetters = newGameWords[currentLevel].answerLetters.slice();
+    const newShuffledLettersEmptyPosition = newAnswerLetters[unPickedPosition].initialPosition;
+
+    newShuffledLetters[newShuffledLettersEmptyPosition].isOpened = false;
+
+    newAnswerLetters[unPickedPosition].isEmpty = true;
+    newAnswerLetters[unPickedPosition].letter = null;
+    newAnswerLetters[unPickedPosition].initialPosition = null;
+
+    newGameWords[currentLevel].shuffledLetters = newShuffledLetters;
+    newGameWords[currentLevel].answerLetters = newAnswerLetters;
+
+    this.setState({ gameWords: newGameWords });
+  }
+
   render() {
     const {
-      gameWords, isWordsLoaded, availableSkips, currentLevel,
+      gameWords,
+      isWordsLoaded,
+      availableSkips,
+      currentLevel,
+      isCurrentWordResolved,
     } = this.state;
     if (isWordsLoaded) {
       return (
@@ -75,14 +130,18 @@ export default class Game extends PureComponent {
               availableSkips={availableSkips}
             />
             <Word
-              word={gameWords[currentLevel].word}
+              shuffledLetters={gameWords[currentLevel].shuffledLetters}
+              pickLetter={this.pickLetter}
             />
             <Answer
-              word={gameWords[currentLevel].word}
+              answerLetters={gameWords[currentLevel].answerLetters}
+              unpickLetter={this.unpickLetter}
             />
             <ControlButtons
               skipLevel={() => this.skipLevel()}
               nextLevel={() => this.nextLevel()}
+              availableSkips={availableSkips}
+              isCurrentWordResolved={isCurrentWordResolved}
             />
           </div>
         </div>
