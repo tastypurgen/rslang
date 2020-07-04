@@ -3,6 +3,8 @@ import Spinner from '../../../components/Spinner/Spinner';
 import { URI } from '../../../utils/constants';
 import shuffleLetters from '../utils/shuffleLetters';
 import createAnswerLetters from '../utils/createAnswerLetters';
+import findEmptyIndex from '../utils/findEmptyIndex';
+import checkWordCorrectness from '../utils/checkWordCorrectness';
 import '../WordСonstructor.scss';
 
 import AvailableSkips from './AvailableSkips';
@@ -57,6 +59,7 @@ export default class Game extends PureComponent {
     this.setState((prevState) => ({
       currentLevel: prevState.currentLevel + 1,
       rightAnswers: [...prevState.rightAnswers, prevState.gameWords[currentLevel]],
+      isCurrentWordResolved: false,
     }));
   }
 
@@ -77,9 +80,9 @@ export default class Game extends PureComponent {
     const newGameWords = gameWords.slice();
     const newShuffledLetters = newGameWords[currentLevel].shuffledLetters.slice();
     const newAnswerLetters = newGameWords[currentLevel].answerLetters.slice();
-    const newAnswerLettersEmptyPosition = newAnswerLetters
-      .find((answerLetter) => answerLetter.isEmpty === true)
-      .answerPosition;
+    const newAnswerLettersEmptyPosition = findEmptyIndex(newAnswerLetters).answerPosition;
+
+    let isUserAnswerCorrect = false;
 
     newShuffledLetters[pickedPosition].isOpened = true;
 
@@ -90,7 +93,12 @@ export default class Game extends PureComponent {
     newGameWords[currentLevel].shuffledLetters = newShuffledLetters;
     newGameWords[currentLevel].answerLetters = newAnswerLetters;
 
-    this.setState({ gameWords: newGameWords });
+    isUserAnswerCorrect = checkWordCorrectness(newGameWords, currentLevel);
+
+    this.setState({
+      gameWords: newGameWords,
+      isCurrentWordResolved: isUserAnswerCorrect,
+    });
   }
 
   unpickLetter(event) {
@@ -132,10 +140,12 @@ export default class Game extends PureComponent {
             <Word
               shuffledLetters={gameWords[currentLevel].shuffledLetters}
               pickLetter={this.pickLetter}
+              isCurrentWordResolved={isCurrentWordResolved}
             />
             <Answer
               answerLetters={gameWords[currentLevel].answerLetters}
               unpickLetter={this.unpickLetter}
+              isCurrentWordResolved={isCurrentWordResolved}
             />
             <ControlButtons
               skipLevel={() => this.skipLevel()}

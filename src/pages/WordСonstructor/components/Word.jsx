@@ -3,11 +3,11 @@ import Spinner from '../../../components/Spinner/Spinner';
 
 export default class Word extends PureComponent {
   render() {
-    const { pickLetter, shuffledLetters } = this.props;
+    const { pickLetter, shuffledLetters, isCurrentWordResolved } = this.props;
 
     if (shuffledLetters) {
       return (
-        <div className="word-constructor__shuffled-letters">
+        <div className={`word-constructor__shuffled-letters ${isCurrentWordResolved ? 'disabled' : ''}`}>
           {shuffledLetters.map((letter, index) => (
             <div key={letter.id} className="word-constructor__shuffled-letter__external-wrapper">
               <div className={`word-constructor__shuffled-letter__inner-wrapper ${letter.isOpened ? 'rotated' : ''}`}>
