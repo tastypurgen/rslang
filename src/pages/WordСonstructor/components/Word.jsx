@@ -1,16 +1,18 @@
 import React, { PureComponent } from 'react';
+import classNames from 'classnames';
 import Spinner from '../../../components/Spinner/Spinner';
 
 export default class Word extends PureComponent {
   render() {
     const { pickLetter, shuffledLetters, isCurrentWordResolved } = this.props;
+    const blockClass = classNames('word-constructor__shuffled-letters', { disabled: isCurrentWordResolved });
 
     if (shuffledLetters) {
       return (
-        <div className={`word-constructor__shuffled-letters ${isCurrentWordResolved ? 'disabled' : ''}`}>
+        <div className={blockClass}>
           {shuffledLetters.map((letter, index) => (
             <div key={letter.id} className="word-constructor__shuffled-letter__external-wrapper">
-              <div className={`word-constructor__shuffled-letter__inner-wrapper ${letter.isOpened ? 'rotated' : ''}`}>
+              <div className={classNames('word-constructor__shuffled-letter__inner-wrapper', { rotated: letter.isOpened })}>
                 <button type="button" className="word-constructor__shuffled-letter front" data-position={index} onClick={pickLetter}>{letter.letter}</button>
                 <div className="word-constructor__shuffled-letter back"> </div>
               </div>
