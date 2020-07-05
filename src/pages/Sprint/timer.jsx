@@ -1,5 +1,5 @@
-import React, { useRef, useState } from "react";
-import "./style.css";
+import React, { useRef} from "react";
+import "./timerStyles.css";
 
 function RenderTime({ remainingTime })  {
   const currentTime = useRef(remainingTime);
