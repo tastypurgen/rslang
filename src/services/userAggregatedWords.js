@@ -1,4 +1,4 @@
-import API from '../utils/constants';
+import { API } from '../utils/constants';
 import { getToken, getUserId } from './postUserData';
 
 // example of filter:
@@ -6,11 +6,11 @@ import { getToken, getUserId } from './postUserData';
 
 const getUserAggregatedWords = async (filter) => {
   const query = new window.URLSearchParams({ filter }).toString();
-  const rawResponse = await fetch(`${API}users/${getUserId}/aggregatedWords?${query}`,
+  const rawResponse = await fetch(`${API}users/${getUserId()}/aggregatedWords?${query}`,
     {
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${getToken}`,
+        Authorization: `Bearer ${getToken()}`,
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
