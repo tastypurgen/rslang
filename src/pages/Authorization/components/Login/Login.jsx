@@ -4,6 +4,7 @@ import './Login.scss';
 import { postUserData } from '../../../../services/postUserData';
 import validateUserData from '../../../../utils/validateUserData';
 import eyeImg from '../../img/eye.png';
+import { setUserSettings } from '../../../../services/settingsService';
 
 const classNames = require('classnames');
 
@@ -97,7 +98,12 @@ class Login extends React.PureComponent {
               <div className={`before ${!hiddenPassword ? 'hidden' : ''}`}>/</div>
               <div className={`before ${!hiddenConfirm ? 'hidden' : ''}`}>/</div>
             </span>
-            <p className={`error ${hiddenError ? 'hidden' : ''}`}>Пароль должен содержать минимум одну большую и маленькую букву, цифру и спецсимвол</p>
+            <p className={`error ${hiddenError ? 'hidden' : ''}`}>
+              <b>Проверьте e-mail и/или пароль.</b>
+              <br />
+              (Пароль должен содержать не менее 8 символов,
+              прописные и заглавные буквы, цифры и спецсимвол)
+            </p>
             <p className={`error ${hiddenCheckError ? 'hidden' : ''}`}>Пароли не совпадают, повторите попытку</p>
             <p className={`error ${hiddenLoginError ? 'hidden' : ''}`}>Такой пользователь уже существует</p>
             <button
@@ -112,6 +118,7 @@ class Login extends React.PureComponent {
                     postUserData(userData, 'users').then((response) => {
                       if (response) {
                         postUserData(userData, 'signin').then(() => {
+                          setUserSettings(localStorage.userToken, localStorage.userId);
                           changeAuthenticatedState();
                         });
                       } else {
