@@ -1,4 +1,4 @@
-import API from '../utils/constants';
+import { API } from '../utils/constants';
 
 const postUserData = async (userData, endPoint) => {
   let response;
@@ -20,7 +20,7 @@ const postUserData = async (userData, endPoint) => {
   return true;
 };
 
-const getToken = localStorage.userToken || '';
-const getUserId = localStorage.userId || '';
+const getToken = () => localStorage.userToken || '';
+const getUserId = () => localStorage.userId || '';
 
 export { postUserData, getToken, getUserId };
