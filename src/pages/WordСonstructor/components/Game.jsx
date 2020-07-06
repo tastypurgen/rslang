@@ -53,49 +53,23 @@ export default class Game extends PureComponent {
     this.setState({ isWordsLoaded: true });
   }
 
-  async nextLevel() {
+  nextLevel() {
     const { currentLevel } = this.state;
-    const { finishGame } = this.props;
-
-    if (currentLevel === 9) {
-      await this.setState((prevState) => ({
-        rightAnswers: [...prevState.rightAnswers, prevState.gameWords[currentLevel]],
-      }));
-      const { rightAnswers, wrongAnswers } = this.state;
-      finishGame(rightAnswers, wrongAnswers);
-    } else {
-      this.setState((prevState) => ({
-        currentLevel: prevState.currentLevel + 1,
-        rightAnswers: [...prevState.rightAnswers, prevState.gameWords[currentLevel]],
-        isCurrentWordResolved: false,
-      }));
-    }
+    new Audio(successSound).play();
+    this.setState((prevState) => ({
+      currentLevel: prevState.currentLevel + 1,
+      rightAnswers: [...prevState.rightAnswers, prevState.gameWords[currentLevel]],
+      isCurrentWordResolved: false,
+    }));
   }
 
-  async skipLevel() {
-    const { currentLevel, availableSkips } = this.state;
-    const { finishGame } = this.props;
-
-    if (currentLevel === 9) {
-      await this.setState((prevState) => ({
-        availableSkips: availableSkips ? availableSkips - 1 : availableSkips,
-        wrongAnswers: [...prevState.wrongAnswers, prevState.gameWords[currentLevel]],
-      }));
-      const { rightAnswers, wrongAnswers } = this.state;
-      finishGame(rightAnswers, wrongAnswers);
-    } else if (availableSkips) {
-      this.setState((prevState) => ({
-        availableSkips: availableSkips - 1,
-        currentLevel: prevState.currentLevel + 1,
-        wrongAnswers: [...prevState.wrongAnswers, prevState.gameWords[currentLevel]],
-      }));
-    } else {
-      await this.setState((prevState) => ({
-        wrongAnswers: [...prevState.wrongAnswers, ...prevState.gameWords.slice(currentLevel)],
-      }));
-      const { rightAnswers, wrongAnswers } = this.state;
-      finishGame(rightAnswers, wrongAnswers);
-    }
+  skipLevel() {
+    const { currentLevel } = this.state;
+    this.setState((prevState) => ({
+      availableSkips: prevState.availableSkips - 1,
+      currentLevel: prevState.currentLevel + 1,
+      wrongAnswers: [...prevState.wrongAnswers, prevState.gameWords[currentLevel]],
+    }));
   }
 
   pickLetter(event) {
@@ -120,10 +94,6 @@ export default class Game extends PureComponent {
     newGameWords[currentLevel].answerLetters = newAnswerLetters;
 
     isUserAnswerCorrect = checkWordCorrectness(newGameWords, currentLevel);
-
-    if (isUserAnswerCorrect) {
-      new Audio(successSound).play();
-    }
 
     this.setState({
       gameWords: newGameWords,
@@ -182,7 +152,6 @@ export default class Game extends PureComponent {
               nextLevel={() => this.nextLevel()}
               availableSkips={availableSkips}
               isCurrentWordResolved={isCurrentWordResolved}
-              currentLevel={currentLevel}
             />
           </div>
         </div>

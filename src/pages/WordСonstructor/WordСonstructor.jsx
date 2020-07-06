@@ -2,14 +2,12 @@ import React, { PureComponent } from 'react';
 import './WordСonstructor.scss';
 import { getRandomWords } from '../../services/getWords';
 import Game from './components/Game';
-import Statistics from './components/Statistics';
 
 export default class WordConstructor extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       isStarted: false,
-      isFinished: false,
       difficulty: document.getElementById('difficulty') ? document.getElementById('difficulty').value : 1,
     };
   }
@@ -19,30 +17,12 @@ export default class WordConstructor extends PureComponent {
     getRandomWords(difficulty, 2);
   }
 
-  startGame = () => {
+  handleClick = () => {
     this.setState({ isStarted: true });
   }
 
-  finishGame = (rightAnswers, wrongAnswers) => {
-    this.setState({
-      isFinished: true,
-      rightAnswers,
-      wrongAnswers,
-    });
-  }
-
-  restartGame = async () => {
-    const { difficulty } = this.state;
-    await getRandomWords(difficulty, 2);
-    this.setState({
-      isFinished: false,
-    });
-  }
-
   render() {
-    const {
-      isStarted, isFinished, rightAnswers, wrongAnswers,
-    } = this.state;
+    const { isStarted } = this.state;
 
     if (!isStarted) {
       return (
@@ -53,26 +33,13 @@ export default class WordConstructor extends PureComponent {
               Игра-головоломка, в которой необходимо составить
               слова из перемешанных случайным образом букв.
             </p>
-            <button className="word-constructor__btn word-constructor__btn_margin" type="button" onClick={this.startGame}>Играть</button>
+            <button className="word-constructor__btn word-constructor__btn_margin" type="button" onClick={this.handleClick}>Играть</button>
           </div>
         </div>
       );
     }
-
-    if (isFinished) {
-      return (
-        <Statistics
-          rightAnswers={rightAnswers}
-          wrongAnswers={wrongAnswers}
-          restartGame={this.restartGame}
-        />
-      );
-    }
-
     return (
-      <Game
-        finishGame={this.finishGame}
-      />
+      <Game />
     );
   }
 }

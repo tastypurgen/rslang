@@ -45,9 +45,6 @@
   &.word-constructor__btn_red {
     background-color: #f20000;
   }
-  &.word-constructor__btn_blue {
-    background-color: #25b6d2;
-  }
   &:hover {
     box-shadow: 0px 8px 6px rgba(0, 0, 0, 0.2);
   }
@@ -128,10 +125,6 @@
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
   }
-  &.front {
-    background-color: #f2f3f4;
-    color: #5405ff;
-  }
   &.back {
     -webkit-transform: rotateY(180deg);
     transform: rotateY(180deg);
@@ -142,26 +135,4 @@
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
-  &_statistics {
-    margin-top: 20px;
-    .word-constructor__btn {
-      margin: 0 10px;
-    }
-  }
-}
-
-.word-constructor__answers {
-  h3 {
-    margin: 10px 0px;
-  }
-}
-
-.word-constructor__answers__item {
-  display: flex;
-  align-items: center;
-  margin: 5px 0px;
-}
-
-.word-constructor__answers__icon {
-  margin-right: 10px;
 }
