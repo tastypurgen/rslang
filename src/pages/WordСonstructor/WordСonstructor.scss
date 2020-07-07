@@ -165,3 +165,25 @@
 .word-constructor__answers__icon {
   margin-right: 10px;
 }
+
+.word-constructor__game-answers {
+  display: inline-flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 30px;
+  background-color: #e5de00;
+  border-radius: 20px;
+  h2 {
+    margin-bottom: 15px;
+    color: #5405ff;
+  }
+  &.resolved {
+    background-color: #08e505;
+  }
+  &.resolved_wrong {
+    background-color: #e50505;
+    h2 {
+      color: whitesmoke;
+    }
+  }  
+}

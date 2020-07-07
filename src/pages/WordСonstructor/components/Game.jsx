@@ -22,6 +22,7 @@ export default class Game extends PureComponent {
       isWordsLoaded: false,
       currentLevel: 0,
       isCurrentWordResolved: false,
+      isCurrentWordFilled: false,
       availableSkips: 3,
       wrongAnswers: [],
       rightAnswers: [],
@@ -50,6 +51,8 @@ export default class Game extends PureComponent {
       answerLetters: createAnswerLetters(word.word.length, word.id),
     }));
 
+    console.log(gameWords);
+
     this.setState({ isWordsLoaded: true });
   }
 
@@ -68,6 +71,7 @@ export default class Game extends PureComponent {
         currentLevel: prevState.currentLevel + 1,
         rightAnswers: [...prevState.rightAnswers, prevState.gameWords[currentLevel]],
         isCurrentWordResolved: false,
+        isCurrentWordFilled: false,
       }));
     }
   }
@@ -88,6 +92,7 @@ export default class Game extends PureComponent {
         availableSkips: availableSkips - 1,
         currentLevel: prevState.currentLevel + 1,
         wrongAnswers: [...prevState.wrongAnswers, prevState.gameWords[currentLevel]],
+        isCurrentWordFilled: false,
       }));
     } else {
       await this.setState((prevState) => ({
@@ -121,13 +126,14 @@ export default class Game extends PureComponent {
 
     isUserAnswerCorrect = checkWordCorrectness(newGameWords, currentLevel);
 
-    if (isUserAnswerCorrect) {
+    if (isUserAnswerCorrect.isAnswerCorrect) {
       new Audio(successSound).play();
     }
 
     this.setState({
       gameWords: newGameWords,
-      isCurrentWordResolved: isUserAnswerCorrect,
+      isCurrentWordResolved: isUserAnswerCorrect.isAnswerCorrect,
+      isCurrentWordFilled: isUserAnswerCorrect.isAnswerFilled,
     });
   }
 
@@ -149,7 +155,7 @@ export default class Game extends PureComponent {
     newGameWords[currentLevel].shuffledLetters = newShuffledLetters;
     newGameWords[currentLevel].answerLetters = newAnswerLetters;
 
-    this.setState({ gameWords: newGameWords });
+    this.setState({ gameWords: newGameWords, isCurrentWordFilled: false });
   }
 
   render() {
@@ -159,6 +165,7 @@ export default class Game extends PureComponent {
       availableSkips,
       currentLevel,
       isCurrentWordResolved,
+      isCurrentWordFilled,
     } = this.state;
     if (isWordsLoaded) {
       return (
@@ -176,6 +183,7 @@ export default class Game extends PureComponent {
               answerLetters={gameWords[currentLevel].answerLetters}
               unpickLetter={this.unpickLetter}
               isCurrentWordResolved={isCurrentWordResolved}
+              isCurrentWordFilled={isCurrentWordFilled}
             />
             <ControlButtons
               skipLevel={() => this.skipLevel()}
