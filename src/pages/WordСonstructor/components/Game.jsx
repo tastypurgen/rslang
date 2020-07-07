@@ -12,6 +12,7 @@ import Hints from './Hints';
 import Word from './Word';
 import Answer from './Answer';
 import ControlButtons from './ControlButtons';
+import ProgressBar from './ProgressBar';
 
 import successSound from '../sounds/success.mp3';
 
@@ -181,6 +182,9 @@ export default class Game extends PureComponent {
         <div className="word-constructor">
           <div className="word-constructor__game">
             <div className="word-constructor__header">
+              <ProgressBar
+                currentLevel={currentLevel}
+              />
               <AvailableSkips
                 availableSkips={availableSkips}
               />

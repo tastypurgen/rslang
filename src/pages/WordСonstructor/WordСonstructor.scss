@@ -203,6 +203,7 @@
 .word-constructor__header {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   padding: 20px;
 }
 
@@ -223,9 +224,21 @@
     margin-right: 10px;
   }
   p {
-    font-family: 'Open Sans';
+    font-family: Rubik, "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     font-size: 24px;
-    font-weight: bold;
+    font-weight: 500;
     color: #5405ff;
   }
+}
+
+.word-constructor__progress-bar__wrapper {
+  width: 100%;
+  height: 10px;  
+  margin-bottom: 10px;
+}
+
+.word-constructor__progress-bar {
+  height: 100%;
+  background-color: #5405ff;
+  border-radius: 5px;
 }
