@@ -1,5 +1,5 @@
 import React, { useRef} from "react";
-import "./timerStyles.css";
+import "./Sprint.scss";
 
 function RenderTime({ remainingTime })  {
   const currentTime = useRef(remainingTime);

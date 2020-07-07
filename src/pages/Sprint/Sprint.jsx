@@ -1,213 +1,253 @@
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import './Sprint.scss';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import RenderTime from './timer';
-import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import speaker from './image/speaker.png';
 
+import errorSound from './sounds/error.mp3';
+import correctSound from './sounds/correct.mp3';
 
+function Sprint() {
+  const [isGameOn, setIsGameOn] = useState(false);
+  const source = 'https://raw.githubusercontent.com/tastypurgen/rslang-data/master/';
+  const [correctAnswers, setCorrectAnswers] = useState([]);
+  const [wrongAnswers, setWrongAnswers] = useState([]);
+  const difficultyLevel = {
+    difficulty: document.getElementById('difficulty') ? document.getElementById('difficulty').value : 1,
+  };
+  const time = 60;
+  const [word, setWord] = useState({
+    enWord: '',
+    ruWord: '',
+    correct: true,
+  });
+  const [score, setScore] = useState(0);
+  const [soundSrc, setSoundSrc] = useState({
+    audioSrc: '',
+  });
+  // eslint-disable-next-line prefer-const
+  let [pageNumber, setPageNumber] = useState(0);
+  // eslint-disable-next-line prefer-const
+  let [winStreak, setWinStreak] = useState(0);
+  // eslint-disable-next-line prefer-const
+  let [wordsPool, setWordsPool] = useState([]);
 
-function Sprint () {
-    const source = 'https://raw.githubusercontent.com/tastypurgen/rslang-data/master/';
-    const [correctAnswers, setCorrectAnswers]   = useState([]);
-    const [wrongAnswers, setWrongAnswers]       = useState([]);
-    const difficultyLevel = {
-        difficulty: document.getElementById('difficulty') ? document.getElementById('difficulty').value : 1,
+  function loadWord() {
+    const url = `https://afternoon-falls-25894.herokuapp.com/words?page=${pageNumber}&group=${difficultyLevel.difficulty}`;
+    const wordsData = JSON.parse(localStorage.getItem('wordsPool'));
+    if (wordsData) {
+      setWordsPool(wordsData);
+      return Promise.resolve(wordsData);
     }
 
-    let [pageNumber, setPageNumber] = useState(0);
-    let [winStreak, setWinStreak] = useState(0);
-    let [word, setWord] = useState({
-        enWord: '', 
-        ruWord:'',
-        correct: true
+    return fetch(url).then((resp) => resp.json()).then((wordsList) => {
+      setWordsPool(wordsList);
+      localStorage.setItem('wordsPool', JSON.stringify(wordsList));
+      return Promise.resolve(wordsList);
     });
-    
-    let [wordsPool, setWordsPool] = useState([]);
-    let [score, setScore] =  useState(0); 
-    let [soundSrc, setSoundSrc] = useState({
-        audioSrc: ''
-    })
-    let [randomKey, setRandomKey] = useState(0);
-    let time = 5;
-   
-    function loadWord() {
-        const url = `https://afternoon-falls-25894.herokuapp.com/words?page=${pageNumber}&group=${difficultyLevel.difficulty}`;
-        let wordsData = JSON.parse(localStorage.getItem("wordsPool"));
-        if (wordsData) {
-            setWordsPool(wordsData);
-            return Promise.resolve(wordsData); 
-        }
+  }
 
-        return fetch(url).then(resp => resp.json()).then(wordsList => {
-            setWordsPool(wordsList);
-            localStorage.setItem("wordsPool", JSON.stringify(wordsList));
-            return Promise.resolve(wordsList);
-        });
+  function prepareToGame() {
+    if (!wordsPool.length) {
+      localStorage.removeItem('wordsPool');
+      // eslint-disable-next-line no-plusplus
+      setPageNumber(++pageNumber);
+      if (pageNumber > 29) {
+        pageNumber = 0;
+      }
+    } else {
+      // eslint-disable-next-line no-use-before-define
+      startGame(wordsPool);
     }
+  }
 
-    function prepareToGame () {
-        if (!wordsPool.length) {
-            localStorage.removeItem("wordsPool");
-            setPageNumber(++pageNumber);
-            if (pageNumber > 29) {
-                pageNumber = 0;
-            }
-        } else {
-            startGame(wordsPool);
-        }
+  function startGame(wordsList) {
+    const wordsListTempo = wordsList.slice();
+    const useCorrectWord = Math.random() >= 0.5;
+    const randomIndex = Math.floor(Math.random() * wordsListTempo.length);
+    const randomWord = wordsListTempo[randomIndex];
+    const lastWord = wordsListTempo.pop();
+
+    setWordsPool(wordsListTempo);
+
+    setSoundSrc({
+      audioSrc: source + lastWord.audio,
+    });
+
+    // eslint-disable-next-line no-unused-expressions
+    useCorrectWord
+      ? setWord({
+        enWord: lastWord.word,
+        ruWord: lastWord.wordTranslate,
+        correct: true,
+      })
+      : setWord({
+        enWord: lastWord.word,
+        ruWord: randomWord.wordTranslate,
+        correct: false,
+      });
+  }
+
+  function updateScore(isAnswerCorrect) {
+    if (isAnswerCorrect) {
+      // eslint-disable-next-line no-use-before-define
+      playSound(correctSound);
+      setCorrectAnswers((prevAnswers) => prevAnswers.concat([word]));
+      // eslint-disable-next-line no-plusplus
+      setWinStreak(++winStreak);
+      // eslint-disable-next-line no-unused-expressions
+      winStreak >= 4 ? setScore(score + 20) : setScore(score + 10);
+    } else {
+      // eslint-disable-next-line no-use-before-define
+      playSound(errorSound);
+      setWrongAnswers((prevAnswers) => prevAnswers.concat([word]));
+      setWinStreak(0);
+      setScore(score);
     }
+  }
 
-    function startGame(wordsList) {
-        const wordsListTempo    = wordsList.slice();
-        const useCorrectWord    = Math.random() >= 0.5;
-        const randomIndex       = Math.floor(Math.random() * wordsListTempo.length);
-        const randomWord        = wordsListTempo[randomIndex];
-        const lastWord          = wordsListTempo.pop();
+  function playSound(e) {
+    const sound = new Audio();
 
-        setWordsPool(wordsListTempo);
+    sound.src = e;
+    sound.play();
+  }
 
-        setSoundSrc({
-            audioSrc: source + lastWord.audio
-        })
-
-        useCorrectWord ? 
-            setWord({
-                enWord  : lastWord.word,
-                ruWord  : lastWord.wordTranslate,
-                correct : true
-            })
-            :
-            setWord({
-                enWord  : lastWord.word,
-                ruWord  : randomWord.wordTranslate,
-                correct : false
-            })
-
+  function answerWithKey(event) {
+    if (wordsPool.length) {
+      // eslint-disable-next-line default-case
+      switch (event.key) {
+        case 'ArrowLeft':
+          updateScore(!word.correct);
+          break;
+        case 'ArrowRight':
+          updateScore(word.correct);
+          break;
+      }
+      prepareToGame();
     }
+  }
 
-    function updateScore(isAnswerCorrect) {
-        if (isAnswerCorrect) {
-            setCorrectAnswers((prevAnswers) => prevAnswers.concat([word]));
-            setWinStreak(++winStreak);
-            winStreak >= 4 ? setScore(score + 20) : setScore(score + 10);
-        } else {
-            setWrongAnswers((prevAnswers) => prevAnswers.concat([word]));
-            setWinStreak(0);
-            setScore(score);
-        }
-    }
+  useEffect(() => {
+    loadWord().then((words) => startGame(words));
+  }, []);
 
-    function playSound() {
-        const sound = new Audio();
-  
-        sound.src = soundSrc.audioSrc;
-        sound.play();
-    }
-    
-    function answerWithKey(event) {
-        if (event.key === 'ArrowLeft') {
-            updateScore(!word.correct);
-            prepareToGame();
-            setRandomKey(Math.random());
-        } else if(event.key === 'ArrowRight') {
-            updateScore(word.correct);
-            prepareToGame();
-            setRandomKey(Math.random());
-        }
-    }
-    
-
-    useEffect(() => {
-        loadWord().then(words => startGame(words));
-    }, [])
-
-    return (
-        <section  onKeyDown={answerWithKey} className='main-section' tabIndex="0">
-            <div className='level-section'>Current Level: {pageNumber + 1}</div>
-            <div className='wrapper'>
-                <div className='score-container'>{score}</div>
-                <div className='game-container'>
-                    <div className='game-words'>
-                        <div key='1'>{word.enWord}</div>
-                        <div>{word.ruWord}</div>
-                    </div>
-                    <div className='answer-section'>
-                        <button className='button wrong' onClick={() =>  {
-                            updateScore(!word.correct);
-                            prepareToGame();
-                            setRandomKey(Math.random());
-                            }}>Неверно</button>
-                        <button className='button correct' onClick={() =>  {
-                            updateScore(word.correct);
-                            prepareToGame();
-                            setRandomKey(Math.random());
-                            }}>Верно</button>
-                    </div>
-                </div>
-                <div className='arrow-button'>
-                    <div>
-                        <button>&#8592;</button>
-                        <button>&#8594;</button>
-                    </div>
-                    <img onClick={() => playSound()} src={speaker} alt="speaker"/>
-                </div>
-            </div>
-            <div className="app">
-                    <div className="timer-wrapper">
-                      {wordsPool.length ? <CountdownCircleTimer
-                        key={randomKey}
-                        isPlaying
-                        duration={time}
-                        colors={[["#004777", 0.33], ["#F7B801", 0.33], ["#A30000"]]}
-                        size='120'
-                        strokeWidth='7'
-                        onComplete={() => {
-                            if (word.enWord) {
-                                updateScore(false);
-                            }
-                            prepareToGame();
-                            return [true, 1000];
-                        }}
-                      >
-                        {RenderTime}
-                      </CountdownCircleTimer> : true } 
-                    </div>
-            </div>
-            <div className={`end-game ${!wordsPool.length ? 'flex' : 'hidden'}`}>
-                <div className='statistic-section'>
-                <h2>Конец игры!</h2>
-                    <div className='answers'>
-                        <h3>Правильно:</h3>
-                        {correctAnswers.map((word, index) => (
-                            <div key={index + 1}>
-                                <span>{`${word.enWord}`}</span>
-                            </div>
-                        ))}
-                    </div>
-                    <div className='answers'>
-                        <h3>Неправильно:</h3>
-                        {wrongAnswers.map((word, index) => (
-                            <div key={index + 1}>
-                                <span>{`${word.enWord}`}</span>
-                            </div>
-                        ))}
-                    </div>
-                    <div className='end-game_buttons'>
-                        <button className='button repeat' onClick={() => {
-                              setScore(0);
-                              setCorrectAnswers([]);
-                              setWrongAnswers([]);
-                              prepareToGame();
-                              loadWord().then(words => startGame(words));
-                        }}>Еще раз!</button>
-                         <NavLink to="/games-panel">
-                            <button className='button exit'>Выйти</button>
-                        </NavLink>
-                    </div>
-                </div>
-            </div>
-        </section>
-    )
+  return (
+    <section onKeyDown={answerWithKey} className="sprint-section" tabIndex="0">
+      <div className={`start-page ${isGameOn ? 'invisible' : 'flex'}`}>
+        <div className="start-page_section">
+          <h1>Спринт</h1>
+          <span>Игра на время, отгадывай слова и получай баллы!</span>
+          <button type="submit" className="button correct" onClick={() => { setIsGameOn(true); }}>Play!</button>
+        </div>
+      </div>
+      <div className={`end-game ${!wordsPool.length ? 'flex' : 'invisible'}`}>
+        <div className="statistic-section">
+          <h2>Конец игры!</h2>
+          <div className="answers">
+            <h3>Правильно:</h3>
+            {correctAnswers.map((correctWord, index) => (
+              <div key={(index + 1).toString()}>
+                <span>{`${correctWord.enWord}`}</span>
+              </div>
+            ))}
+          </div>
+          <div className="answers">
+            <h3>Неправильно:</h3>
+            {wrongAnswers.map((wrongWord, index) => (
+              <div key={(index + 1).toString()}>
+                <span>{`${wrongWord.enWord}`}</span>
+              </div>
+            ))}
+          </div>
+          <div className="end-game_buttons">
+            <button
+              type="submit"
+              className="button repeat"
+              onClick={() => {
+                setScore(0);
+                setCorrectAnswers([]);
+                setWrongAnswers([]);
+                prepareToGame();
+                loadWord().then((words) => startGame(words));
+              }}
+            >
+              Еще раз!
+            </button>
+            <NavLink to="/games-panel">
+              <button type="submit" className="button exit">Выйти</button>
+            </NavLink>
+          </div>
+        </div>
+      </div>
+      <div className="level-section">
+        Current Level:
+        {' '}
+        {pageNumber + 1}
+      </div>
+      <div className={`wrapper ${isGameOn ? 'flex' : 'invisible'}`}>
+        <div className="score-container">{score}</div>
+        <div className="game-container">
+          <div className="game-words">
+            <div key="1">{word.enWord}</div>
+            <div>{word.ruWord}</div>
+          </div>
+          <div className="answer-section">
+            <button
+              type="submit"
+              className="button wrong"
+              onClick={() => {
+                updateScore(!word.correct);
+                prepareToGame();
+              }}
+            >
+              Неверно
+            </button>
+            <button
+              type="submit"
+              className="button correct"
+              onClick={() => {
+                updateScore(word.correct);
+                prepareToGame();
+              }}
+            >
+              Верно
+            </button>
+          </div>
+        </div>
+        <div className="arrow-button">
+          <div>
+            <button type="button">&#8592;</button>
+            <button type="button">&#8594;</button>
+          </div>
+          <img onClick={() => playSound(soundSrc.audioSrc)} src={speaker} alt="speaker" />
+        </div>
+      </div>
+      <div className="app">
+        <div className="timer-wrapper">
+          {isGameOn && wordsPool.length ? (
+            <CountdownCircleTimer
+              isPlaying
+              duration={time}
+              colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000']]}
+              size="120"
+              strokeWidth="7"
+              onComplete={() => {
+                wordsPool = [];
+                setWordsPool(wordsPool);
+                prepareToGame();
+                return [true, 1000];
+              }}
+            >
+              {RenderTime}
+            </CountdownCircleTimer>
+          ) : true }
+        </div>
+      </div>
+    </section>
+  );
 }
 export default Sprint;
