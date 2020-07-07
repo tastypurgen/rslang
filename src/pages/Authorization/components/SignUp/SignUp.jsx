@@ -1,14 +1,15 @@
 import React from 'react';
-import './Login.scss';
-
-import { postUserData } from '../../../../services/postUserData';
-import validateUserData from '../../../../utils/validateUserData';
-import eyeImg from '../../img/eye.png';
+import { postUserData, getToken, getUserId } from '../../../../services/postUserData';
 import { setUserSettings } from '../../../../services/settingsService';
+import validateUserData from '../../../../utils/validateUserData';
+
+import './SignUp.scss';
+
+import eyeImg from '../../img/eye.png';
 
 const classNames = require('classnames');
 
-class Login extends React.PureComponent {
+class SignUp extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,7 +17,7 @@ class Login extends React.PureComponent {
       hiddenConfirm: true,
       hiddenError: true,
       hiddenCheckError: true,
-      hiddenLoginError: true,
+      hiddenSignUpError: true,
     };
     this.mailInputRef = React.createRef();
     this.passwordInputRef = React.createRef();
@@ -28,7 +29,7 @@ class Login extends React.PureComponent {
     this.setState({
       hiddenError: true,
       hiddenCheckError: true,
-      hiddenLoginError: true,
+      hiddenSignUpError: true,
     });
 
     switch (id) {
@@ -41,8 +42,8 @@ class Login extends React.PureComponent {
         this.confirmPasswordRef.current.value = '';
         this.confirmPasswordRef.current.focus();
         break;
-      case 'login-error':
-        this.setState({ hiddenLoginError: false });
+      case 'sign-up-error':
+        this.setState({ hiddenSignUpError: false });
         this.passwordInputRef.current.value = '';
         this.confirmPasswordRef.current.value = '';
         this.mailInputRef.current.focus();
@@ -54,17 +55,17 @@ class Login extends React.PureComponent {
 
   render() {
     const {
-      hiddenPassword, hiddenConfirm, hiddenError, hiddenCheckError, hiddenLoginError,
+      hiddenPassword, hiddenConfirm, hiddenError, hiddenCheckError, hiddenSignUpError,
     } = this.state;
     const { changeAuthenticatedState, toChangeSignInState } = this.props;
 
-    const inputClass1 = classNames('login__input', { 'error-input': !hiddenLoginError });
-    const inputClass2 = classNames('login__input', { 'error-input': !hiddenError });
-    const inputClass3 = classNames('login__input', { 'error-input': !hiddenCheckError });
+    const inputClass1 = classNames('sign-up__input', { 'error-input': !hiddenSignUpError });
+    const inputClass2 = classNames('sign-up__input', { 'error-input': !hiddenError });
+    const inputClass3 = classNames('sign-up__input', { 'error-input': !hiddenCheckError });
 
     return (
-      <div className="login">
-        <div className="login__container">
+      <div className="sign-up">
+        <div className="sign-up__container">
           <h1>Регистрация нового пользователя</h1>
           <form action="" method="post">
             <input minLength="6" maxLength="35" ref={this.mailInputRef} className={inputClass1} type="email" placeholder="Email" />
@@ -105,7 +106,7 @@ class Login extends React.PureComponent {
               прописные и заглавные буквы, цифры и спецсимвол)
             </p>
             <p className={`error ${hiddenCheckError ? 'hidden' : ''}`}>Пароли не совпадают, повторите попытку</p>
-            <p className={`error ${hiddenLoginError ? 'hidden' : ''}`}>Такой пользователь уже существует</p>
+            <p className={`error ${hiddenSignUpError ? 'hidden' : ''}`}>Такой пользователь уже существует</p>
             <button
               type="button"
               onClick={() => {
@@ -118,11 +119,11 @@ class Login extends React.PureComponent {
                     postUserData(userData, 'users').then((response) => {
                       if (response) {
                         postUserData(userData, 'signin').then(() => {
-                          setUserSettings(localStorage.userToken, localStorage.userId);
+                          setUserSettings(getToken(), getUserId());
                           changeAuthenticatedState();
                         });
                       } else {
-                        this.handleError('login-error');
+                        this.handleError('sign-up-error');
                       }
                     });
                   } else {
@@ -132,7 +133,7 @@ class Login extends React.PureComponent {
                   this.handleError('check-error');
                 }
               }}
-              className="login__button"
+              className="sign-up__button"
             >
               Зарегистрироваться
 
@@ -156,4 +157,4 @@ class Login extends React.PureComponent {
   }
 }
 
-export default Login;
+export default SignUp;
