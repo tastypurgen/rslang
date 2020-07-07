@@ -8,6 +8,7 @@ import checkWordCorrectness from '../utils/checkWordCorrectness';
 import '../WordСonstructor.scss';
 
 import AvailableSkips from './AvailableSkips';
+import Hints from './Hints';
 import Word from './Word';
 import Answer from './Answer';
 import ControlButtons from './ControlButtons';
@@ -24,6 +25,7 @@ export default class Game extends PureComponent {
       isCurrentWordResolved: false,
       isCurrentWordFilled: false,
       availableSkips: 3,
+      availableHints: 3,
       wrongAnswers: [],
       rightAnswers: [],
     };
@@ -156,11 +158,20 @@ export default class Game extends PureComponent {
     this.setState({ gameWords: newGameWords, isCurrentWordFilled: false });
   }
 
+  playAudioHint() {
+    const { gameWords, currentLevel } = this.state;
+    new Audio(gameWords[currentLevel].audio).play();
+    this.setState((prevState) => ({
+      availableHints: prevState.availableHints - 1,
+    }));
+  }
+
   render() {
     const {
       gameWords,
       isWordsLoaded,
       availableSkips,
+      availableHints,
       currentLevel,
       isCurrentWordResolved,
       isCurrentWordFilled,
@@ -169,9 +180,15 @@ export default class Game extends PureComponent {
       return (
         <div className="word-constructor">
           <div className="word-constructor__game">
-            <AvailableSkips
-              availableSkips={availableSkips}
-            />
+            <div className="word-constructor__header">
+              <AvailableSkips
+                availableSkips={availableSkips}
+              />
+              <Hints
+                availableHints={availableHints}
+                playAudioHint={() => this.playAudioHint()}
+              />
+            </div>
             <Answer
               answerLetters={gameWords[currentLevel].answerLetters}
               unpickLetter={this.unpickLetter}
