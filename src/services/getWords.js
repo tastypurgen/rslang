@@ -1,4 +1,4 @@
-import API from '../utils/constants';
+import { API } from '../utils/constants';
 // https://afternoon-falls-25894.herokuapp.com/words?group=0&page=1&wordsPerExampleSentenceLTE=70&wordsPerPage=70
 
 const getWordsByPageCount = async (wordsPerPage, wordsPerExample = 20) => {

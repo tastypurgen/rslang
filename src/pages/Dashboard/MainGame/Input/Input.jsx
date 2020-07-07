@@ -1,16 +1,29 @@
 import React, { createRef } from 'react';
 import './Input.scss';
 import getSentenceByTags from '../../../../utils/getSentenceByTags';
+import { createUserWord, deleteUserWord, getAllUserWords } from '../../../../services/userWords';
 
 const Input = (props) => {
   const inputRef = createRef();
-  const { textExample, word, changeRightAnswerState } = props;
+  const { textExample, wordData, changeRightAnswerState } = props;
+  const { word, id } = wordData;
   const leftAndRightPartsOfSentce = getSentenceByTags(textExample);
   const { leftpart, rightPart } = leftAndRightPartsOfSentce;
 
   const checkInputWord = (inputValue) => {
     if (inputValue.toLowerCase() === word.toLowerCase()) {
-      console.log(true);
+      const body = {
+        difficulty: 'default',
+        optional: {
+          indicator: 5,
+          difficult: false,
+          deleted: false,
+        },
+      };
+      console.log(id);
+      createUserWord(id, body).then((res) => {
+        console.log(res);
+      });
       changeRightAnswerState();
     } else {
       console.log('false: ', false);

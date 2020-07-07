@@ -1,6 +1,8 @@
+$media-width: 699px;
+
 .dictionary {
   background: #f8f2ee;
-  height: calc(100vh - 65px - 50px);
+  min-height: 84vh;
 
   .container {
     margin: 0 auto;
@@ -26,6 +28,7 @@
     margin-right: 15px;
     cursor: pointer;
     border-radius: 10px 10px 0 0;
+    outline: none;
     user-select: none;
   }
 
@@ -57,5 +60,84 @@
     border-right: 1px solid #c4c4c4;
     border-bottom: 1px solid #c4c4c4;
     border-radius: 0 0 10px 10px;
+  }
+
+  table {
+    border-spacing: 0;
+
+    .word-container {
+      position: relative;
+      word-break: break-word;
+      font-family: Rubik;
+      font-style: normal;
+      font-size: 14px;
+      line-height: 14px;
+      color: #37383C;
+
+      .audio-container {
+        width: 23px;
+
+        @media (max-width: $media-width) {
+          width: 100%;
+        }        
+      }
+
+      td {
+        border-bottom: 1px solid #c4c4c4;
+        padding: 10px;
+
+        &:not(.hidden) {
+          @media (max-width: $media-width) {
+            display: block;
+          }
+        }
+      }
+
+      .association-image {
+        height: 39px;
+      }
+
+      .audio {
+        cursor: pointer;
+        outline: none;
+
+        &:hover {
+          filter: invert(1);
+          transition: ease-in-out 0.2s;
+        }
+      }
+
+      .word {
+        min-width: 90px;
+
+        .word-name {
+          font-weight: bold;
+          font-size: 18px;
+          line-height: 21px;
+        }
+    
+        .word-translation {
+          color: #09607D;
+        }
+      }
+
+      .sentences {
+        span {
+          &:first-child {
+            position: relative;
+            bottom: 10px;
+          }
+        }
+      }
+
+      .return {
+        width: 27px;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .hidden {
+    display: none;
   }
 }

@@ -1,28 +1,48 @@
-import API from '../utils/constants';
+import { API } from '../utils/constants';
 import { getToken, getUserId } from './postUserData';
 
+// example of body:
+// const testObj = {
+//   'difficulty': 'easy',
+//   'optional': {
+//       deleted: false,
+//       difficult: false,
+//   }
+// }
+
+// difficulty: easy, medium, hard
 const createUserWord = async (wordId, body) => {
-  console.log(getUserId);
-  const rawResponse = await fetch(`${API}users/${getUserId}/words/${wordId}`, {
-    method: 'POST',
-    withCredentials: true,
-    headers: {
-      Authorization: `Bearer ${getToken}`,
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(body),
-  });
-  const response = await rawResponse.json();
-  return response;
+  let rawResponse;
+  console.log('wordId: ', wordId);
+  try {
+    rawResponse = await fetch(`${API}users/${getUserId()}/words/${wordId}`, {
+      method: 'POST',
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+    if (rawResponse.status === 417) {
+      console.log('failed');
+    } else {
+      const response = await rawResponse.json();
+      return response;
+    }
+  } catch {
+    console.log('catch srabotal');
+    return 's';
+  }
 };
 
 const updateUserWord = async (wordId, body) => {
-  const rawResponse = await fetch(`${API}users/${getUserId}/words/${wordId}`,
+  const rawResponse = await fetch(`${API}users/${getUserId()}/words/${wordId}`,
     {
       method: 'PUT',
       headers: {
-        Authorization: `Bearer ${getToken}`,
+        Authorization: `Bearer ${getToken()}`,
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
@@ -32,23 +52,25 @@ const updateUserWord = async (wordId, body) => {
   return response;
 };
 
-const deleteUserWord = async (wordId) => {
-  const rawResponse = await fetch(`${API}users/${getUserId}/words/${wordId}`,
+const deleteUserWord = async (wordId, body) => {
+  const rawResponse = await fetch(`${API}users/${getUserId()}/words/${wordId}`,
     {
       method: 'DELETE',
       headers: {
-        Authorization: `Bearer ${getToken}`,
+        Authorization: `Bearer ${getToken()}`,
+        'Content-Type': 'application/json',
       },
+      body: JSON.stringify(body),
     });
   return rawResponse.ok;
 };
 
 const getAllUserWords = async () => {
-  const rawResponse = await fetch(`${API}users/${getUserId}/words`,
+  const rawResponse = await fetch(`${API}users/${getUserId()}/words`,
     {
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${getToken}`,
+        Authorization: `Bearer ${getToken()}`,
       },
     });
   const response = await rawResponse.json();
