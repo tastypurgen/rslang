@@ -51,8 +51,6 @@ export default class Game extends PureComponent {
       answerLetters: createAnswerLetters(word.word.length, word.id),
     }));
 
-    console.log(gameWords);
-
     this.setState({ isWordsLoaded: true });
   }
 
@@ -174,16 +172,16 @@ export default class Game extends PureComponent {
             <AvailableSkips
               availableSkips={availableSkips}
             />
-            <Word
-              shuffledLetters={gameWords[currentLevel].shuffledLetters}
-              pickLetter={this.pickLetter}
-              isCurrentWordResolved={isCurrentWordResolved}
-            />
             <Answer
               answerLetters={gameWords[currentLevel].answerLetters}
               unpickLetter={this.unpickLetter}
               isCurrentWordResolved={isCurrentWordResolved}
               isCurrentWordFilled={isCurrentWordFilled}
+            />
+            <Word
+              word={gameWords[currentLevel]}
+              pickLetter={this.pickLetter}
+              isCurrentWordResolved={isCurrentWordResolved}
             />
             <ControlButtons
               skipLevel={() => this.skipLevel()}
