@@ -1,0 +1,39 @@
+.AssesmentsButtons {
+    width: 100%;
+    max-width: 310px;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+
+    .AssesmentsButtons__button {
+        display: block;
+        width: 69px;
+        height: 22px;
+
+        background: transparent;
+        border: 1px solid;
+        border-radius: 320px;
+        font-size: 14px;
+        line-height: 17px;
+    }
+
+    .AssesmentsButtons__button:nth-child(1) {
+        border-color: #FF934D;
+        color: #FF934D;
+    }
+
+    .AssesmentsButtons__button:nth-child(2) {
+        border-color: #E04F5F;
+        color: #E04F5F;
+    }
+
+    .AssesmentsButtons__button:nth-child(3) {
+        border-color: #82D243;
+        color: #82D243;
+    }
+
+    .AssesmentsButtons__button:nth-child(4) {
+        border-color: #32BEA6;
+        color: #32BEA6;
+    }
+}

@@ -61,7 +61,7 @@ export default class App extends Component {
         <div>
           <Header changeAuthenticatedState={this.changeAuthenticatedState} />
           <Route exact path="/" component={Dashboard} />
-          <Route path="/dashboard" component={Dashboard} />
+          {/* <Route path="/dashboard" component={Dashboard} /> */}
           <Route path="/games-panel" component={GamesPanel} />
           <Route path="/dictionary" component={Dictionary} />
           <Route path="/speakit" component={SpeakIt} />

@@ -1,9 +1,11 @@
 import React from 'react';
-// import './AssesmentsButtons.scss';
+import './AssesmentsButtons.scss';
 
 const AssesmentsButtons = () => (
   <div className="AssesmentsButtons">
     <button
+      key={1}
+      className="AssesmentsButtons__button"
       onClick={() => {
 
       }}
@@ -12,6 +14,8 @@ const AssesmentsButtons = () => (
       Снова
     </button>
     <button
+      key={2}
+      className="AssesmentsButtons__button"
       onClick={() => {
 
       }}
@@ -20,6 +24,8 @@ const AssesmentsButtons = () => (
       Трудно
     </button>
     <button
+      key={3}
+      className="AssesmentsButtons__button"
       onClick={() => {
 
       }}
@@ -28,6 +34,8 @@ const AssesmentsButtons = () => (
       Хорошо
     </button>
     <button
+      key={4}
+      className="AssesmentsButtons__button"
       onClick={() => {
 
       }}

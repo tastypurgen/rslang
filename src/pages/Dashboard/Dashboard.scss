@@ -1,4 +1,4 @@
-.dashboard {
+.Dashboard {
   position: relative;
   background: url('./img/Big-Ben.png') no-repeat;
   background-position: bottom;
@@ -7,4 +7,14 @@
   min-height: 82vh;
   font-style: normal;
   font-weight: normal;
+  padding-top: 49px;
+
+  .Dashboard__container {
+    max-width: 1280px;
+    width: 100%;
+    padding: 0 20px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+  }
 }

@@ -1,8 +1,13 @@
 /* eslint-disable no-underscore-dangle */
 import React, { PureComponent } from 'react';
 import './MainGame.scss';
+import pointIcon from './images/point.svg';
+import deleteIcon from './images/delete.svg';
+import speakerIcon from './images/speaker.svg';
 import AssesmentsButtons from './AssesmentsButtons/AssesmentsButtons';
 import Input from './Input/Input';
+import Indicator from '../../../components/Indicator/Indicator';
+import Progressbar from '../../../components/Progressbar/ProgressBar';
 import getUserAggregatedWords from '../../../services/userAggregatedWords';
 import shuffleArray from '../../../utils/suffleArray';
 import { getUserSettings } from '../../../services/settingsService';
@@ -18,6 +23,7 @@ class MainGame extends PureComponent {
     isDataEnabled: false,
     wordsData: [],
     currentWordIndex: 0,
+    indicatorNumber: null,
   };
 
   changeCardToLeft = () => {
@@ -70,8 +76,9 @@ class MainGame extends PureComponent {
     if (displayShowAnswerBtn && !showRightAnswer) {
       buttonComponent.push((
         <button
+          className="MainGame__answer-button"
           type="button"
-          key={Math.random()}
+          key={2}
           onClick={() => {
             const body = {
               difficulty: 'default',
@@ -81,7 +88,6 @@ class MainGame extends PureComponent {
                 deleted: false,
               },
             };
-            console.log(userWord);
             try {
               if (userWord.optional.indicator < 5) {
                 console.log(userWord.optional.indicator);
@@ -93,78 +99,140 @@ class MainGame extends PureComponent {
             }
             this.setShowRightAnswer(true);
           }}
-          className="MainGame__answer-button"
         >
           Показать ответ
         </button>
       ));
     } else if (displayAssessmentBtns && showRightAnswer) {
-      buttonComponent.push((
+      buttonComponent.push(( // showRightAnswer
         <AssesmentsButtons />
       ));
     }
+
     component = (
-      <div className="MainGame__card">
-        <div className="MainGame__indicator">1</div>
-        <p className="MainGame__card-sentence">
-          {displayDeleteBtn ? (
-            <button
-              onClick={() => {
-                const body = {
-                  optional: {
-                    indicator: 5,
-                    deleted: true,
-                  },
-                };
-                try {
-                  if (userWord.optional.indicator < 5) {
-                    console.log(userWord.optional.indicator);
-                    updateUserWord(wordsData[currentWordIndex]._id, body);
-                  }
-                } catch {
-                  createUserWord(wordsData[currentWordIndex]._id, body);
-                  console.log('Слова нит');
-                }
-                changeCardToLeft();
-              }}
-              type="button"
-              className="MainGame__delete"
-            >
-              Удалить
-            </button>
-          ) : null}
-          {displayDifficultBtn ? (
-            <button type="button" className="MainGame__difficult-button">
-              Добавить в сложные
-            </button>
-          ) : null}
-          <br />
-          <Input
-            changeRightAnswerState={this.setShowRightAnswer}
-            wordData={wordData}
-            textExample={textExample}
-          />
-        </p>
-        {exampleSentence ? <p className="MainGame__card-sentence-translation">{textExampleTranslate}</p>
-          : <p className="MainGame__card-sentence-translation">{wordData.wordTranslate}</p>}
-        {showRightAnswer
-          ? (
-            <div className="MainGame__container">
-              {associationImage ? <img src={`https://raw.githubusercontent.com/koptohhka/rslang-data/master/${image}`} alt="" className="MainGame__image" /> : null}
-              <div className="MainGame__word-info">
-                <p className="word-info__full-word">
-                  <span className="word-info__icon" />
-                  <span className="word-info__word" />
-                  {word}
-                  {wordTranscription ? <span className="word-info__transcription">{transcription}</span> : null}
-                  {wordTranslation ? <span className="word-info__translation">{wordData.wordTranslate}</span> : null}
-                </p>
-                {explanationSentence ? <p className="word-info__second-sentence-example">{textMeaning}</p> : null}
-                {showWordAndSentenceTranslation ? <p className="word-info__second-sentence-translation">{textMeaningTranslate}</p> : null}
-              </div>
+      <div className={showRightAnswer ? 'MainGame__card MainGame__card--active' : 'MainGame__card'}>
+        {userWord ? <Indicator indicatorNumber={userWord.optional.indicator} /> : <Indicator />}
+        <div className="MainGame__container">
+          <div className="MainGame__flex-wrapper">
+            <div className="MainGame__sentence-wrapper">
+              <p className="MainGame__card-sentence">
+                <Input
+                  userWord={userWord}
+                  exampleSentence={exampleSentence}
+                  changeRightAnswerState={this.setShowRightAnswer}
+                  wordData={wordData}
+                  textExample={textExample}
+                />
+              </p>
+              {exampleSentence ? <p className="MainGame__card-sentence-translation">{textExampleTranslate}</p>
+                : <p className="MainGame__card-sentence-translation">{wordData.wordTranslate}</p>}
             </div>
-          ) : null}
-        {buttonComponent}
+            <div className="Maingame__control-butttons">
+              {displayDifficultBtn ? (
+                <img
+                  className="MainGame__difficult-button"
+                  role="button"
+                  onClick={() => {
+
+                  }}
+                  src={pointIcon}
+                  alt="point-icon"
+                />
+              ) : null}
+              {displayDeleteBtn ? (
+                <img
+                  role="button"
+                  alt="delete-icon"
+                  src={deleteIcon}
+                  onClick={() => {
+                    const body = {
+                      optional: {
+                        indicator: 5,
+                        deleted: true,
+                      },
+                    };
+                    try {
+                      if (userWord.optional.indicator < 5) {
+                        console.log(userWord.optional.indicator);
+                        updateUserWord(wordsData[currentWordIndex]._id, body);
+                      }
+                    } catch {
+                      createUserWord(wordsData[currentWordIndex]._id, body);
+                      console.log('Слова нит');
+                    }
+                    changeCardToLeft();
+                  }}
+                  className="MainGame__delete-button"
+                />
+              ) : null}
+            </div>
+          </div>
+          {showRightAnswer
+            ? (
+              <div className="MainGame__word-info-container">
+                {associationImage ? <img src={`https://raw.githubusercontent.com/koptohhka/rslang-data/master/${image}`} alt="" className="MainGame__image" /> : null}
+                <div className="MainGame__word-info">
+                  <div className="word-info__full-word">
+                    <img className="MainGame__speaker-icon word-info__full-word--item" src={speakerIcon} alt="" />
+                    <p className="word-info__word word-info__full-word--item">{word}</p>
+                    {wordTranscription ? <p className="word-info__transcription">{transcription}</p> : null}
+                    {wordTranslation ? <p className="word-info__translation word-info__full-word--item">{wordData.wordTranslate}</p> : null}
+                  </div>
+                  {explanationSentence ? <p className="word-info__second-sentence-example">{textMeaning}</p> : null}
+                  {showWordAndSentenceTranslation ? <p className="word-info__second-sentence-translation">{textMeaningTranslate}</p> : null}
+                </div>
+              </div>
+            ) : null}
+          {buttonComponent}
+        </div>
+        {showRightAnswer ? (
+          <div
+            role="button"
+            tabIndex={-1}
+            onClick={() => {
+              if (currentWordIndex !== 0) {
+                this.setState({
+                  currentWordIndex: currentWordIndex - 1,
+                  showRightAnswer: false,
+                });
+              }
+            }}
+            className="MainGame__left-arrow"
+          >
+            <svg
+              width="31"
+              height="31"
+              viewBox="0 0 31 31"
+              fill="#C4C4C4"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M20.5165 25.9769L13.3425 18.9404H30.6548L30.6548 12.3766L13.3425 12.3766L20.5165 5.34016L15.9468 0.65546L0.651184 15.6573L15.9468 30.6616L20.5165 25.9769Z" />
+            </svg>
+          </div>
+        ) : null}
+        {showRightAnswer ? (
+          <div
+            tabIndex={0}
+            role="button"
+            onClick={() => {
+              this.setState({
+                currentWordIndex: currentWordIndex + 1,
+                showRightAnswer: false,
+              });
+            }}
+            className="MainGame__right-arrow"
+          >
+            <svg
+              fill="#C4C4C4"
+              width="31"
+              height="31"
+              viewBox="0 0 31 31"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M10.4835 5.02314L17.6575 12.0596H0.345215V18.6234H17.6575L10.4835 25.6598L15.0532 30.3445L30.3488 15.3427L15.0532 0.33844L10.4835 5.02314Z" />
+            </svg>
+          </div>
+        ) : null}
       </div>
     );
     return component;
@@ -200,8 +268,8 @@ class MainGame extends PureComponent {
     };
     const wordsDataResponse = await getUserAggregatedWords(
       JSON.stringify(filter), setingsData.optional.maxCardsPerDay,
-      );
-      console.log('wordsDataResponse: ', wordsDataResponse);
+    );
+    console.log('wordsDataResponse: ', wordsDataResponse);
     this.setState({
       wordsData: shuffleArray(wordsDataResponse[0].paginatedResults),
       isDataEnabled: true,
@@ -224,42 +292,14 @@ class MainGame extends PureComponent {
     } = state;
     return (
       <div className="MainGame">
-        {showRightAnswer ? (
-          <button
-            onClick={() => {
-              if (currentWordIndex !== 0) {
-                this.setState({
-                  currentWordIndex: currentWordIndex - 1,
-                  showRightAnswer: false,
-                });
-              }
-            }}
-            type="button"
-          >
-            left arrow
-          </button>
-        ) : null}
         {
         isDataEnabled ? initCardComponent(wordsData[currentWordIndex]) : ''
       }
-        {showRightAnswer ? (
-          <button
-            onClick={() => {
-              this.setState({
-                currentWordIndex: currentWordIndex + 1,
-                showRightAnswer: false,
-              });
-            }}
-            type="button"
-          >
-            right arrow
-          </button>
-        ) : null}
         <div className="MainGame__progress-bar">
           {currentWordIndex}
-          {' '}
-          из
-          {' '}
+          <div>
+            <Progressbar />
+          </div>
           {wordsData.length}
         </div>
       </div>

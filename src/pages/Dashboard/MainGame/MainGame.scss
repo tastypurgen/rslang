@@ -1,5 +1,202 @@
-.MainGame__card {
-    width: 500px;
-    margin: 0 auto;
-    border: 1px solid gray;
+.MainGame {
+    min-height: 84vh;
+    background: #F8F2EE;
+    padding-top: 68px;
+    position: relative;
+
+    .MainGame__card {
+        padding-top: 24px;
+        position: relative;
+        min-width: 379px;
+        max-width: 530px;
+        min-height: 216px;
+        margin: 0 auto;
+        background: #FFFFFF;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        padding-bottom: 25px;
+        margin-bottom: 73px;
+
+        .MainGame__answer-button {
+            display: block;
+            border: none;
+            font-size: 14px;
+            line-height: 17px;
+            color: white;
+
+            width: 136px;
+            height: 22px;
+            background: #25B6D2;
+            border-radius: 320px;
+            margin-top: 63px;
+            margin-left: auto;
+            margin-right: auto;
+
+            outline: none;
+        }
+    }
+
+    .MainGame__card--active {
+        min-height: 400px;
+    }
+
+    .MainGame__container {
+        margin-left: 30px;
+        margin-right: 30px;
+        // max-width: 520px;
+
+        .MainGame__flex-wrapper {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 52px;
+
+            .MainGame__sentence-wrapper {
+                width: 100%;
+                // margin-right: 63px;
+            }
+
+            .MainGame__card-sentence {
+                // max-width: 360px;
+                // display: inline-block;
+                width: 100%;
+                font-size: 20px;
+                line-height: 24px;
+                color: #37383C;
+                border-bottom: 1px solid #C4C4C4;
+                padding-bottom: 11px;
+                margin-bottom: 9px;
+            }
+
+            .Maingame__control-butttons {
+                display: flex;
+                align-items: center;
+                margin-left: 60px;
+            }
+
+            .MainGame__card-sentence-translation {
+                font-size: 16px;
+                line-height: 19px;
+                color: #607D8B;
+            }
+
+            .MainGame__delete-button {
+                margin-left: 20px;
+            }
+
+            .MainGame__difficult-button {
+                cursor: pointer;
+            }
+        }
+
+        .MainGame__word-info-container {
+            display: flex;
+            width: 100%;
+            margin-bottom: 68px;
+
+            .MainGame__image {
+                width: 95px;
+                height: 95px;
+                border-radius: 5px;
+                margin-right: 36px;
+            }
+
+            .MainGame__word-info {
+                font-size: 16px;
+                line-height: 19px;
+                flex-grow: 2;
+            }
+
+            .word-info__full-word {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 18px;
+
+                .word-info__word {
+                    font-weight: bold;
+                }
+            }
+
+            .word-info__second-sentence-example {
+                margin-bottom: 8px;
+            }
+
+        }
+    }
+
+    .MainGame__left-arrow,
+    .MainGame__right-arrow {
+        outline: none;
+        position: relative;
+        border: 1px solid #C4C4C4;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        -ms-border-radius: 50%;
+        -o-border-radius: 50%;
+    }
+
+    .MainGame__left-arrow svg,
+    .MainGame__right-arrow svg {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        transition: 0.3s;
+        -webkit-transition: 0.3s;
+        -moz-transition: 0.3s;
+        -ms-transition: 0.3s;
+        -o-transition: 0.3s;
+    }
+
+    .MainGame__left-arrow svg {
+        top: 14px;
+        left: 13px;
+    }
+
+    .MainGame__left-arrow,
+    .MainGame__right-arrow {
+        position: absolute;
+        transition: 0.3s;
+        -webkit-transition: 0.3s;
+        -moz-transition: 0.3s;
+        -ms-transition: 0.3s;
+        -o-transition: 0.3s;
+    }
+
+    .MainGame__left-arrow {
+        top: 41%;
+        left: -87px;
+        z-index: 1;
+    }
+
+    .MainGame__right-arrow {
+        z-index: 1;
+        top: 41%;
+        right: -87px;
+    }
+
+    .MainGame__left-arrow:hover,
+    .MainGame__right-arrow:hover {
+        border-color: #82D243;
+        cursor: pointer;
+    }
+
+    .MainGame__left-arrow:hover svg,
+    .MainGame__right-arrow:hover svg {
+        fill: #82D243;
+    }
+
+    .MainGame__progress-bar {
+        padding: 0 20px;
+        width: 100%;
+        max-width: 297px;
+        margin: 0 auto;
+        margin-top: auto;
+        padding-bottom: 8px;
+
+        // display: flex;
+        // justify-content: space-between;
+    }
 }

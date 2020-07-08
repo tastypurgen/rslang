@@ -1,0 +1,84 @@
+.TodayGoal {
+    width: 463px;
+    height: 224px;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    position: relative;
+
+
+    .TodayGoal__title-bar {
+        border-radius: 10px 10px 0px 0px;
+        background: #32BEA6;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 48px;
+
+        .TodayGoal__title {
+            color: white;
+            font-family: Rubik;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 18px;
+            line-height: 21px;
+            margin-left: 63px;
+        }
+
+        .TodayGoal__select {
+            margin-right: 19px;
+            width: 116px;
+            height: 25px;
+            background: #FFFFFF;
+            border: 1px solid #C6C3BD;
+            border-radius: 5px;
+        }
+    }
+
+    .TodayGoal__description {
+        font-family: Rubik;
+        font-size: 16px;
+        line-height: 19px;
+        color: #37383C;
+        max-width: 316px;
+        margin-left: auto;
+        margin-right: 31px;
+        margin-top: 26px;
+        margin-bottom: 30px;
+    }
+
+    .TodayGoal__image {
+        position: absolute;
+        top: 74px;
+        left: 29px;
+    }
+
+    .TodayGoal__progreess-container {
+        width: 413px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .TodayGoal__button {
+            border: none;
+            outline: none;
+            width: 149px;
+            height: 34px;
+
+            background: #32BEA6;
+            border-radius: 320px;
+            font-family: Rubik;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 18px;
+            line-height: 21px;
+
+            cursor: pointer;
+
+            .TodayGoal__nav-link {
+                color: #FFFFFF;
+            }
+        }
+    }
+}
