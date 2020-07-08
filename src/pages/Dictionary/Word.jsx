@@ -9,6 +9,8 @@ import audioImg from './img/audio.png';
 import returnImg from './img/return.png';
 import { URI } from '../../utils/constants';
 
+const colors = ['#e04f5f', '#ff934d', '#ffd07d', '#82d243', '#32bea6'];
+
 export default class Word extends PureComponent {
   constructor(props) {
     super(props);
@@ -41,14 +43,16 @@ export default class Word extends PureComponent {
       exampleTranslate: el.textExampleTranslate,
       transcription: el.transcription,
       image: URI + el.image,
+      indicator: el.userWord.optional.indicator,
     }));
 
     this.setState({ words: stateWords });
   }
 
-  returnToLearning(id) {
+  returnToLearning(id, indicator) {
     const body = {
       optional: {
+        indicator,
         deleted: false,
         difficult: false,
       },
@@ -65,6 +69,24 @@ export default class Word extends PureComponent {
     if (isSpinnerOn) {
       return (<Spinner />);
     }
+    if (!words.length) {
+      let message;
+      switch (type) {
+        case 'learning':
+          message = 'У вас пока нет слов. Начните изучать английский прямо сейчас!';
+          break;
+        case 'difficult':
+          message = 'У вас пока нет сложных слов.';
+          break;
+        case 'deleted':
+          message = 'У вас пока нет удаленных слов.';
+          break;
+        default:
+          break;
+      }
+      return <p>{message}</p>;
+    }
+
     return (
       <table>
         <tbody>
@@ -87,10 +109,10 @@ export default class Word extends PureComponent {
                 <span className="word-translation">{el.translation}</span>
               </td>
               <td style={{ minWidth: '70px' }} className={!wordInfo.wordTranscription ? 'hidden' : ''}>{el.transcription}</td>
-              <td>
-                <img className={!wordInfo.associationImage ? 'hidden' : 'association-image'} src={el.image} alt={el.word} />
+              <td className={!wordInfo.associationImage ? 'hidden' : ''}>
+                <img className="association-image" src={el.image} alt={el.word} />
               </td>
-              <td className="sentences">
+              <td className={`sentences ${!wordInfo.explanationSentence && !wordInfo.exampleSentence ? 'hidden' : ''}`}>
                 <span className={!wordInfo.explanationSentence ? 'hidden' : ''}>{ReactHtmlParser(el.meaning)}</span>
                 <br />
                 <span className={!wordInfo.exampleSentence ? 'hidden' : ''}>{ReactHtmlParser(el.example)}</span>
@@ -100,12 +122,23 @@ export default class Word extends PureComponent {
                 <br />
                 <span className={!wordInfo.exampleSentence ? 'hidden' : ''}>{el.exampleTranslate}</span>
               </td>
+              <td>
+                <div className="indicators-container">
+                  {colors.map((color, i) => (
+                    <div
+                        style={{ backgroundColor: `${i + 1 <= el.indicator ? color : ''}` }}
+                        className="indicator"
+                        key={color}
+                      />
+                  ))}
+                </div>
+              </td>
               <td className={type === 'learning' ? 'hidden' : 'return'}>
                 <img
                   role="button"
                   src={returnImg}
                   alt="return"
-                  onClick={() => this.returnToLearning(el.wordId)}
+                  onClick={() => this.returnToLearning(el.wordId, el.indicator)}
                 />
               </td>
             </tr>

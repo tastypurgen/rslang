@@ -125,13 +125,29 @@ $media-width: 699px;
         span {
           &:first-child {
             position: relative;
-            bottom: 10px;
+            bottom: 4px;
+          }
+
+          &:last-child {
+            position: relative;
+            top: 4px;
           }
         }
       }
 
+      .indicators-container {
+        display: flex;
+
+        .indicator {
+          width: 10px;
+          height: 10px;
+          margin: 0 3px;
+          border-radius: 50%;
+          background-color: #c4c4c4;
+        }
+      }
+
       .return {
-        width: 27px;
         cursor: pointer;
       }
     }
