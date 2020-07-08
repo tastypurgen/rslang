@@ -37,7 +37,7 @@ function Sprint() {
   let [wordsPool, setWordsPool] = useState([]);
 
   function loadWord() {
-    const url = `https://afternoon-falls-25894.herokuapp.com/words?page=${pageNumber}&group=${difficultyLevel.difficulty}`;
+    const url = `https://afternoon-falls-25894.herokuapp.com/words?page=${pageNumber}&group=${difficultyLevel.difficulty}&wordsPerExampleSentenceLTE=25&wordsPerPage=25`;
     const wordsData = JSON.parse(localStorage.getItem('wordsPool'));
     if (wordsData) {
       setWordsPool(wordsData);
