@@ -22,7 +22,7 @@ const TodayGoal = () => (
     </p>
     <img className="TodayGoal__image" src={enCard} alt="английский язык" />
     <div className="TodayGoal__progreess-container">
-      <ProgressBar width="235px" />
+      <ProgressBar progressPercent={33} width="235px" />
       <button type="button" className="TodayGoal__button">
         <NavLink className="TodayGoal__nav-link" to="/main-game">Продолжить</NavLink>
       </button>

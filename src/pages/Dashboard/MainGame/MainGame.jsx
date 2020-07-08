@@ -293,12 +293,14 @@ class MainGame extends PureComponent {
     return (
       <div className="MainGame">
         {
-        isDataEnabled ? initCardComponent(wordsData[currentWordIndex]) : ''
-      }
+          isDataEnabled ? initCardComponent(wordsData[currentWordIndex]) : ''
+        }
         <div className="MainGame__progress-bar">
           {currentWordIndex}
           <div>
-            <Progressbar />
+            <Progressbar
+              progressPercent={(100 / wordsData.length) * currentWordIndex}
+            />
           </div>
           {wordsData.length}
         </div>
