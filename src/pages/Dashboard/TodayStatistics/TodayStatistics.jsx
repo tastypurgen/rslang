@@ -3,7 +3,7 @@ import calendar from './calendar.svg';
 import './TodayStatistics.scss';
 
 const TodayStatistics = () => (
-  <div className="TodayStatistics">
+  <div className="TodayStatistics Dashboard__card">
     <div className="TodayStatistics__title-bar">
       <p className="TodayStatistics__title">
         Cегодня

@@ -23,7 +23,7 @@ class MainGame extends PureComponent {
     isDataEnabled: false,
     wordsData: [],
     currentWordIndex: 0,
-    indicatorNumber: null,
+    indicatorNumber: 1,
   };
 
   changeCardToLeft = () => {
@@ -33,6 +33,20 @@ class MainGame extends PureComponent {
     this.setState({
       // currentWordIndex: this.state.currentWordIndex,
       wordsData: changeWordsData,
+    });
+  }
+
+  setIndicatorNumber = (userWord, number) => {
+    console.log(userWord, number);
+    let nextValue = 1;
+    if (number) {
+      nextValue = number;
+    } else if (userWord) {
+      nextValue = userWord.optional.indicator;
+    }
+
+    this.setState({
+      indicatorNumber: nextValue,
     });
   }
 
@@ -46,7 +60,7 @@ class MainGame extends PureComponent {
     console.log(wordData);
     const { changeCardToLeft } = this;
     const {
-      settingsData, showRightAnswer, wordsData, currentWordIndex,
+      settingsData, showRightAnswer, wordsData, currentWordIndex, indicatorNumber,
     } = this.state;
 
     let component;
@@ -97,6 +111,7 @@ class MainGame extends PureComponent {
               createUserWord(wordsData[currentWordIndex]._id, body);
               console.log('Слова нит');
             }
+            this.setIndicatorNumber(userWord);
             this.setShowRightAnswer(true);
           }}
         >
@@ -108,15 +123,17 @@ class MainGame extends PureComponent {
         <AssesmentsButtons />
       ));
     }
-
     component = (
       <div className={showRightAnswer ? 'MainGame__card MainGame__card--active' : 'MainGame__card'}>
-        {userWord ? <Indicator indicatorNumber={userWord.optional.indicator} /> : <Indicator />}
+        <div className="MainGame__indicator-container">
+          {userWord ? <Indicator indicatorNumber={indicatorNumber} /> : <Indicator />}
+        </div>
         <div className="MainGame__container">
           <div className="MainGame__flex-wrapper">
             <div className="MainGame__sentence-wrapper">
               <p className="MainGame__card-sentence">
                 <Input
+                  setIndicatorNumber={this.setIndicatorNumber}
                   userWord={userWord}
                   exampleSentence={exampleSentence}
                   changeRightAnswerState={this.setShowRightAnswer}
@@ -215,6 +232,7 @@ class MainGame extends PureComponent {
             tabIndex={0}
             role="button"
             onClick={() => {
+              this.setIndicatorNumber(wordsData[currentWordIndex + 1].userWord);
               this.setState({
                 currentWordIndex: currentWordIndex + 1,
                 showRightAnswer: false,
@@ -266,14 +284,44 @@ class MainGame extends PureComponent {
         { userWord: null },
       ],
     };
-    const wordsDataResponse = await getUserAggregatedWords(
-      JSON.stringify(filter), setingsData.optional.maxCardsPerDay,
-    );
-    console.log('wordsDataResponse: ', wordsDataResponse);
+    let todayWordData;
+
+    //
+    const date = new Date();
+    console.log(date.toLocaleDateString());
+    //
+    const { todayWordsData } = localStorage;
+    if (todayWordsData) {
+      if (todayWordsData.date === new Date().toLocaleDateString()) {
+        todayWordData = JSON.parse(todayWordsData.wordsData);
+      } else {
+        const wordsDataResponse = await getUserAggregatedWords(
+          JSON.stringify(filter), setingsData.optional.maxCardsPerDay,
+        );
+        todayWordData = shuffleArray(wordsDataResponse[0].paginatedResults);
+        localStorage.todayWordsData = JSON.stringify({
+          date: new Date().toLocaleDateString(),
+          wordsData: todayWordData,
+        });
+      }
+    } else {
+      const wordsDataResponse = await getUserAggregatedWords(
+        JSON.stringify(filter), setingsData.optional.maxCardsPerDay,
+      );
+      todayWordData = shuffleArray(wordsDataResponse[0].paginatedResults);
+      localStorage.todayWordsData = JSON.stringify({
+        date: new Date().toLocaleDateString(),
+        wordsData: todayWordData,
+      });
+    }
+
+    this.setIndicatorNumber(todayWordData[0].userWord);
     this.setState({
-      wordsData: shuffleArray(wordsDataResponse[0].paginatedResults),
+      wordsData: todayWordData,
       isDataEnabled: true,
     });
+
+
 
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     getAllUserWords().then((res) => {
@@ -292,15 +340,17 @@ class MainGame extends PureComponent {
     } = state;
     return (
       <div className="MainGame">
-        {
+        <div className="MainGame__wrapper">
+          {
         isDataEnabled ? initCardComponent(wordsData[currentWordIndex]) : ''
       }
-        <div className="MainGame__progress-bar">
-          {currentWordIndex}
-          <div>
-            <Progressbar />
+          <div className="MainGame__progress-bar">
+            {currentWordIndex}
+            <div>
+              <Progressbar />
+            </div>
+            {wordsData.length}
           </div>
-          {wordsData.length}
         </div>
       </div>
     );

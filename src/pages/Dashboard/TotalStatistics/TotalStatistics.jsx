@@ -4,7 +4,7 @@ import tablet from './tablet.svg';
 import './TotalStatistics.scss';
 
 const TotalStatistics = () => (
-  <div className="TotalStatistics">
+  <div className="TotalStatistics Dashboard__card">
     <div className="TotalStatistics__title-bar">
       <p className="TotalStatistics__title">
         Всего

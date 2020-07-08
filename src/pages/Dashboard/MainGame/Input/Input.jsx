@@ -8,7 +8,7 @@ import {
 const Input = (props) => {
   const inputRef = createRef();
   const {
-    textExample, wordData, changeRightAnswerState, exampleSentence, userWord,
+    textExample, wordData, changeRightAnswerState, exampleSentence, userWord, setIndicatorNumber
   } = props;
   const { word, _id } = wordData;
   let leftAndRightPartsOfSentce;
@@ -34,8 +34,10 @@ const Input = (props) => {
       },
     };
     if (!userWord) {
+      setIndicatorNumber(null, 5);
       createUserWord(_id, body);
     } else {
+      setIndicatorNumber(userWord, userWord.optional.indicator + 1);
       updateUserWord(_id, body);
     }
   };

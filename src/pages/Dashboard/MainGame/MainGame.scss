@@ -4,6 +4,15 @@
     padding-top: 68px;
     position: relative;
 
+    .MainGame__wrapper {
+        padding: 0 107px;
+    }
+
+    .MainGame__indicator-container {
+        margin-left: 24px;
+        margin-bottom: 44px;
+    }
+
     .MainGame__card {
         padding-top: 24px;
         position: relative;
@@ -124,6 +133,68 @@
         }
     }
 
+    .MainGame__progress-bar {
+        padding: 0 20px;
+        width: 100%;
+        max-width: 297px;
+        margin: 0 auto;
+        margin-top: auto;
+        padding-bottom: 8px;
+
+        // display: flex;
+        // justify-content: space-between;
+    }
+
+    @media (max-width: 750px) {
+        .MainGame__indicator-container {
+            margin-bottom: 7px;
+        }
+
+        .MainGame__container {
+
+            .MainGame__flex-wrapper {
+                flex-direction: column;
+                margin-bottom: 30px;
+
+                .Maingame__control-butttons {
+                    display: inline-block;
+                    margin-left: auto;
+                    margin-right: 0;
+                    margin-bottom: 20px;
+                    order: -1;
+                }
+            }
+
+            .MainGame__word-info-container {
+                flex-direction: column;
+                margin-bottom: 30px;
+
+                .MainGame__image {
+                    margin-left: auto;
+                    margin-right: auto;
+                    margin-bottom: 30px;
+                    height: 140px;
+                    width: 150px;
+                }
+            }
+        }
+
+        @media (max-width: 600px) {
+            .MainGame__container {
+
+                .MainGame__flex-wrapper {
+
+                }
+            }
+            .MainGame__card-sentence {
+
+            }
+        }
+    }
+}
+
+.MainGame {
+
     .MainGame__left-arrow,
     .MainGame__right-arrow {
         outline: none;
@@ -186,17 +257,5 @@
     .MainGame__left-arrow:hover svg,
     .MainGame__right-arrow:hover svg {
         fill: #82D243;
-    }
-
-    .MainGame__progress-bar {
-        padding: 0 20px;
-        width: 100%;
-        max-width: 297px;
-        margin: 0 auto;
-        margin-top: auto;
-        padding-bottom: 8px;
-
-        // display: flex;
-        // justify-content: space-between;
     }
 }

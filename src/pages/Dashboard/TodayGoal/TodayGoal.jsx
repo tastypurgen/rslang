@@ -5,7 +5,7 @@ import enCard from './images/en-card.svg';
 import './TodayGoal.scss';
 
 const TodayGoal = () => (
-  <div className="TodayGoal">
+  <div className="TodayGoal Dashboard__card">
     <div className="TodayGoal__title-bar">
       <p className="TodayGoal__title">
         Цель на сегодня
@@ -16,11 +16,13 @@ const TodayGoal = () => (
         <option>чето еще</option>
       </select>
     </div>
-    <p className="TodayGoal__description">
-      Завершить 20 карточек. Сегодня вы выполнили 5 карточек.
-      Для достижения цели выучите ещё 15 карточек.
-    </p>
-    <img className="TodayGoal__image" src={enCard} alt="английский язык" />
+    <div className="TodayGoal__flex-wrapper">
+      <p className="TodayGoal__description">
+        Завершить 20 карточек. Сегодня вы выполнили 5 карточек.
+        Для достижения цели выучите ещё 15 карточек.
+      </p>
+      <img className="TodayGoal__image" src={enCard} alt="английский язык" />
+    </div>
     <div className="TodayGoal__progreess-container">
       <ProgressBar width="235px" />
       <button type="button" className="TodayGoal__button">
