@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import './Sprint.scss';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import RenderTime from './timer';
@@ -12,6 +12,7 @@ import correctSound from './sounds/correct.mp3';
 
 function Sprint() {
   const [isGameOn, setIsGameOn] = useState(false);
+  const sprintSection = useRef(null);
   const source = 'https://raw.githubusercontent.com/tastypurgen/rslang-data/master/';
   const [correctAnswers, setCorrectAnswers] = useState([]);
   const [wrongAnswers, setWrongAnswers] = useState([]);
@@ -134,14 +135,22 @@ function Sprint() {
   useEffect(() => {
     loadWord().then((words) => startGame(words));
   }, []);
-
   return (
-    <section onKeyDown={answerWithKey} className="sprint-section" tabIndex="0">
+    <section ref={sprintSection} onKeyDown={answerWithKey} className="sprint-section" tabIndex="0">
       <div className={`start-page ${isGameOn ? 'invisible' : 'flex'}`}>
         <div className="start-page_section">
           <h1>Спринт</h1>
           <span>Игра на время, отгадывай слова и получай баллы!</span>
-          <button type="submit" className="button correct" onClick={() => { setIsGameOn(true); }}>Play!</button>
+          <button
+            type="submit"
+            className="button correct"
+            onClick={() => {
+              sprintSection.current.focus();
+              setIsGameOn(true);
+            }}
+          >
+            Play!
+          </button>
         </div>
       </div>
       <div className={`end-game ${!wordsPool.length ? 'flex' : 'invisible'}`}>
