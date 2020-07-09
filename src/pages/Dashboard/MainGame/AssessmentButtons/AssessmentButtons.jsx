@@ -1,13 +1,13 @@
 import React from 'react';
-import './AssesmentsButtons.scss';
+import './AssessmentButtons.scss';
 
-const AssesmentsButtons = (props) => {
+const AssessmentButtons = (props) => {
   const { setShowRightAnswer, setInputClassesAndReadState, clearInputValue } = props;
   return (
-    <div className="AssesmentsButtons">
+    <div className="AssessmentButtons">
       <button
         key={1}
-        className="AssesmentsButtons__button"
+        className="AssessmentButtons__button"
         onClick={() => {
           setInputClassesAndReadState('Input', false);
           clearInputValue('');
@@ -19,7 +19,7 @@ const AssesmentsButtons = (props) => {
       </button>
       <button
         key={2}
-        className="AssesmentsButtons__button"
+        className="AssessmentButtons__button"
         onClick={() => {
 
         }}
@@ -29,7 +29,7 @@ const AssesmentsButtons = (props) => {
       </button>
       <button
         key={3}
-        className="AssesmentsButtons__button"
+        className="AssessmentButtons__button"
         onClick={() => {
 
         }}
@@ -39,7 +39,7 @@ const AssesmentsButtons = (props) => {
       </button>
       <button
         key={4}
-        className="AssesmentsButtons__button"
+        className="AssessmentButtons__button"
         onClick={() => {
 
         }}
@@ -51,4 +51,4 @@ const AssesmentsButtons = (props) => {
   );
 };
 
-export default AssesmentsButtons;
+export default AssessmentButtons;

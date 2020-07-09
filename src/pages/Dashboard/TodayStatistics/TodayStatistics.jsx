@@ -16,7 +16,7 @@ const TodayStatistics = () => (
         <p className="TodayStatistics__number--green">0</p>
       </li>
       <li className="TodayStatistics__list-item">
-        новые слова
+        Новые слова
         <p className="TodayStatistics__number--red">0</p>
       </li>
       <li className="TodayStatistics__list-item">

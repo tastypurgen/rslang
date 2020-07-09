@@ -4,7 +4,7 @@ import './MainGame.scss';
 import pointIcon from './images/point.svg';
 import deleteIcon from './images/delete.svg';
 import speakerIcon from './images/speaker.svg';
-import AssesmentsButtons from './AssesmentsButtons/AssesmentsButtons';
+import AssessmentButtons from './AssessmentButtons/AssessmentButtons';
 import Input from './Input/Input';
 import Indicator from '../../../components/Indicator/Indicator';
 import Progressbar from '../../../components/Progressbar/ProgressBar';
@@ -146,7 +146,7 @@ class MainGame extends PureComponent {
       ));
     } else if (displayAssessmentBtns && showRightAnswer) {
       buttonComponent.push(( // showRightAnswer
-        <AssesmentsButtons
+        <AssessmentButtons
           clearInputValue={this.clearInputValue}
           setShowRightAnswer={this.setShowRightAnswer}
           setInputClassesAndReadState={this.setInputClassesAndReadState}
