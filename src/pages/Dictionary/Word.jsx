@@ -29,7 +29,7 @@ export default class Word extends React.PureComponent {
 
   getSectionWords = async () => {
     const { filter } = this.props;
-    const content = await getUserAggregatedWords(filter, 100);
+    const content = await getUserAggregatedWords(filter);
     const contentWords = content[0].paginatedResults;
     const stateWords = [];
 
@@ -76,8 +76,8 @@ export default class Word extends React.PureComponent {
         deleted: true,
         difficult: false,
         indicator,
-        lastTrained: new Date(),
-        nextTraining: new Date(),
+        lastTrained: new Date().toLocaleDateString(),
+        nextTraining: new Date().toLocaleDateString(),
         trained,
       },
     };
@@ -90,6 +90,7 @@ export default class Word extends React.PureComponent {
   render() {
     const { words, isSpinnerOn } = this.state;
     const { type, wordInfo } = this.props;
+
     if (isSpinnerOn) {
       return (<Spinner />);
     }
@@ -197,10 +198,10 @@ export default class Word extends React.PureComponent {
                     раз
                     <br />
                     Дата последнего повтора
-                    {` ${new Date(el.lastTrained).toLocaleDateString()}`}
+                    {` ${el.lastTrained}`}
                     <br />
                     Снова повторится
-                    {` ${new Date(el.nextTraining).toLocaleDateString()}`}
+                    {` ${el.nextTraining}`}
                   </span>
                 </div>
               </td>
