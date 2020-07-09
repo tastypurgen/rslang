@@ -13,6 +13,7 @@ import Sprint from './pages/Sprint/Sprint';
 import Dictionary from './pages/Dictionary/Dictionary';
 import EnglishPuzzle from './pages/EnglishPuzzle/EnglishPuzzle';
 import GamesPanel from './pages/GamesPanel/GamesPanel';
+import MainGame from './pages/Dashboard/MainGame/MainGame';
 import Spinner from './components/Spinner/Spinner';
 import checkUserToken from './services/checkUserToken';
 import WordConstructor from './pages/WordСonstructor/WordСonstructor';
@@ -51,12 +52,11 @@ export default class App extends Component {
 
   render() {
     const { isAuthenticated, isSpinnerOn } = this.state;
-    let component;
     if (isSpinnerOn) {
       return (<Spinner />);
     }
     if (isAuthenticated) {
-      component = (
+      return (
         <div>
           <Header changeAuthenticatedState={this.changeAuthenticatedState} />
           <Route exact path="/" component={Dashboard} />
@@ -68,35 +68,28 @@ export default class App extends Component {
           <Route path="/savannah" component={Savannah} />
           <Route path="/audio-challenge" component={AudioChallenge} />
           <Route path="/sprint" component={Sprint} />
+          <Route path="/main-game" component={MainGame} />
           <Route path="/word-constructor" component={WordConstructor} />
           <Route path="/promo-page" component={Promo} />
           <Route path="/about-team" component={AboutTeam} />
           <Route path="/statistic" component={Statistic} />
           <Route path="/settings" component={Settings} />
-          <Redirect to="/" component={Dashboard} />
           <Footer />
         </div>
       );
-    } else {
-      component = (
-        <div>
-          <Route
-            exact
-            to="/"
-            render={() => (
-              <Authorization
-                changeAuthenticatedState={this.changeAuthenticatedState}
-              />
-            )}
-          />
-          <Redirect to="/" component={Authorization} />
-        </div>
-      );
     }
-
     return (
       <div>
-        {component}
+        <Route
+          exact
+          to="/"
+          render={() => (
+            <Authorization
+              changeAuthenticatedState={this.changeAuthenticatedState}
+            />
+          )}
+        />
+        <Redirect to="/" component={Authorization} />
       </div>
     );
   }

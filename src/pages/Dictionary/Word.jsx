@@ -28,7 +28,7 @@ export default class Word extends React.PureComponent {
 
   getSectionWords = async () => {
     const { filter } = this.props;
-    const content = await getUserAggregatedWords(filter);
+    const content = await getUserAggregatedWords(filter, 100);
     const contentWords = content[0].paginatedResults;
     const stateWords = [];
 
