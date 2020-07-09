@@ -77,7 +77,7 @@ class SignIn extends React.PureComponent {
 
             </button>
           </form>
-          <p className="to-login">
+          <p className="to-sign-up">
             У вас нет учетной записи?
             <span
               role="button"

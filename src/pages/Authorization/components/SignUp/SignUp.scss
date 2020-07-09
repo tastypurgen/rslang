@@ -6,12 +6,12 @@ $media-width: 480px;
   align-items: center;
 }
 
-.login {
+.sign-up {
   @extend .flex-center;
   min-height: 100vh;
   background-color: #f8f2ee;
 
-  .login__container {
+  .sign-up__container {
     @extend .flex-center;
     flex-direction: column;
     justify-content: space-around;
@@ -53,7 +53,7 @@ $media-width: 480px;
         width: 280px;
       }
 
-      .login__input {
+      .sign-up__input {
         height: 41px;
         margin: 17px;
         outline: none;
@@ -122,15 +122,14 @@ $media-width: 480px;
         display: none;
       }
 
-      .login__button {
+      .sign-up__button {
         font-family: Rubik;
         align-self: center;
-        margin-top: 47px;
+        margin-top: 60px;
         width: 280px;
         height: 34px;
         background: #25b6d2;
         color: #ffffff;
-        border-radius: 320px;
         outline: none;
         border-radius: 320px;
         border: 1px solid rgba(255, 255, 255, 0.2);

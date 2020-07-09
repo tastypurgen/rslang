@@ -49,9 +49,12 @@ export default class Word extends PureComponent {
   returnToLearning(id) {
     const body = {
       optional: {
-        indicator: 2,
         deleted: false,
         difficult: false,
+        indicator: 2,
+        lastTrained: new Date(),
+        nextTraining: new Date(),
+        trained: 1,
       },
     };
     updateUserWord(id, body);

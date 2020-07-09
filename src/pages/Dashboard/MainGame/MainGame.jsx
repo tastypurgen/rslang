@@ -4,7 +4,7 @@ import './MainGame.scss';
 import pointIcon from './images/point.svg';
 import deleteIcon from './images/delete.svg';
 import speakerIcon from './images/speaker.svg';
-import AssesmentsButtons from './AssesmentsButtons/AssesmentsButtons';
+import AssessmentButtons from './AssessmentButtons/AssessmentButtons';
 import Popup from './Popup/Popup';
 import Input from './Input/Input';
 import Indicator from '../../../components/Indicator/Indicator';
@@ -13,7 +13,8 @@ import getUserAggregatedWords from '../../../services/userAggregatedWords';
 import shuffleArray from '../../../utils/suffleArray';
 import { getUserSettings } from '../../../services/settingsService';
 import playAudioFunction from '../../../utils/playAudioFunction';
-import { getWordByPageAndDifficultyNumber, getWordsByPageCount } from '../../../services/getWords';
+// import { getWordByPageAndDifficultyNumber, getWordsByPa
+// geCount } from '../../../services/getWords';
 import {
   createUserWord, deleteUserWord, updateUserWord, getAllUserWords,
 } from '../../../services/userWords';
@@ -126,12 +127,21 @@ class MainGame extends PureComponent {
             if (autoPronunciation) {
               playAudioFunction(`https://raw.githubusercontent.com/Koptohhka/rslang-data/master/${audio}`);
             }
+            const trainedValue = userWord?.optional?.trained + 1 || 1;
+            const indicatorValue = userWord?.optional?.indicator || 2;
+            const difficultValue = userWord?.optional?.difficult || false;
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
             const body = {
               difficulty: 'default',
               optional: {
-                indicator: 2,
-                difficult: false,
                 deleted: false,
+                difficult: difficultValue,
+                indicator: indicatorValue,
+                lastTrained: today,
+                nextTraining: tomorrow,
+                trained: trainedValue,
               },
             };
             try {
@@ -153,8 +163,8 @@ class MainGame extends PureComponent {
         </button>
       ));
     } else if (displayAssessmentBtns && showRightAnswer) {
-      buttonComponent.push(( 
-        <AssesmentsButtons
+      buttonComponent.push(( // showRightAnswer
+        <AssessmentButtons
           clearInputValue={this.clearInputValue}
           setShowRightAnswer={this.setShowRightAnswer}
           setInputClassesAndReadState={this.setInputClassesAndReadState}
@@ -173,6 +183,7 @@ class MainGame extends PureComponent {
                 <Input
                   autoPronunciation={autoPronunciation}
                   clearInputValue={this.clearInputValue}
+                  currentWordIndex={currentWordIndex}
                   inputValue={inputValue}
                   inputReadOnlyFlag={inputReadOnlyFlag}
                   inputClasses={inputClasses}
@@ -182,6 +193,7 @@ class MainGame extends PureComponent {
                   exampleSentence={exampleSentence}
                   changeRightAnswerState={this.setShowRightAnswer}
                   wordData={wordData}
+                  wordsData={wordsData}
                   textExample={textExample}
                 />
               </p>
@@ -195,11 +207,19 @@ class MainGame extends PureComponent {
                   role="button"
                   onClick={() => {
                     if (!difficultyBtnActive) {
+                      const indicatorValue = userWord?.optional?.indicator || 1;
+                      const trainedValue = userWord?.optional?.trained + 1 || 1;
+                      const today = new Date();
+                      const tomorrow = new Date(today);
+                      tomorrow.setDate(tomorrow.getDate() + 1);
                       const body = {
-                        difficulty: 'default',
                         optional: {
                           deleted: false,
                           difficult: true,
+                          indicator: indicatorValue,
+                          lastTrained: today,
+                          nextTraining: tomorrow,
+                          trained: trainedValue,
                         },
                       };
                       if (!userWord) {
@@ -230,9 +250,16 @@ class MainGame extends PureComponent {
                     this.setState({
                       inputValue: '',
                     });
+                    const indicatorValue = userWord?.optional?.indicator || 1;
+                    const trainedValue = userWord?.optional?.trained || 1;
                     const body = {
                       optional: {
                         deleted: true,
+                        difficult: false,
+                        indicator: indicatorValue,
+                        lastTrained: new Date(),
+                        nextTraining: new Date(),
+                        trained: trainedValue,
                       },
                     };
                     try {
@@ -408,7 +435,7 @@ class MainGame extends PureComponent {
         <div className="MainGame__progress-bar">
           <p className="MainGame__progress-index">{currentWordIndex + 1}</p>
           <Progressbar
-            progressPercent={(100 / wordsData.length) * currentWordIndex + 1}
+            progressPercent={(100 / wordsData.length) * (currentWordIndex + 1)}
           />
           <p className="MainGame__progress-length">{wordsData.length}</p>
         </div>
