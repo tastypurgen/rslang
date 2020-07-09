@@ -52,12 +52,15 @@ export default class Word extends React.PureComponent {
     this.setState({ words: stateWords });
   }
 
-  returnToLearning(id, indicator) {
+  returnToLearning(id, indicator, trained, lastTrained, nextTraining) {
     const body = {
       optional: {
         indicator,
         deleted: false,
         difficult: false,
+        trained,
+        lastTrained,
+        nextTraining,
       },
     };
     updateUserWord(id, body);
@@ -151,7 +154,7 @@ export default class Word extends React.PureComponent {
                   role="button"
                   src={returnImg}
                   alt="return"
-                  onClick={() => this.returnToLearning(el.wordId, el.indicator)}
+                  onClick={() => this.returnToLearning(el.wordId, el.indicator, el.trained, el.lastTrained, el.nextTraining)}
                 />
               </td>
               <td>
