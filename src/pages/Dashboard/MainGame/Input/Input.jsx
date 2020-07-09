@@ -1,16 +1,17 @@
-import React, { createRef } from 'react';
+import React from 'react';
 import './Input.scss';
 import getSentenceByTags from '../../../../utils/getSentenceByTags';
 import {
   createUserWord, deleteUserWord, getAllUserWords, updateUserWord,
 } from '../../../../services/userWords';
+import playAudioFunction from '../../../../utils/playAudioFunction';
 
 const Input = (props) => {
-  const inputRef = createRef();
   const {
-    textExample, wordData, changeRightAnswerState, exampleSentence, userWord, setIndicatorNumber
+    textExample, wordData, changeRightAnswerState, exampleSentence, userWord,
+    setIndicatorNumber, autoPronunciation, inputValue, setInputClassesAndReadState, inputClasses, inputReadOnlyFlag, clearInputValue,
   } = props;
-  const { word, _id } = wordData;
+  const { word, _id, audio } = wordData;
   let leftAndRightPartsOfSentce;
   if (exampleSentence) {
     leftAndRightPartsOfSentce = getSentenceByTags(textExample);
@@ -18,14 +19,13 @@ const Input = (props) => {
     leftAndRightPartsOfSentce = { leftpart: '', rightPart: '' };
   }
   const { leftpart, rightPart } = leftAndRightPartsOfSentce;
-  const inputSize = Math.ceil(word.length / 2);
 
   let indicatorValue = 5;
   if (userWord) {
     indicatorValue = userWord.optional.indicator + 1;
   }
 
-  const postUserWordData = () => {
+  const postUserWordData = (answerIndicatorValue, additionalIndicatorValue) => {
     const body = {
       difficulty: 'default',
       optional: {
@@ -34,18 +34,26 @@ const Input = (props) => {
       },
     };
     if (!userWord) {
-      setIndicatorNumber(null, 5);
+      setIndicatorNumber(null, answerIndicatorValue);
       createUserWord(_id, body);
     } else {
-      setIndicatorNumber(userWord, userWord.optional.indicator + 1);
+      setIndicatorNumber(userWord, userWord.optional.indicator + additionalIndicatorValue);
       updateUserWord(_id, body);
     }
   };
 
   const checkInputWord = (inputValue) => {
+    if (autoPronunciation) {
+      playAudioFunction(`https://raw.githubusercontent.com/Koptohhka/rslang-data/master/${audio}`);
+    }
     if (inputValue.toLowerCase() === word.toLowerCase()) {
-      postUserWordData();
-      changeRightAnswerState();
+      setInputClassesAndReadState('Input Input--right', true);
+      postUserWordData(5, 1);
+      changeRightAnswerState(true);
+    } else {
+      setInputClassesAndReadState('Input Input--wrong', true);
+      postUserWordData(2, 0);
+      changeRightAnswerState(true);
     }
   };
 
@@ -53,16 +61,20 @@ const Input = (props) => {
     <span>
       {leftpart}
       <input
-        className="Input"
-        ref={inputRef}
+        value={inputValue}
+        readOnly={inputReadOnlyFlag}
+        className={inputClasses}
         type="text"
         onKeyPress={(evt) => {
           if (evt.key === 'Enter') {
-            checkInputWord(inputRef.current.value);
+            checkInputWord(evt.target.value);
           }
         }}
+        onChange={(evt) => {
+          clearInputValue(evt.target.value);
+        }}
         maxLength={word.length}
-        size={inputSize}
+        size={word.length}
       />
       {rightPart}
     </span>

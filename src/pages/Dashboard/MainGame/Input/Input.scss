@@ -7,4 +7,23 @@
     background: rgba(55, 56, 60, 0.1);
     padding-left: 9px;
     padding-right: 7px;
+    text-align: center;
+}
+
+.Input--right {
+    background: rgba(50, 190, 166, 0.2);
+}
+
+.Input--wrong {
+    background: rgba(224, 79, 95, 0.1);
+}
+
+.Input--default {
+    background: rgba(37, 182, 210, 0.2);
+}
+
+@media (max-width: 350px) {
+    .Input {
+        font-size: 16px;
+    }
 }

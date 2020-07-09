@@ -15,11 +15,11 @@ const TotalStatistics = () => (
       <p className="TotalStatistics__process-learning">
         В процессе изучения 112 из 3600 слов
       </p>
-      <ProgressBar />
+      <ProgressBar progressPercent={33} />
       <p className="TotalStatistics__learned">
         Выучено 5 из 3600 слов
       </p>
-      <ProgressBar />
+      <ProgressBar progressPercent={33} />
     </div>
   </div>
 );

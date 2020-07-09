@@ -11,6 +11,7 @@ import Progressbar from '../../../components/Progressbar/ProgressBar';
 import getUserAggregatedWords from '../../../services/userAggregatedWords';
 import shuffleArray from '../../../utils/suffleArray';
 import { getUserSettings } from '../../../services/settingsService';
+import playAudioFunction from '../../../utils/playAudioFunction';
 import { getWordByPageAndDifficultyNumber, getWordsByPageCount } from '../../../services/getWords';
 import {
   createUserWord, deleteUserWord, updateUserWord, getAllUserWords,
@@ -24,6 +25,23 @@ class MainGame extends PureComponent {
     wordsData: [],
     currentWordIndex: 0,
     indicatorNumber: 1,
+    inputClasses: 'Input',
+    inputReadOnlyFlag: false,
+    difficultyBtnActive: false,
+    inputValue: '',
+  };
+
+  clearInputValue = (newValue) => {
+    this.setState({
+      inputValue: newValue,
+    });
+  }
+
+  setInputClassesAndReadState = (classes, readonly) => {
+    this.setState({
+      inputClasses: classes,
+      inputReadOnlyFlag: readonly,
+    });
   };
 
   changeCardToLeft = () => {
@@ -37,7 +55,6 @@ class MainGame extends PureComponent {
   }
 
   setIndicatorNumber = (userWord, number) => {
-    console.log(userWord, number);
     let nextValue = 1;
     if (number) {
       nextValue = number;
@@ -50,9 +67,9 @@ class MainGame extends PureComponent {
     });
   }
 
-  setShowRightAnswer = () => {
+  setShowRightAnswer = (value) => {
     this.setState({
-      showRightAnswer: true,
+      showRightAnswer: value,
     });
   };
 
@@ -60,7 +77,8 @@ class MainGame extends PureComponent {
     console.log(wordData);
     const { changeCardToLeft } = this;
     const {
-      settingsData, showRightAnswer, wordsData, currentWordIndex, indicatorNumber,
+      settingsData, showRightAnswer, wordsData, currentWordIndex, indicatorNumber, inputClasses,
+      inputReadOnlyFlag, difficultyBtnActive, inputValue,
     } = this.state;
 
     let component;
@@ -73,8 +91,10 @@ class MainGame extends PureComponent {
       textExampleTranslate,
       image,
       userWord,
+      audio,
     } = wordData;
     const {
+      autoPronunciation,
       displayShowAnswerBtn,
       displayAssessmentBtns,
       displayDeleteBtn,
@@ -94,6 +114,10 @@ class MainGame extends PureComponent {
           type="button"
           key={2}
           onClick={() => {
+            console.log(settingsData);
+            if (autoPronunciation) {
+              playAudioFunction(`https://raw.githubusercontent.com/Koptohhka/rslang-data/master/${audio}`);
+            }
             const body = {
               difficulty: 'default',
               optional: {
@@ -104,15 +128,17 @@ class MainGame extends PureComponent {
             };
             try {
               if (userWord.optional.indicator < 5) {
-                console.log(userWord.optional.indicator);
                 updateUserWord(wordsData[currentWordIndex]._id, body);
               }
             } catch {
               createUserWord(wordsData[currentWordIndex]._id, body);
-              console.log('Слова нит');
             }
+            this.setInputClassesAndReadState('Input Input--default', true);
             this.setIndicatorNumber(userWord);
             this.setShowRightAnswer(true);
+            this.setState({
+              inputValue: word,
+            });
           }}
         >
           Показать ответ
@@ -120,7 +146,11 @@ class MainGame extends PureComponent {
       ));
     } else if (displayAssessmentBtns && showRightAnswer) {
       buttonComponent.push(( // showRightAnswer
-        <AssesmentsButtons />
+        <AssesmentsButtons
+          clearInputValue={this.clearInputValue}
+          setShowRightAnswer={this.setShowRightAnswer}
+          setInputClassesAndReadState={this.setInputClassesAndReadState}
+        />
       ));
     }
     component = (
@@ -133,6 +163,12 @@ class MainGame extends PureComponent {
             <div className="MainGame__sentence-wrapper">
               <p className="MainGame__card-sentence">
                 <Input
+                  autoPronunciation={autoPronunciation}
+                  clearInputValue={this.clearInputValue}
+                  inputValue={inputValue}
+                  inputReadOnlyFlag={inputReadOnlyFlag}
+                  inputClasses={inputClasses}
+                  setInputClassesAndReadState={this.setInputClassesAndReadState}
                   setIndicatorNumber={this.setIndicatorNumber}
                   userWord={userWord}
                   exampleSentence={exampleSentence}
@@ -147,17 +183,35 @@ class MainGame extends PureComponent {
             <div className="Maingame__control-butttons">
               {displayDifficultBtn ? (
                 <img
-                  className="MainGame__difficult-button"
+                  className={difficultyBtnActive ? 'MainGame__difficult-button--disabled' : 'MainGame__difficult-button'}
                   role="button"
                   onClick={() => {
-
+                    if (!difficultyBtnActive) {
+                      const body = {
+                        difficulty: 'default',
+                        optional: {
+                          deleted: false,
+                          difficult: true,
+                        },
+                      };
+                      if (!userWord) {
+                        createUserWord(wordsData[currentWordIndex]._id, body);
+                      } else {
+                        updateUserWord(wordsData[currentWordIndex]._id, body);
+                      }
+                      this.setState({
+                        difficultyBtnActive: true,
+                      });
+                    }
                   }}
+                  title={difficultyBtnActive ? 'Добавлено в сложные' : 'Добавить в сложные'}
                   src={pointIcon}
                   alt="point-icon"
                 />
               ) : null}
               {displayDeleteBtn ? (
                 <img
+                  title="Удалить слово"
                   role="button"
                   alt="delete-icon"
                   src={deleteIcon}
@@ -190,7 +244,18 @@ class MainGame extends PureComponent {
                 {associationImage ? <img src={`https://raw.githubusercontent.com/koptohhka/rslang-data/master/${image}`} alt="" className="MainGame__image" /> : null}
                 <div className="MainGame__word-info">
                   <div className="word-info__full-word">
-                    <img className="MainGame__speaker-icon word-info__full-word--item" src={speakerIcon} alt="" />
+                    <img
+                      title="Прослушать слово"
+                      role="button"
+                      onClick={() => {
+                        if (window.isClickEnabled) {
+                          playAudioFunction(`https://raw.githubusercontent.com/Koptohhka/rslang-data/master/${audio}`);
+                        }
+                      }}
+                      className="MainGame__speaker-icon word-info__full-word--item"
+                      src={speakerIcon}
+                      alt="Динамик"
+                    />
                     <p className="word-info__word word-info__full-word--item">{word}</p>
                     {wordTranscription ? <p className="word-info__transcription">{transcription}</p> : null}
                     {wordTranslation ? <p className="word-info__translation word-info__full-word--item">{wordData.wordTranslate}</p> : null}
@@ -202,7 +267,7 @@ class MainGame extends PureComponent {
             ) : null}
           {buttonComponent}
         </div>
-        {showRightAnswer ? (
+        {/* {showRightAnswer ? (
           <div
             role="button"
             tabIndex={-1}
@@ -226,17 +291,23 @@ class MainGame extends PureComponent {
               <path d="M20.5165 25.9769L13.3425 18.9404H30.6548L30.6548 12.3766L13.3425 12.3766L20.5165 5.34016L15.9468 0.65546L0.651184 15.6573L15.9468 30.6616L20.5165 25.9769Z" />
             </svg>
           </div>
-        ) : null}
+        ) : null} */}
         {showRightAnswer ? (
+
           <div
             tabIndex={0}
             role="button"
             onClick={() => {
-              this.setIndicatorNumber(wordsData[currentWordIndex + 1].userWord);
-              this.setState({
-                currentWordIndex: currentWordIndex + 1,
-                showRightAnswer: false,
-              });
+              if (currentWordIndex < wordsData.length - 1) {
+                // document.querySelector('.Input').value = '';
+                this.clearInputValue('');
+                this.setInputClassesAndReadState('Input', false);
+                this.setIndicatorNumber(wordsData[currentWordIndex + 1].userWord);
+                this.setState({
+                  currentWordIndex: currentWordIndex + 1,
+                  showRightAnswer: false,
+                });
+              }
             }}
             className="MainGame__right-arrow"
           >
@@ -284,44 +355,21 @@ class MainGame extends PureComponent {
         { userWord: null },
       ],
     };
-    let todayWordData;
+    //
+    // const date = new Date();
+    // console.log(date.toLocaleDateString());
+    //
 
-    //
-    const date = new Date();
-    console.log(date.toLocaleDateString());
-    //
-    const { todayWordsData } = localStorage;
-    if (todayWordsData) {
-      if (todayWordsData.date === new Date().toLocaleDateString()) {
-        todayWordData = JSON.parse(todayWordsData.wordsData);
-      } else {
-        const wordsDataResponse = await getUserAggregatedWords(
-          JSON.stringify(filter), setingsData.optional.maxCardsPerDay,
-        );
-        todayWordData = shuffleArray(wordsDataResponse[0].paginatedResults);
-        localStorage.todayWordsData = JSON.stringify({
-          date: new Date().toLocaleDateString(),
-          wordsData: todayWordData,
-        });
-      }
-    } else {
-      const wordsDataResponse = await getUserAggregatedWords(
-        JSON.stringify(filter), setingsData.optional.maxCardsPerDay,
-      );
-      todayWordData = shuffleArray(wordsDataResponse[0].paginatedResults);
-      localStorage.todayWordsData = JSON.stringify({
-        date: new Date().toLocaleDateString(),
-        wordsData: todayWordData,
-      });
-    }
+    const wordsDataResponse = await getUserAggregatedWords(
+      JSON.stringify(filter), setingsData.optional.maxCardsPerDay,
+    );
+    const todayWordData = shuffleArray(wordsDataResponse[0].paginatedResults);
 
     this.setIndicatorNumber(todayWordData[0].userWord);
     this.setState({
       wordsData: todayWordData,
       isDataEnabled: true,
     });
-
-
 
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     getAllUserWords().then((res) => {
@@ -333,24 +381,22 @@ class MainGame extends PureComponent {
 
   render() {
     const {
-      setCurrentWordIndex, changeRightAnswerState, initCardComponent, state, setShowRightAnswer,
+      setCurrentWordIndex, changeRightAnswerState, initCardComponent, state,
     } = this;
     const {
       showRightAnswer, currentWordIndex, wordsData, isDataEnabled,
     } = state;
     return (
       <div className="MainGame">
-        <div className="MainGame__wrapper">
-          {
-        isDataEnabled ? initCardComponent(wordsData[currentWordIndex]) : ''
-      }
-          <div className="MainGame__progress-bar">
-            {currentWordIndex}
-            <div>
-              <Progressbar />
-            </div>
-            {wordsData.length}
-          </div>
+        {
+          isDataEnabled ? initCardComponent(wordsData[currentWordIndex]) : ''
+        }
+        <div className="MainGame__progress-bar">
+          <p className="MainGame__progress-index">{currentWordIndex + 1}</p>
+          <Progressbar
+            progressPercent={(100 / wordsData.length) * currentWordIndex + 1}
+          />
+          <p className="MainGame__progress-length">{wordsData.length}</p>
         </div>
       </div>
     );

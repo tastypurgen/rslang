@@ -1,6 +1,74 @@
 .MainGame {
+
+    .MainGame__left-arrow,
+    .MainGame__right-arrow {
+        outline: none;
+        position: relative;
+        border: 1px solid #C4C4C4;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        -ms-border-radius: 50%;
+        -o-border-radius: 50%;
+    }
+
+    .MainGame__left-arrow svg,
+    .MainGame__right-arrow svg {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        transition: 0.3s;
+        -webkit-transition: 0.3s;
+        -moz-transition: 0.3s;
+        -ms-transition: 0.3s;
+        -o-transition: 0.3s;
+    }
+
+    .MainGame__left-arrow svg {
+        top: 14px;
+        left: 13px;
+    }
+
+    .MainGame__left-arrow,
+    .MainGame__right-arrow {
+        position: absolute;
+        transition: 0.3s;
+        -webkit-transition: 0.3s;
+        -moz-transition: 0.3s;
+        -ms-transition: 0.3s;
+        -o-transition: 0.3s;
+    }
+
+    .MainGame__left-arrow {
+        top: 41%;
+        left: -87px;
+        z-index: 1;
+    }
+
+    .MainGame__right-arrow {
+        z-index: 1;
+        top: 41%;
+        right: -87px;
+    }
+
+    .MainGame__left-arrow:hover,
+    .MainGame__right-arrow:hover {
+        border-color: #82D243;
+        cursor: pointer;
+    }
+
+    .MainGame__left-arrow:hover svg,
+    .MainGame__right-arrow:hover svg {
+        fill: #82D243;
+    }
+}
+
+.MainGame {
     min-height: 84vh;
     background: #F8F2EE;
+    padding: 0 20px;
     padding-top: 68px;
     position: relative;
 
@@ -16,7 +84,7 @@
     .MainGame__card {
         padding-top: 24px;
         position: relative;
-        min-width: 379px;
+        // min-width: 379px;
         max-width: 530px;
         min-height: 216px;
         margin: 0 auto;
@@ -90,10 +158,20 @@
 
             .MainGame__delete-button {
                 margin-left: 20px;
+                cursor: pointer;
             }
 
             .MainGame__difficult-button {
                 cursor: pointer;
+            }
+
+            .MainGame__difficult-button--disabled {
+                cursor: not-allowed;
+            }
+
+            .MainGame__difficult-button--disabled:after {
+                content: '';
+                display: block;
             }
         }
 
@@ -113,6 +191,10 @@
                 font-size: 16px;
                 line-height: 19px;
                 flex-grow: 2;
+            }
+
+            .MainGame__speaker-icon {
+                cursor: pointer;
             }
 
             .word-info__full-word {
@@ -138,19 +220,45 @@
         width: 100%;
         max-width: 297px;
         margin: 0 auto;
-        margin-top: auto;
-        padding-bottom: 8px;
+        padding-bottom: 30px;
+        min-height: 20px;
 
-        // display: flex;
-        // justify-content: space-between;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .MainGame__progress-index {
+            color: #32BEA6;
+            margin-right: 19px;
+        }
+
+        .MainGame__progress-length {
+            margin-left: 19px;
+            color: #C4C4C4;
+        }
     }
 
     @media (max-width: 750px) {
+
+        .MainGame__left-arrow,
+        .MainGame__right-arrow {
+            transform: scale(0.88);
+            -webkit-transform: scale(0.88);
+            -moz-transform: scale(0.88);
+            -ms-transform: scale(0.88);
+            -o-transform: scale(0.88);
+        }
+
+        .MainGame__right-arrow {
+            right: 30px;
+        }
+
         .MainGame__indicator-container {
             margin-bottom: 7px;
         }
 
         .MainGame__container {
+
 
             .MainGame__flex-wrapper {
                 flex-direction: column;
@@ -179,83 +287,32 @@
             }
         }
 
-        @media (max-width: 600px) {
-            .MainGame__container {
+        @media (max-width: 421px) {
 
-                .MainGame__flex-wrapper {
+            .MainGame__left-arrow,
+            .MainGame__right-arrow {
+                transform: scale(0.78);
+                -webkit-transform: scale(0.78);
+                -moz-transform: scale(0.78);
+                -ms-transform: scale(0.78);
+                -o-transform: scale(0.78);
+            }
 
+            .MainGame__right-arrow {
+                top: 34%;
+                right: 16px;
+            }
+
+            @media (max-width: 350px) {
+                .MainGame__right-arrow {
+                    top: 38%;
+                    right: 1px;
+                }
+
+                .MainGame__container .MainGame__flex-wrapper .MainGame__card-sentence {
+                    font-size: 17px;
                 }
             }
-            .MainGame__card-sentence {
-
-            }
         }
-    }
-}
-
-.MainGame {
-
-    .MainGame__left-arrow,
-    .MainGame__right-arrow {
-        outline: none;
-        position: relative;
-        border: 1px solid #C4C4C4;
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        -webkit-border-radius: 50%;
-        -moz-border-radius: 50%;
-        -ms-border-radius: 50%;
-        -o-border-radius: 50%;
-    }
-
-    .MainGame__left-arrow svg,
-    .MainGame__right-arrow svg {
-        position: absolute;
-        top: 15px;
-        left: 15px;
-        transition: 0.3s;
-        -webkit-transition: 0.3s;
-        -moz-transition: 0.3s;
-        -ms-transition: 0.3s;
-        -o-transition: 0.3s;
-    }
-
-    .MainGame__left-arrow svg {
-        top: 14px;
-        left: 13px;
-    }
-
-    .MainGame__left-arrow,
-    .MainGame__right-arrow {
-        position: absolute;
-        transition: 0.3s;
-        -webkit-transition: 0.3s;
-        -moz-transition: 0.3s;
-        -ms-transition: 0.3s;
-        -o-transition: 0.3s;
-    }
-
-    .MainGame__left-arrow {
-        top: 41%;
-        left: -87px;
-        z-index: 1;
-    }
-
-    .MainGame__right-arrow {
-        z-index: 1;
-        top: 41%;
-        right: -87px;
-    }
-
-    .MainGame__left-arrow:hover,
-    .MainGame__right-arrow:hover {
-        border-color: #82D243;
-        cursor: pointer;
-    }
-
-    .MainGame__left-arrow:hover svg,
-    .MainGame__right-arrow:hover svg {
-        fill: #82D243;
     }
 }
