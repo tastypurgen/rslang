@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import React, { PureComponent } from 'react';
 
-import Login from './components/Login/Login';
+import SignUp from './components/SignUp/SignUp';
 import SignIn from './components/SignIn/SignIn';
 
 class Authorization extends PureComponent {
@@ -26,7 +26,7 @@ class Authorization extends PureComponent {
         changeAuthenticatedState={changeAuthenticatedState}
       />));
     } else {
-      components.push((<Login
+      components.push((<SignUp
         toChangeSignInState={this.toChangeSignInState}
         changeAuthenticatedState={changeAuthenticatedState}
       />));
