@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { getUserSettings, setUserSettings, setDefaultSettings } from '../../services/settingsService';
+import { getUserSettings, setUserSettings } from '../../services/settingsService';
 import SettingsForm from './SettingsForm/SettingsForm';
 
 export default class Settings extends PureComponent {
@@ -72,14 +72,9 @@ export default class Settings extends PureComponent {
 
   async loadUserSettings() {
     const curState = this.state;
-    let response = await getUserSettings(curState.token, curState.userId);
+    const response = await getUserSettings(curState.token, curState.userId);
     if (response.status === 200) {
       this.setStateFromObj(response);
-    } else if (response.status === 404) {
-      response = await setDefaultSettings(curState.token, curState.userId);
-      if (response.status === 200) {
-        this.setStateFromObj(response);
-      }
     }
   }
 
