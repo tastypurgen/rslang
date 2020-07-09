@@ -27,6 +27,7 @@ const Input = (props) => {
 
   const postUserWordData = (answerIndicatorValue, additionalIndicatorValue) => {
     const trainedValue = userWord?.optional?.trained + 1 || 1;
+    const difficultValue = userWord?.optional?.difficult || false;
     const today = new Date();
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
@@ -34,7 +35,7 @@ const Input = (props) => {
       difficulty: 'default',
       optional: {
         deleted: false,
-        difficult: false,
+        difficult: difficultValue,
         indicator: indicatorValue,
         lastTrained: today,
         nextTraining: tomorrow,

@@ -120,6 +120,7 @@ class MainGame extends PureComponent {
             }
             const trainedValue = userWord?.optional?.trained + 1 || 1;
             const indicatorValue = userWord?.optional?.indicator || 2;
+            const difficultValue = userWord?.optional?.difficult || false;
             const today = new Date();
             const tomorrow = new Date(today);
             tomorrow.setDate(tomorrow.getDate() + 1);
@@ -127,7 +128,7 @@ class MainGame extends PureComponent {
               difficulty: 'default',
               optional: {
                 deleted: false,
-                difficult: false,
+                difficult: difficultValue,
                 indicator: indicatorValue,
                 lastTrained: today,
                 nextTraining: tomorrow,
