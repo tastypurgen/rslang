@@ -5,6 +5,7 @@ import pointIcon from './images/point.svg';
 import deleteIcon from './images/delete.svg';
 import speakerIcon from './images/speaker.svg';
 import AssesmentsButtons from './AssesmentsButtons/AssesmentsButtons';
+import Popup from './Popup/Popup';
 import Input from './Input/Input';
 import Indicator from '../../../components/Indicator/Indicator';
 import Progressbar from '../../../components/Progressbar/ProgressBar';
@@ -19,6 +20,7 @@ import {
 
 class MainGame extends PureComponent {
   state = {
+    showPopup: false,
     settingsData: null,
     showRightAnswer: false,
     isDataEnabled: false,
@@ -30,6 +32,12 @@ class MainGame extends PureComponent {
     difficultyBtnActive: false,
     inputValue: '',
   };
+
+  changePopupShowState = (value) => {
+    this.setState({
+      showPopup: value,
+    });
+  }
 
   clearInputValue = (newValue) => {
     this.setState({
@@ -145,7 +153,7 @@ class MainGame extends PureComponent {
         </button>
       ));
     } else if (displayAssessmentBtns && showRightAnswer) {
-      buttonComponent.push(( // showRightAnswer
+      buttonComponent.push(( 
         <AssesmentsButtons
           clearInputValue={this.clearInputValue}
           setShowRightAnswer={this.setShowRightAnswer}
@@ -216,9 +224,14 @@ class MainGame extends PureComponent {
                   alt="delete-icon"
                   src={deleteIcon}
                   onClick={() => {
+                    this.setInputClassesAndReadState('Input', false);
+                    this.setIndicatorNumber(userWord);
+                    this.setShowRightAnswer(false);
+                    this.setState({
+                      inputValue: '',
+                    });
                     const body = {
                       optional: {
-                        indicator: 5,
                         deleted: true,
                       },
                     };
@@ -299,7 +312,6 @@ class MainGame extends PureComponent {
             role="button"
             onClick={() => {
               if (currentWordIndex < wordsData.length - 1) {
-                // document.querySelector('.Input').value = '';
                 this.clearInputValue('');
                 this.setInputClassesAndReadState('Input', false);
                 this.setIndicatorNumber(wordsData[currentWordIndex + 1].userWord);
@@ -307,6 +319,8 @@ class MainGame extends PureComponent {
                   currentWordIndex: currentWordIndex + 1,
                   showRightAnswer: false,
                 });
+              } else {
+                this.changePopupShowState(true);
               }
             }}
             className="MainGame__right-arrow"
@@ -381,10 +395,10 @@ class MainGame extends PureComponent {
 
   render() {
     const {
-      setCurrentWordIndex, changeRightAnswerState, initCardComponent, state,
+      changePopupShowState, initCardComponent, state,
     } = this;
     const {
-      showRightAnswer, currentWordIndex, wordsData, isDataEnabled,
+      showRightAnswer, currentWordIndex, wordsData, isDataEnabled, showPopup,
     } = state;
     return (
       <div className="MainGame">
@@ -398,6 +412,7 @@ class MainGame extends PureComponent {
           />
           <p className="MainGame__progress-length">{wordsData.length}</p>
         </div>
+        {showPopup ? <Popup changePopupShowState={changePopupShowState} /> : null}
       </div>
     );
   }
