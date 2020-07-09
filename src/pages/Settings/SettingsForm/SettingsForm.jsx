@@ -41,7 +41,7 @@ export default class SettingsForm extends PureComponent {
                   onChange={settings.setRange}
                 />
                 <div className="settings__green-line" style={{ width: `${(265 / 100) * settings.wordsPerDay}px` }} />
-                <span className="settings__range_value">{settings.wordsPerDay}</span>
+                <span className="settings__range_value" style={{ right: `${255 - (265 / 100) * settings.wordsPerDay}px` }}>{settings.wordsPerDay}</span>
               </div>
               <div className="settings__input-group range-input-group">
                 <label htmlFor="settings__max_cards_per_day">Максимальное количество карточек на день</label>
@@ -57,7 +57,7 @@ export default class SettingsForm extends PureComponent {
                   onChange={settings.setRange}
                 />
                 <div className="settings__green-line" style={{ width: `${(265 / 100) * settings.maxCardsPerDay}px` }} />
-                <span className="settings__range_value">{settings.maxCardsPerDay}</span>
+                <span className="settings__range_value" style={{ right: `${255 - (265 / 100) * settings.maxCardsPerDay}px` }}>{settings.maxCardsPerDay}</span>
               </div>
             </div>
             <div className="settings__form-group">

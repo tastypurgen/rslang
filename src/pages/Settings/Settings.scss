@@ -90,8 +90,9 @@
 
 .settings__range_value {
   position: absolute;
-  top: calc(50% - 9.6px);
-  right: 275px;
+  top: -15px;  
+  color: #32BEA6;
+  font-size: 14px;
 }
 
 .settings__checkbox-group__title {
