@@ -1,32 +1,22 @@
 import React from 'react';
 import './Indicator.scss';
 
-const Indicator = (props) => {
-  const { indicatorNumber } = props;
-  const indicatorItems = [];
+const colors = ['#e04f5f', '#ff934d', '#ffd07d', '#82d243', '#32bea6'];
 
-  if (indicatorNumber) {
-    for (let i = 0; i < 5; i += 1) {
-      const indicatorItemClasses = ['Indicator__item'];
-      if (i < indicatorNumber) {
-        indicatorItemClasses.push('Indicator__item--active');
-      }
-      indicatorItems.push(<li key={i.toString()} className={indicatorItemClasses.join(' ')} />);
-    }
-  } else {
-    for (let i = 0; i < 5; i += 1) {
-      if (i === 0) {
-        indicatorItems.push(<li key={i} className="Indicator__item Indicator__item--active" />);
-      } else {
-        indicatorItems.push(<li key={i} className="Indicator__item" />);
-      }
-    }
+export default class Indicator extends React.PureComponent {
+  render() {
+    const { indicator } = this.props;
+
+    return (
+      <div className="indicators">
+        {colors.map((color, i) => (
+          <div
+            style={{ background: `${i < indicator ? color : ''}` }}
+            className="indicator"
+            key={color}
+          />
+        ))}
+      </div>
+    );
   }
-  return (
-    <ul className="Indicator">
-      {indicatorItems}
-    </ul>
-  );
-};
-
-export default Indicator;
+}

@@ -1,17 +1,18 @@
-import React, { PureComponent } from 'react';
+/* eslint-disable no-underscore-dangle */
+import React from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import './Dictionary.scss';
 import getUserAggregatedWords from '../../services/userAggregatedWords';
 import { updateUserWord } from '../../services/userWords';
 import Spinner from '../../components/Spinner/Spinner';
+import Indicator from '../../components/Indicator/Indicator';
 
 import audioImg from './img/audio.png';
 import returnImg from './img/return.png';
+import infoImg from './img/info.png';
 import { URI } from '../../utils/constants';
 
-const colors = ['#e04f5f', '#ff934d', '#ffd07d', '#82d243', '#32bea6'];
-
-export default class Word extends PureComponent {
+export default class Word extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -43,21 +44,23 @@ export default class Word extends PureComponent {
       transcription: el.transcription,
       image: URI + el.image,
       indicator: el.userWord.optional.indicator,
+      trained: el.userWord.optional.trained,
+      lastTrained: el.userWord.optional.lastTrained,
+      nextTraining: el.userWord.optional.nextTraining,
     }));
 
     this.setState({ words: stateWords });
   }
 
-  returnToLearning(id, indicator) {
+  returnToLearning(id, indicator, trained, lastTrained, nextTraining) {
     const body = {
       optional: {
         indicator,
         deleted: false,
         difficult: false,
-        indicator: 2,
-        lastTrained: new Date(),
-        nextTraining: new Date(),
-        trained: 1,
+        trained,
+        lastTrained,
+        nextTraining,
       },
     };
     updateUserWord(id, body);
@@ -127,13 +130,23 @@ export default class Word extends PureComponent {
               </td>
               <td>
                 <div className="indicators-container">
-                  {colors.map((color, i) => (
-                    <div
-                        style={{ backgroundColor: `${i + 1 <= el.indicator ? color : ''}` }}
-                        className="indicator"
-                        key={color}
-                      />
-                  ))}
+                  <Indicator indicator={el.indicator} />
+                  <span className="indicator-hint">
+                    <Indicator indicator={5} />
+                    У вас прекрасная память!
+                    <br />
+                    <Indicator indicator={4} />
+                    Это слово так и вертится у вас на языке!
+                    <br />
+                    <Indicator indicator={3} />
+                    Вы в процессе запоминания этого слова.
+                    <br />
+                    <Indicator indicator={2} />
+                    Это слово нужно подучить.
+                    <br />
+                    <Indicator indicator={1} />
+                    Новое слово! Вам оно еще не встречалось.
+                  </span>
                 </div>
               </td>
               <td className={type === 'learning' ? 'hidden' : 'return'}>
@@ -141,8 +154,24 @@ export default class Word extends PureComponent {
                   role="button"
                   src={returnImg}
                   alt="return"
-                  onClick={() => this.returnToLearning(el.wordId, el.indicator)}
+                  onClick={() => this.returnToLearning(el.wordId, el.indicator, el.trained, el.lastTrained, el.nextTraining)}
                 />
+              </td>
+              <td>
+                <div className="info">
+                  <img src={infoImg} alt="info" />
+                  <span className="word-hint">
+                    Всего повторялось
+                    {` ${el.trained} `}
+                    раз
+                    <br />
+                    Дата последнего повтора
+                    {` ${new Date(el.lastTrained).toLocaleDateString()}`}
+                    <br />
+                    Снова повторится
+                    {` ${new Date(el.nextTraining).toLocaleDateString()}`}
+                  </span>
+                </div>
               </td>
             </tr>
           ))}
