@@ -10,6 +10,7 @@ import Indicator from '../../components/Indicator/Indicator';
 import audioImg from './img/audio.png';
 import returnImg from './img/return.png';
 import infoImg from './img/info.png';
+import deleteImg from './img/delete.png';
 import { URI } from '../../utils/constants';
 
 export default class Word extends React.PureComponent {
@@ -21,9 +22,9 @@ export default class Word extends React.PureComponent {
     };
   }
 
-  componentDidMount() {
-    this.getSectionWords();
-    setTimeout(() => this.setState({ isSpinnerOn: false }), 1000);
+  componentDidMount = async () => {
+    await this.getSectionWords();
+    await this.setState({ isSpinnerOn: false });
   }
 
   getSectionWords = async () => {
@@ -61,6 +62,23 @@ export default class Word extends React.PureComponent {
         trained,
         lastTrained,
         nextTraining,
+      },
+    };
+    updateUserWord(id, body);
+    const { words } = this.state;
+    const newWords = words.filter((el) => el.wordId !== id);
+    this.setState({ words: newWords });
+  }
+
+  deleteWord(id, indicator, trained) {
+    const body = {
+      optional: {
+        deleted: true,
+        difficult: false,
+        indicator,
+        lastTrained: new Date(),
+        nextTraining: new Date(),
+        trained,
       },
     };
     updateUserWord(id, body);
@@ -149,12 +167,25 @@ export default class Word extends React.PureComponent {
                   </span>
                 </div>
               </td>
+              <td className={type === 'deleted' ? 'hidden' : ''}>
+                <img
+                  className="delete"
+                  role="button"
+                  src={deleteImg}
+                  alt="delete"
+                  title="Удалить слово"
+                  onClick={() => this.deleteWord(el.wordId, el.indicator, el.trained)}
+                />
+              </td>
               <td className={type === 'learning' ? 'hidden' : 'return'}>
                 <img
                   role="button"
                   src={returnImg}
+                  title="Восстановить слово для изучения"
                   alt="return"
-                  onClick={() => this.returnToLearning(el.wordId, el.indicator, el.trained, el.lastTrained, el.nextTraining)}
+                  onClick={() => this.returnToLearning(
+                    el.wordId, el.indicator, el.trained, el.lastTrained, el.nextTraining,
+                  )}
                 />
               </td>
               <td>
