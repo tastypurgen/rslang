@@ -5,6 +5,7 @@ import { getToken, getUserId } from './postUserData';
 // const testObj = {
 //   'difficulty': 'easy',
 //   'optional': {
+//       indicator: 4,
 //       deleted: false,
 //       difficult: false,
 //   }
