@@ -11,18 +11,16 @@ const Indicator = (props) => {
       if (i < indicatorNumber) {
         indicatorItemClasses.push('Indicator__item--active');
       }
-      indicatorItems.push(<li key={i} className={indicatorItemClasses.join(' ')} />);
+      indicatorItems.push(<li key={i.toString()} className={indicatorItemClasses.join(' ')} />);
     }
   } else {
-    indicatorItems.push(
-      <>
-        <li key={1} className="Indicator__item Indicator__item--active" />
-        <li key={2} className="Indicator__item" />
-        <li key={3} className="Indicator__item" />
-        <li key={4} className="Indicator__item" />
-        <li key={5} className="Indicator__item" />
-      </>,
-    );
+    for (let i = 0; i < 5; i += 1) {
+      if (i === 0) {
+        indicatorItems.push(<li key={i} className="Indicator__item Indicator__item--active" />);
+      } else {
+        indicatorItems.push(<li key={i} className="Indicator__item" />);
+      }
+    }
   }
   return (
     <ul className="Indicator">

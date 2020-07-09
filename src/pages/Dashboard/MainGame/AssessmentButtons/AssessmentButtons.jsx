@@ -3,10 +3,11 @@ import './AssessmentButtons.scss';
 
 const AssessmentButtons = (props) => {
   const { setShowRightAnswer, setInputClassesAndReadState, clearInputValue } = props;
+
   return (
     <div className="AssessmentButtons">
       <button
-        key={1}
+        key="1"
         className="AssessmentButtons__button"
         onClick={() => {
           setInputClassesAndReadState('Input', false);
@@ -18,7 +19,7 @@ const AssessmentButtons = (props) => {
         Снова
       </button>
       <button
-        key={2}
+        key="2"
         className="AssessmentButtons__button"
         onClick={() => {
 
@@ -28,7 +29,7 @@ const AssessmentButtons = (props) => {
         Трудно
       </button>
       <button
-        key={3}
+        key="3"
         className="AssessmentButtons__button"
         onClick={() => {
 
@@ -38,7 +39,7 @@ const AssessmentButtons = (props) => {
         Хорошо
       </button>
       <button
-        key={4}
+        key="4"
         className="AssessmentButtons__button"
         onClick={() => {
 

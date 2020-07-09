@@ -13,8 +13,7 @@ import getUserAggregatedWords from '../../../services/userAggregatedWords';
 import shuffleArray from '../../../utils/suffleArray';
 import { getUserSettings } from '../../../services/settingsService';
 import playAudioFunction from '../../../utils/playAudioFunction';
-// import { getWordByPageAndDifficultyNumber, getWordsByPa
-// geCount } from '../../../services/getWords';
+import { getWordByPageAndDifficultyNumber, getWordsByPageCount } from '../../../services/getWords';
 import {
   createUserWord, deleteUserWord, updateUserWord, getAllUserWords,
 } from '../../../services/userWords';
@@ -121,7 +120,7 @@ class MainGame extends PureComponent {
         <button
           className="MainGame__answer-button"
           type="button"
-          key={2}
+          key={423}
           onClick={() => {
             console.log(settingsData);
             if (autoPronunciation) {
@@ -244,34 +243,36 @@ class MainGame extends PureComponent {
                   alt="delete-icon"
                   src={deleteIcon}
                   onClick={() => {
-                    this.setInputClassesAndReadState('Input', false);
-                    this.setIndicatorNumber(userWord);
-                    this.setShowRightAnswer(false);
-                    this.setState({
-                      inputValue: '',
-                    });
-                    const indicatorValue = userWord?.optional?.indicator || 1;
-                    const trainedValue = userWord?.optional?.trained || 1;
-                    const body = {
-                      optional: {
-                        deleted: true,
-                        difficult: false,
-                        indicator: indicatorValue,
-                        lastTrained: new Date(),
-                        nextTraining: new Date(),
-                        trained: trainedValue,
-                      },
-                    };
-                    try {
-                      if (userWord.optional.indicator < 5) {
-                        console.log(userWord.optional.indicator);
-                        updateUserWord(wordsData[currentWordIndex]._id, body);
+                    if (currentWordIndex !== wordsData.length - 1) {
+                      this.setInputClassesAndReadState('Input', false);
+                      this.setIndicatorNumber(userWord);
+                      this.setShowRightAnswer(false);
+                      this.setState({
+                        inputValue: '',
+                      });
+                      const indicatorValue = userWord?.optional?.indicator || 1;
+                      const trainedValue = userWord?.optional?.trained || 1;
+                      const body = {
+                        optional: {
+                          deleted: true,
+                          difficult: false,
+                          indicator: indicatorValue,
+                          lastTrained: new Date(),
+                          nextTraining: new Date(),
+                          trained: trainedValue,
+                        },
+                      };
+                      try {
+                        if (userWord.optional.indicator < 5) {
+                          console.log(userWord.optional.indicator);
+                          updateUserWord(wordsData[currentWordIndex]._id, body);
+                        }
+                      } catch {
+                        createUserWord(wordsData[currentWordIndex]._id, body);
+                        console.log('Слова нит');
                       }
-                    } catch {
-                      createUserWord(wordsData[currentWordIndex]._id, body);
-                      console.log('Слова нит');
+                      changeCardToLeft();
                     }
-                    changeCardToLeft();
                   }}
                   className="MainGame__delete-button"
                 />
@@ -425,7 +426,7 @@ class MainGame extends PureComponent {
       changePopupShowState, initCardComponent, state,
     } = this;
     const {
-      showRightAnswer, currentWordIndex, wordsData, isDataEnabled, showPopup,
+      currentWordIndex, wordsData, isDataEnabled, showPopup,
     } = state;
     return (
       <div className="MainGame">
