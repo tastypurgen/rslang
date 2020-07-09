@@ -25,12 +25,11 @@ export default class Word extends PureComponent {
 
   getSectionWords = async () => {
     const { filter } = this.props;
-    const content = await getUserAggregatedWords(filter);
+    const content = await getUserAggregatedWords(filter, 100);
     const contentWords = content[0].paginatedResults;
     const stateWords = [];
 
     contentWords.map((el) => stateWords.push({
-      // eslint-disable-next-line no-underscore-dangle
       wordId: el._id,
       word: el.word,
       translation: el.wordTranslate,
@@ -51,6 +50,10 @@ export default class Word extends PureComponent {
       optional: {
         deleted: false,
         difficult: false,
+        indicator: 2,
+        lastTrained: new Date(),
+        nextTraining: new Date(),
+        trained: 1,
       },
     };
     updateUserWord(id, body);

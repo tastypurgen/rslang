@@ -1,0 +1,80 @@
+.AssessmentButtons {
+    width: 100%;
+    max-width: 310px;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+
+    .AssessmentButtons__button {
+        outline: none;
+        cursor: pointer;
+        display: block;
+        width: 69px;
+        height: 22px;
+        background: transparent;
+        border: 1px solid;
+        border-radius: 320px;
+        font-size: 14px;
+        line-height: 17px;
+        transition: 0.3s ease-in-out;
+        -webkit-transition: 0.3s ease-in-out;
+        -moz-transition: 0.3s ease-in-out;
+        -ms-transition: 0.3s ease-in-out;
+        -o-transition: 0.3s ease-in-out;
+    }
+
+    .AssessmentButtons__button:nth-child(1) {
+        border-color: #FF934D;
+        color: #FF934D;
+    }
+
+    .AssessmentButtons__button:nth-child(2) {
+        border-color: #E04F5F;
+        color: #E04F5F;
+    }
+
+    .AssessmentButtons__button:nth-child(3) {
+        border-color: #82D243;
+        color: #82D243;
+    }
+
+    .AssessmentButtons__button:nth-child(4) {
+        border-color: #32BEA6;
+        color: #32BEA6;
+    }
+
+    .AssessmentButtons__button:nth-child(1):hover {
+        color: white; 
+        background-color: #FF934D;
+    }
+
+    .AssessmentButtons__button:nth-child(2):hover {
+        background-color: #E04F5F;
+        color: white;
+    }
+
+    .AssessmentButtons__button:nth-child(3):hover {
+        background-color: #82D243;
+        color: white;
+    }
+
+    .AssessmentButtons__button:nth-child(4):hover {
+        background-color: #32BEA6;
+        color: white;
+    }
+}
+
+@media (max-width: 421px) {
+    .AssessmentButtons {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .AssessmentButtons__button {
+            display: block;
+            width: 79px;
+            height: 25px;
+            margin-bottom: 15px;
+        }
+    }
+}
