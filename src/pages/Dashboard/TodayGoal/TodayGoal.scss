@@ -1,0 +1,116 @@
+.TodayGoal {
+    width: 100%;
+    max-width: 463px;
+    min-height: 224px;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    position: relative;
+    margin-right: 5px;
+
+    .TodayGoal__title-bar {
+        border-radius: 10px 10px 0px 0px;
+        background: #32BEA6;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 48px;
+
+        .TodayGoal__title {
+            color: white;
+            font-family: Rubik;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 18px;
+            line-height: 21px;
+            margin-left: 63px;
+        }
+
+        .TodayGoal__select {
+            margin-right: 19px;
+            width: 116px;
+            height: 25px;
+            background: #FFFFFF;
+            border: 1px solid #C6C3BD;
+            border-radius: 5px;
+        }
+    }
+
+    .TodayGoal__flex-wrapper {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        padding: 0 26px;
+        margin-top: 26px;
+        margin-bottom: 30px;
+    }
+
+    .TodayGoal__description {
+        font-family: Rubik;
+        font-size: 16px;
+        line-height: 19px;
+        color: #37383C;
+        width: 100%;
+        max-width: 316px;
+        order: 2;
+    }
+
+    .TodayGoal__image {
+       order: 1;
+       margin-right: 23px;
+    }
+
+    .TodayGoal__progreess-container {
+        max-width: 461px;
+        width: 100%;
+        margin: 0 auto;
+        margin-bottom: 25px;
+        padding: 0 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .TodayGoal__button {
+            border: none;
+            outline: none;
+            width: 100%;
+            max-width: 149px;
+            height: 34px;
+
+            background: #32BEA6;
+            border-radius: 320px;
+            font-family: Rubik;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 18px;
+            line-height: 21px;
+
+            cursor: pointer;
+            margin-left: 10px;
+
+            .TodayGoal__nav-link {
+                color: #FFFFFF;
+            }
+        }
+    }
+
+    @media (max-width: 509px) {
+        .TodayGoal__progreess-container {
+            .TodayGoal__button {
+                font-size: 15px;
+                line-height: 17px;
+                max-width: 121px;
+                margin-left: 20px;
+            }
+        }
+
+        @media (max-width: 421px) {
+
+            .TodayGoal__title-bar {
+                .TodayGoal__title {
+                    margin-left: 40px;
+                }
+            }
+        }
+    }
+}

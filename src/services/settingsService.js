@@ -1,7 +1,28 @@
+import { API } from '../utils/constants';
+
+const defaultSettings = {
+  wordsPerDay: 20,
+  optional: {
+    associationImage: true,
+    autoPronunciation: true,
+    displayAssessmentBtns: true,
+    displayDeleteBtn: true,
+    displayDifficultBtn: true,
+    displayShowAnswerBtn: true,
+    exampleSentence: true,
+    explanationSentence: true,
+    isRequiredInputChecked: true,
+    maxCardsPerDay: 20,
+    showWordAndSentenceTranslation: true,
+    wordTranscription: true,
+    wordTranslation: true,
+  },
+};
+
 const getUserSettings = async (token, userId) => {
   let rawResponse = null;
   try {
-    rawResponse = await fetch(`https://afternoon-falls-25894.herokuapp.com/users/${userId}/settings`, {
+    rawResponse = await fetch(`${API}users/${userId}/settings`, {
       method: 'GET',
       withCredentials: true,
       headers: {
@@ -26,11 +47,11 @@ const getUserSettings = async (token, userId) => {
 };
 
 const setUserSettings = async (token, userId, settingsObj) => {
-  const jsonSettings = JSON.stringify(settingsObj);
+  const jsonSettings = settingsObj ? JSON.stringify(settingsObj) : JSON.stringify(defaultSettings);
 
   let rawResponse = null;
   try {
-    rawResponse = await fetch(`https://afternoon-falls-25894.herokuapp.com/users/${userId}/settings`, {
+    rawResponse = await fetch(`${API}users/${userId}/settings`, {
       method: 'PUT',
       withCredentials: true,
       headers: {
@@ -55,52 +76,4 @@ const setUserSettings = async (token, userId, settingsObj) => {
   return response;
 };
 
-const setDefaultSettings = async (token, userId) => {
-  const defaultSettings = {
-    wordsPerDay: 20,
-    optional: {
-      associationImage: true,
-      autoPronunciation: false,
-      displayAssessmentBtns: true,
-      displayDeleteBtn: true,
-      displayDifficultBtn: true,
-      displayShowAnswerBtn: true,
-      exampleSentence: true,
-      explanationSentence: true,
-      isRequiredInputChecked: true,
-      maxCardsPerDay: 20,
-      showWordAndSentenceTranslation: true,
-      wordTranscription: true,
-      wordTranslation: true,
-    },
-  };
-  const jsonSettings = JSON.stringify(defaultSettings);
-
-  let rawResponse = null;
-  try {
-    rawResponse = await fetch(`https://afternoon-falls-25894.herokuapp.com/users/${userId}/settings`, {
-      method: 'PUT',
-      withCredentials: true,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: jsonSettings,
-    });
-  } catch (err) {
-    return err;
-  }
-
-  if (rawResponse.status !== 200) {
-    return {
-      status: rawResponse.status,
-      text: rawResponse.statusText,
-    };
-  }
-  const response = await rawResponse.json();
-  response.status = rawResponse.status;
-  return response;
-};
-
-export { getUserSettings, setUserSettings, setDefaultSettings };
+export { getUserSettings, setUserSettings };

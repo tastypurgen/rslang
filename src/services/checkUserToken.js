@@ -1,8 +1,11 @@
+import { API } from '../utils/constants';
+import { getToken, getUserId } from './postUserData';
+
 const checkUserToken = async () => {
-  const rawResponse = await fetch(`https://afternoon-falls-25894.herokuapp.com/users/${localStorage.userId}/words`, {
+  const rawResponse = await fetch(`${API}users/${getUserId()}/words`, {
     method: 'GET',
     headers: {
-      Authorization: `Bearer ${localStorage.userToken}`,
+      Authorization: `Bearer ${getToken()}`,
     },
   });
   if (rawResponse.ok) {
