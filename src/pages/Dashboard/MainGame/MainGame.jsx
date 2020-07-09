@@ -27,7 +27,7 @@ class MainGame extends PureComponent {
     isDataEnabled: false,
     wordsData: [],
     currentWordIndex: 0,
-    indicatorNumber: 1,
+    indicator: 1,
     inputClasses: 'Input',
     inputReadOnlyFlag: false,
     difficultyBtnActive: false,
@@ -63,7 +63,7 @@ class MainGame extends PureComponent {
     });
   }
 
-  setIndicatorNumber = (userWord, number) => {
+  setIndicator = (userWord, number) => {
     let nextValue = 1;
     if (number) {
       nextValue = number;
@@ -72,7 +72,7 @@ class MainGame extends PureComponent {
     }
 
     this.setState({
-      indicatorNumber: nextValue,
+      indicator: nextValue,
     });
   }
 
@@ -86,7 +86,7 @@ class MainGame extends PureComponent {
     console.log(wordData);
     const { changeCardToLeft } = this;
     const {
-      settingsData, showRightAnswer, wordsData, currentWordIndex, indicatorNumber, inputClasses,
+      settingsData, showRightAnswer, wordsData, currentWordIndex, indicator, inputClasses,
       inputReadOnlyFlag, difficultyBtnActive, inputValue,
     } = this.state;
 
@@ -151,7 +151,7 @@ class MainGame extends PureComponent {
               createUserWord(wordsData[currentWordIndex]._id, body);
             }
             this.setInputClassesAndReadState('Input Input--default', true);
-            this.setIndicatorNumber(userWord);
+            this.setIndicator(userWord);
             this.setShowRightAnswer(true);
             this.setState({
               inputValue: word,
@@ -175,8 +175,8 @@ class MainGame extends PureComponent {
       <div className={showRightAnswer ? 'MainGame__card MainGame__card--active' : 'MainGame__card'}>
         <div className="MainGame__indicator-container">
           {userWord
-            ? <Indicator indicatorNumber={indicatorNumber} />
-            : <Indicator />}
+            ? <Indicator indicator={indicator} />
+            : <Indicator indicator={1} />}
         </div>
         <div className="MainGame__container">
           <div className="MainGame__flex-wrapper">
@@ -190,7 +190,7 @@ class MainGame extends PureComponent {
                   inputReadOnlyFlag={inputReadOnlyFlag}
                   inputClasses={inputClasses}
                   setInputClassesAndReadState={this.setInputClassesAndReadState}
-                  setIndicatorNumber={this.setIndicatorNumber}
+                  setIndicator={this.setIndicator}
                   userWord={userWord}
                   exampleSentence={exampleSentence}
                   changeRightAnswerState={this.setShowRightAnswer}
@@ -247,7 +247,7 @@ class MainGame extends PureComponent {
                   src={deleteIcon}
                   onClick={() => {
                     this.setInputClassesAndReadState('Input', false);
-                    this.setIndicatorNumber(userWord);
+                    this.setIndicator(userWord);
                     this.setShowRightAnswer(false);
                     this.setState({
                       inputValue: '',
@@ -318,7 +318,7 @@ class MainGame extends PureComponent {
               if (currentWordIndex < wordsData.length - 1) {
                 this.clearInputValue('');
                 this.setInputClassesAndReadState('Input', false);
-                this.setIndicatorNumber(wordsData[currentWordIndex + 1].userWord);
+                this.setIndicator(wordsData[currentWordIndex + 1].userWord);
                 this.setState({
                   currentWordIndex: currentWordIndex + 1,
                   showRightAnswer: false,
@@ -382,7 +382,7 @@ class MainGame extends PureComponent {
     );
     const todayWordData = shuffleArray(wordsDataResponse[0].paginatedResults);
 
-    this.setIndicatorNumber(todayWordData[0].userWord);
+    this.setIndicator(todayWordData[0].userWord);
     this.setState({
       wordsData: todayWordData,
       isDataEnabled: true,

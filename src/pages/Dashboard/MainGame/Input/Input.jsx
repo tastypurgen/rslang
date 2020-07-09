@@ -10,7 +10,7 @@ import playAudioFunction from '../../../../utils/playAudioFunction';
 const Input = (props) => {
   const {
     textExample, wordData, changeRightAnswerState, exampleSentence, userWord,
-    setIndicatorNumber, autoPronunciation, inputValue, setInputClassesAndReadState,
+    setIndicator, autoPronunciation, inputValue, setInputClassesAndReadState,
     inputClasses, inputReadOnlyFlag, clearInputValue,
   } = props;
   const { word, _id, audio } = wordData;
@@ -45,10 +45,10 @@ const Input = (props) => {
       },
     };
     if (!userWord) {
-      setIndicatorNumber(null, answerIndicatorValue);
+      setIndicator(null, answerIndicatorValue);
       createUserWord(_id, body);
     } else {
-      setIndicatorNumber(userWord, userWord.optional.indicator + additionalIndicatorValue);
+      setIndicator(userWord, userWord.optional.indicator + additionalIndicatorValue);
       updateUserWord(_id, body);
     }
   };
