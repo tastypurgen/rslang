@@ -11,9 +11,8 @@ import { getToken, getUserId } from './postUserData';
 // }
 
 // difficulty: easy, medium, hard
-const createUserWord = async (wordId, body) => {
+async function createUserWord(wordId, body) {
   let rawResponse;
-  console.log('wordId: ', wordId);
   try {
     rawResponse = await fetch(`${API}users/${getUserId()}/words/${wordId}`, {
       method: 'POST',
@@ -35,7 +34,8 @@ const createUserWord = async (wordId, body) => {
     console.log('catch srabotal');
     return 's';
   }
-};
+  return null;
+}
 
 const updateUserWord = async (wordId, body) => {
   const rawResponse = await fetch(`${API}users/${getUserId()}/words/${wordId}`,

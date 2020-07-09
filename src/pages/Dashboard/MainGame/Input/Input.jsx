@@ -2,14 +2,16 @@ import React from 'react';
 import './Input.scss';
 import getSentenceByTags from '../../../../utils/getSentenceByTags';
 import {
-  createUserWord, deleteUserWord, getAllUserWords, updateUserWord,
+  // removed deleteUserWord, getAllUserWords
+  createUserWord, updateUserWord,
 } from '../../../../services/userWords';
 import playAudioFunction from '../../../../utils/playAudioFunction';
 
 const Input = (props) => {
   const {
     textExample, wordData, changeRightAnswerState, exampleSentence, userWord,
-    setIndicatorNumber, autoPronunciation, inputValue, setInputClassesAndReadState, inputClasses, inputReadOnlyFlag, clearInputValue,
+    setIndicatorNumber, autoPronunciation, inputValue, setInputClassesAndReadState,
+    inputClasses, inputReadOnlyFlag, clearInputValue,
   } = props;
   const { word, _id, audio } = wordData;
   let leftAndRightPartsOfSentce;
@@ -51,11 +53,11 @@ const Input = (props) => {
     }
   };
 
-  const checkInputWord = (inputValue) => {
+  const checkInputWord = (input) => {
     if (autoPronunciation) {
       playAudioFunction(`https://raw.githubusercontent.com/Koptohhka/rslang-data/master/${audio}`);
     }
-    if (inputValue.toLowerCase() === word.toLowerCase()) {
+    if (input.toLowerCase() === word.toLowerCase()) {
       setInputClassesAndReadState('Input Input--right', true);
       postUserWordData(5, 1);
       changeRightAnswerState(true);

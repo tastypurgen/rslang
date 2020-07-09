@@ -30,7 +30,6 @@ export default class Word extends PureComponent {
     const stateWords = [];
 
     contentWords.map((el) => stateWords.push({
-      // eslint-disable-next-line no-underscore-dangle
       wordId: el._id,
       word: el.word,
       translation: el.wordTranslate,

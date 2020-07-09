@@ -1,4 +1,4 @@
-/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-console */
 import React, { PureComponent } from 'react';
 import './MainGame.scss';
 import pointIcon from './images/point.svg';
@@ -13,9 +13,10 @@ import getUserAggregatedWords from '../../../services/userAggregatedWords';
 import shuffleArray from '../../../utils/suffleArray';
 import { getUserSettings } from '../../../services/settingsService';
 import playAudioFunction from '../../../utils/playAudioFunction';
-import { getWordByPageAndDifficultyNumber, getWordsByPageCount } from '../../../services/getWords';
+// import { getWordByPageAndDifficultyNumber, getWordsByPa
+// geCount } from '../../../services/getWords';
 import {
-  createUserWord, deleteUserWord, updateUserWord, getAllUserWords,
+  createUserWord, updateUserWord, getAllUserWords,
 } from '../../../services/userWords';
 
 class MainGame extends PureComponent {
@@ -89,7 +90,6 @@ class MainGame extends PureComponent {
       inputReadOnlyFlag, difficultyBtnActive, inputValue,
     } = this.state;
 
-    let component;
     const {
       word,
       textMeaning,
@@ -120,7 +120,7 @@ class MainGame extends PureComponent {
         <button
           className="MainGame__answer-button"
           type="button"
-          key={423}
+          key={2}
           onClick={() => {
             console.log(settingsData);
             if (autoPronunciation) {
@@ -164,16 +164,19 @@ class MainGame extends PureComponent {
     } else if (displayAssessmentBtns && showRightAnswer) {
       buttonComponent.push(( // showRightAnswer
         <AssessmentButtons
+          key={Math.random()}
           clearInputValue={this.clearInputValue}
           setShowRightAnswer={this.setShowRightAnswer}
           setInputClassesAndReadState={this.setInputClassesAndReadState}
         />
       ));
     }
-    component = (
+    return (
       <div className={showRightAnswer ? 'MainGame__card MainGame__card--active' : 'MainGame__card'}>
         <div className="MainGame__indicator-container">
-          {userWord ? <Indicator indicatorNumber={indicatorNumber} /> : <Indicator />}
+          {userWord
+            ? <Indicator indicatorNumber={indicatorNumber} />
+            : <Indicator />}
         </div>
         <div className="MainGame__container">
           <div className="MainGame__flex-wrapper">
@@ -243,36 +246,34 @@ class MainGame extends PureComponent {
                   alt="delete-icon"
                   src={deleteIcon}
                   onClick={() => {
-                    if (currentWordIndex !== wordsData.length - 1) {
-                      this.setInputClassesAndReadState('Input', false);
-                      this.setIndicatorNumber(userWord);
-                      this.setShowRightAnswer(false);
-                      this.setState({
-                        inputValue: '',
-                      });
-                      const indicatorValue = userWord?.optional?.indicator || 1;
-                      const trainedValue = userWord?.optional?.trained || 1;
-                      const body = {
-                        optional: {
-                          deleted: true,
-                          difficult: false,
-                          indicator: indicatorValue,
-                          lastTrained: new Date(),
-                          nextTraining: new Date(),
-                          trained: trainedValue,
-                        },
-                      };
-                      try {
-                        if (userWord.optional.indicator < 5) {
-                          console.log(userWord.optional.indicator);
-                          updateUserWord(wordsData[currentWordIndex]._id, body);
-                        }
-                      } catch {
-                        createUserWord(wordsData[currentWordIndex]._id, body);
-                        console.log('Слова нит');
+                    this.setInputClassesAndReadState('Input', false);
+                    this.setIndicatorNumber(userWord);
+                    this.setShowRightAnswer(false);
+                    this.setState({
+                      inputValue: '',
+                    });
+                    const indicatorValue = userWord?.optional?.indicator || 1;
+                    const trainedValue = userWord?.optional?.trained || 1;
+                    const body = {
+                      optional: {
+                        deleted: true,
+                        difficult: false,
+                        indicator: indicatorValue,
+                        lastTrained: new Date(),
+                        nextTraining: new Date(),
+                        trained: trainedValue,
+                      },
+                    };
+                    try {
+                      if (userWord.optional.indicator < 5) {
+                        console.log(userWord.optional.indicator);
+                        updateUserWord(wordsData[currentWordIndex]._id, body);
                       }
-                      changeCardToLeft();
+                    } catch {
+                      createUserWord(wordsData[currentWordIndex]._id, body);
+                      console.log('Слова нит');
                     }
+                    changeCardToLeft();
                   }}
                   className="MainGame__delete-button"
                 />
@@ -308,31 +309,6 @@ class MainGame extends PureComponent {
             ) : null}
           {buttonComponent}
         </div>
-        {/* {showRightAnswer ? (
-          <div
-            role="button"
-            tabIndex={-1}
-            onClick={() => {
-              if (currentWordIndex !== 0) {
-                this.setState({
-                  currentWordIndex: currentWordIndex - 1,
-                  showRightAnswer: false,
-                });
-              }
-            }}
-            className="MainGame__left-arrow"
-          >
-            <svg
-              width="31"
-              height="31"
-              viewBox="0 0 31 31"
-              fill="#C4C4C4"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M20.5165 25.9769L13.3425 18.9404H30.6548L30.6548 12.3766L13.3425 12.3766L20.5165 5.34016L15.9468 0.65546L0.651184 15.6573L15.9468 30.6616L20.5165 25.9769Z" />
-            </svg>
-          </div>
-        ) : null} */}
         {showRightAnswer ? (
 
           <div
@@ -366,7 +342,6 @@ class MainGame extends PureComponent {
         ) : null}
       </div>
     );
-    return component;
   };
 
   componentDidMount = async () => {
@@ -425,6 +400,7 @@ class MainGame extends PureComponent {
     const {
       changePopupShowState, initCardComponent, state,
     } = this;
+    // state.showRightAnswer
     const {
       currentWordIndex, wordsData, isDataEnabled, showPopup,
     } = state;

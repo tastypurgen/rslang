@@ -1,5 +1,4 @@
 import React from 'react';
-import MainGame from './MainGame/MainGame';
 import TodayGoal from './TodayGoal/TodayGoal';
 import TodayStatistics from './TodayStatistics/TodayStatistics';
 import TotalStatistics from './TotalStatistics/TotalStatistics';
