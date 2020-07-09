@@ -126,10 +126,10 @@ export default class Word extends PureComponent {
                 <div className="indicators-container">
                   {colors.map((color, i) => (
                     <div
-                        style={{ backgroundColor: `${i + 1 <= el.indicator ? color : ''}` }}
-                        className="indicator"
-                        key={color}
-                      />
+                      style={{ background: `${i < el.indicator ? color : ''}` }}
+                      className="indicator"
+                      key={color}
+                    />
                   ))}
                 </div>
               </td>
