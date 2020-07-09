@@ -1,28 +1,29 @@
 import React from 'react';
+import classNames from 'classnames';
 
 const ControlButtons = (props) => {
   const {
-    nextLevel, skipLevel, availableSkips, isCurrentWordResolved,
+    nextLevel, skipLevel, availableSkips, isCurrentWordResolved, currentLevel,
   } = props;
-  if (availableSkips && !isCurrentWordResolved) {
-    return (
-      <div className="word-constructor__buttons">
-        <button className="word-constructor__btn word-constructor__btn_white" type="button" onClick={skipLevel}>Пропустить</button>
-      </div>
-    );
-  }
+  const isFinalLevel = currentLevel === 9;
 
-  if (isCurrentWordResolved) {
+  if (!isCurrentWordResolved) {
+    const btnTitle = availableSkips ? `Пропустить${isFinalLevel ? ' и завершить' : ''}` : `Сдаться${isFinalLevel ? ' и завершить' : ''}`;
+    const btnClass = availableSkips ? classNames('word-constructor__btn', 'word-constructor__btn_white') : classNames('word-constructor__btn', 'word-constructor__btn_red');
     return (
       <div className="word-constructor__buttons">
-        <button className="word-constructor__btn" type="button" onClick={nextLevel}>Далее</button>
+        <button className={btnClass} type="button" onClick={skipLevel}>
+          {btnTitle}
+        </button>
       </div>
     );
   }
 
   return (
     <div className="word-constructor__buttons">
-      <button className="word-constructor__btn word-constructor__btn_red" type="button">Сдаться</button>
+      <button className="word-constructor__btn" type="button" onClick={nextLevel}>
+        {!isFinalLevel ? 'Далее' : 'Завершить игру'}
+      </button>
     </div>
   );
 };

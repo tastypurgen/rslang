@@ -6,9 +6,9 @@ const checkWordCorrectness = (gameWords, currentLevel) => {
 
   if (!findEmptyIndex(userAnswerArr)) {
     const userAnswer = userAnswerArr.map((letter) => letter.letter).join('');
-    return (userAnswer === rightWord);
+    return { isAnswerFilled: true, isAnswerCorrect: (userAnswer === rightWord) };
   }
-  return false;
+  return { isAnswerFilled: false, isAnswerCorrect: false };
 };
 
 export default checkWordCorrectness;

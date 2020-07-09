@@ -8,9 +8,11 @@ import checkWordCorrectness from '../utils/checkWordCorrectness';
 import '../WordСonstructor.scss';
 
 import AvailableSkips from './AvailableSkips';
+import Hints from './Hints';
 import Word from './Word';
 import Answer from './Answer';
 import ControlButtons from './ControlButtons';
+import ProgressBar from './ProgressBar';
 
 import successSound from '../sounds/success.mp3';
 
@@ -22,7 +24,9 @@ export default class Game extends PureComponent {
       isWordsLoaded: false,
       currentLevel: 0,
       isCurrentWordResolved: false,
+      isCurrentWordFilled: false,
       availableSkips: 3,
+      availableHints: 3,
       wrongAnswers: [],
       rightAnswers: [],
     };
@@ -53,23 +57,51 @@ export default class Game extends PureComponent {
     this.setState({ isWordsLoaded: true });
   }
 
-  nextLevel() {
+  async nextLevel() {
     const { currentLevel } = this.state;
-    new Audio(successSound).play();
-    this.setState((prevState) => ({
-      currentLevel: prevState.currentLevel + 1,
-      rightAnswers: [...prevState.rightAnswers, prevState.gameWords[currentLevel]],
-      isCurrentWordResolved: false,
-    }));
+    const { finishGame } = this.props;
+
+    if (currentLevel === 9) {
+      await this.setState((prevState) => ({
+        rightAnswers: [...prevState.rightAnswers, prevState.gameWords[currentLevel]],
+      }));
+      const { rightAnswers, wrongAnswers } = this.state;
+      finishGame(rightAnswers, wrongAnswers);
+    } else {
+      this.setState((prevState) => ({
+        currentLevel: prevState.currentLevel + 1,
+        rightAnswers: [...prevState.rightAnswers, prevState.gameWords[currentLevel]],
+        isCurrentWordResolved: false,
+        isCurrentWordFilled: false,
+      }));
+    }
   }
 
-  skipLevel() {
-    const { currentLevel } = this.state;
-    this.setState((prevState) => ({
-      availableSkips: prevState.availableSkips - 1,
-      currentLevel: prevState.currentLevel + 1,
-      wrongAnswers: [...prevState.wrongAnswers, prevState.gameWords[currentLevel]],
-    }));
+  async skipLevel() {
+    const { currentLevel, availableSkips } = this.state;
+    const { finishGame } = this.props;
+
+    if (currentLevel === 9) {
+      await this.setState((prevState) => ({
+        availableSkips: availableSkips ? availableSkips - 1 : availableSkips,
+        wrongAnswers: [...prevState.wrongAnswers, prevState.gameWords[currentLevel]],
+      }));
+      const { rightAnswers, wrongAnswers } = this.state;
+      finishGame(rightAnswers, wrongAnswers);
+    } else if (availableSkips) {
+      this.setState((prevState) => ({
+        availableSkips: availableSkips - 1,
+        currentLevel: prevState.currentLevel + 1,
+        wrongAnswers: [...prevState.wrongAnswers, prevState.gameWords[currentLevel]],
+        isCurrentWordFilled: false,
+      }));
+    } else {
+      await this.setState((prevState) => ({
+        wrongAnswers: [...prevState.wrongAnswers, ...prevState.gameWords.slice(currentLevel)],
+      }));
+      const { rightAnswers, wrongAnswers } = this.state;
+      finishGame(rightAnswers, wrongAnswers);
+    }
   }
 
   pickLetter(event) {
@@ -95,9 +127,14 @@ export default class Game extends PureComponent {
 
     isUserAnswerCorrect = checkWordCorrectness(newGameWords, currentLevel);
 
+    if (isUserAnswerCorrect.isAnswerCorrect) {
+      new Audio(successSound).play();
+    }
+
     this.setState({
       gameWords: newGameWords,
-      isCurrentWordResolved: isUserAnswerCorrect,
+      isCurrentWordResolved: isUserAnswerCorrect.isAnswerCorrect,
+      isCurrentWordFilled: isUserAnswerCorrect.isAnswerFilled,
     });
   }
 
@@ -119,7 +156,15 @@ export default class Game extends PureComponent {
     newGameWords[currentLevel].shuffledLetters = newShuffledLetters;
     newGameWords[currentLevel].answerLetters = newAnswerLetters;
 
-    this.setState({ gameWords: newGameWords });
+    this.setState({ gameWords: newGameWords, isCurrentWordFilled: false });
+  }
+
+  playAudioHint() {
+    const { gameWords, currentLevel } = this.state;
+    new Audio(gameWords[currentLevel].audio).play();
+    this.setState((prevState) => ({
+      availableHints: prevState.availableHints - 1,
+    }));
   }
 
   render() {
@@ -127,24 +172,36 @@ export default class Game extends PureComponent {
       gameWords,
       isWordsLoaded,
       availableSkips,
+      availableHints,
       currentLevel,
       isCurrentWordResolved,
+      isCurrentWordFilled,
     } = this.state;
     if (isWordsLoaded) {
       return (
         <div className="word-constructor">
           <div className="word-constructor__game">
-            <AvailableSkips
-              availableSkips={availableSkips}
-            />
-            <Word
-              shuffledLetters={gameWords[currentLevel].shuffledLetters}
-              pickLetter={this.pickLetter}
-              isCurrentWordResolved={isCurrentWordResolved}
-            />
+            <div className="word-constructor__header">
+              <ProgressBar
+                currentLevel={currentLevel}
+              />
+              <AvailableSkips
+                availableSkips={availableSkips}
+              />
+              <Hints
+                availableHints={availableHints}
+                playAudioHint={() => this.playAudioHint()}
+              />
+            </div>
             <Answer
               answerLetters={gameWords[currentLevel].answerLetters}
               unpickLetter={this.unpickLetter}
+              isCurrentWordResolved={isCurrentWordResolved}
+              isCurrentWordFilled={isCurrentWordFilled}
+            />
+            <Word
+              word={gameWords[currentLevel]}
+              pickLetter={this.pickLetter}
               isCurrentWordResolved={isCurrentWordResolved}
             />
             <ControlButtons
@@ -152,6 +209,7 @@ export default class Game extends PureComponent {
               nextLevel={() => this.nextLevel()}
               availableSkips={availableSkips}
               isCurrentWordResolved={isCurrentWordResolved}
+              currentLevel={currentLevel}
             />
           </div>
         </div>

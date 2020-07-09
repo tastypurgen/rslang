@@ -45,6 +45,9 @@
   &.word-constructor__btn_red {
     background-color: #f20000;
   }
+  &.word-constructor__btn_blue {
+    background-color: #25b6d2;
+  }
   &:hover {
     box-shadow: 0px 8px 6px rgba(0, 0, 0, 0.2);
   }
@@ -60,8 +63,7 @@
 
 .word-constructor__available-skips {
   display: flex;
-  align-items: center;
-  padding: 20px 0px 0px 20px;
+  align-items: center;  
   cursor: default;
   img {
     width: 30px;
@@ -125,6 +127,10 @@
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
   }
+  &.front {
+    background-color: #f2f3f4;
+    color: #5405ff;
+  }
   &.back {
     -webkit-transform: rotateY(180deg);
     transform: rotateY(180deg);
@@ -135,4 +141,104 @@
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
+  &_statistics {
+    margin-top: 20px;
+    .word-constructor__btn {
+      margin: 0 10px;
+    }
+  }
+}
+
+.word-constructor__answers {
+  h3 {
+    margin: 10px 0px;
+  }
+}
+
+.word-constructor__answers__item {
+  display: flex;
+  align-items: center;
+  margin: 5px 0px;
+}
+
+.word-constructor__answers__icon {
+  margin-right: 10px;
+}
+
+.word-constructor__game-answers {
+  display: inline-flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 30px;
+  background-color: #e5de00;
+  border-radius: 20px;
+  h2 {
+    margin-bottom: 15px;
+    color: #5405ff;
+  }
+  &.resolved {
+    background-color: #08e505;
+  }
+  &.resolved_wrong {
+    background-color: #e50505;
+    h2 {
+      color: whitesmoke;
+    }
+  }  
+}
+
+.word-constructor__game-task {
+  display: inline-flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 30px;
+  background-color: #4c05e5;
+  border-radius: 20px;
+  h2 {
+    margin-bottom: 15px;
+    color: whitesmoke;
+  }
+}
+
+.word-constructor__header {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+.word-constructor__available-hints {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  &.disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+  }
+  img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+  p {
+    font-family: Rubik, "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+    color: #5405ff;
+  }
+}
+
+.word-constructor__progress-bar__wrapper {
+  width: 100%;
+  height: 10px;  
+  margin-bottom: 10px;
+}
+
+.word-constructor__progress-bar {
+  height: 100%;
+  background-color: #5405ff;
+  border-radius: 5px;
 }
