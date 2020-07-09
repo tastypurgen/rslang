@@ -52,16 +52,15 @@ export default class App extends Component {
 
   render() {
     const { isAuthenticated, isSpinnerOn } = this.state;
-    let component;
     if (isSpinnerOn) {
       return (<Spinner />);
     }
     if (isAuthenticated) {
-      component = (
+      return (
         <div>
           <Header changeAuthenticatedState={this.changeAuthenticatedState} />
           <Route exact path="/" component={Dashboard} />
-          {/* <Route path="/dashboard" component={Dashboard} /> */}
+          <Route path="/dashboard" component={Dashboard} />
           <Route path="/games-panel" component={GamesPanel} />
           <Route path="/dictionary" component={Dictionary} />
           <Route path="/speakit" component={SpeakIt} />
@@ -75,30 +74,22 @@ export default class App extends Component {
           <Route path="/about-team" component={AboutTeam} />
           <Route path="/statistic" component={Statistic} />
           <Route path="/settings" component={Settings} />
-          <Redirect to="/" component={Dashboard} />
           <Footer />
         </div>
       );
-    } else {
-      component = (
-        <div>
-          <Route
-            exact
-            to="/"
-            render={() => (
-              <Authorization
-                changeAuthenticatedState={this.changeAuthenticatedState}
-              />
-            )}
-          />
-          <Redirect to="/" component={Authorization} />
-        </div>
-      );
     }
-
     return (
       <div>
-        {component}
+        <Route
+          exact
+          to="/"
+          render={() => (
+            <Authorization
+              changeAuthenticatedState={this.changeAuthenticatedState}
+            />
+          )}
+        />
+        <Redirect to="/" component={Authorization} />
       </div>
     );
   }
