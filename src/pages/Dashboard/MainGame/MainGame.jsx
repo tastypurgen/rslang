@@ -118,12 +118,20 @@ class MainGame extends PureComponent {
             if (autoPronunciation) {
               playAudioFunction(`https://raw.githubusercontent.com/Koptohhka/rslang-data/master/${audio}`);
             }
+            const trainedValue = userWord?.optional?.trained + 1 || 1;
+            const indicatorValue = userWord?.optional?.indicator || 2;
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
             const body = {
               difficulty: 'default',
               optional: {
-                indicator: 2,
-                difficult: false,
                 deleted: false,
+                difficult: false,
+                indicator: indicatorValue,
+                lastTrained: today,
+                nextTraining: tomorrow,
+                trained: trainedValue,
               },
             };
             try {
@@ -165,6 +173,7 @@ class MainGame extends PureComponent {
                 <Input
                   autoPronunciation={autoPronunciation}
                   clearInputValue={this.clearInputValue}
+                  currentWordIndex={currentWordIndex}
                   inputValue={inputValue}
                   inputReadOnlyFlag={inputReadOnlyFlag}
                   inputClasses={inputClasses}
@@ -174,6 +183,7 @@ class MainGame extends PureComponent {
                   exampleSentence={exampleSentence}
                   changeRightAnswerState={this.setShowRightAnswer}
                   wordData={wordData}
+                  wordsData={wordsData}
                   textExample={textExample}
                 />
               </p>
@@ -187,11 +197,19 @@ class MainGame extends PureComponent {
                   role="button"
                   onClick={() => {
                     if (!difficultyBtnActive) {
+                      const indicatorValue = userWord?.optional?.indicator || 1;
+                      const trainedValue = userWord?.optional?.trained + 1 || 1;
+                      const today = new Date();
+                      const tomorrow = new Date(today);
+                      tomorrow.setDate(tomorrow.getDate() + 1);
                       const body = {
-                        difficulty: 'default',
                         optional: {
                           deleted: false,
                           difficult: true,
+                          indicator: indicatorValue,
+                          lastTrained: today,
+                          nextTraining: tomorrow,
+                          trained: trainedValue,
                         },
                       };
                       if (!userWord) {
@@ -216,10 +234,16 @@ class MainGame extends PureComponent {
                   alt="delete-icon"
                   src={deleteIcon}
                   onClick={() => {
+                    const indicatorValue = userWord?.optional?.indicator || 1;
+                    const trainedValue = userWord?.optional?.trained || 1;
                     const body = {
                       optional: {
-                        indicator: 5,
                         deleted: true,
+                        difficult: false,
+                        indicator: indicatorValue,
+                        lastTrained: new Date(),
+                        nextTraining: new Date(),
+                        trained: trainedValue,
                       },
                     };
                     try {
