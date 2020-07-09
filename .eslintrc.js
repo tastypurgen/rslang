@@ -23,16 +23,17 @@ module.exports = {
   ],
   rules: {
     "react/prop-types": "off",
-    "react/state-in-constructor": "off",    
+    "react/state-in-constructor": "off",
     "jsx-a11y/label-has-associated-control": [
       "error",
-      {        
-        "assert": "either",       
+      {
+        "assert": "either",
       }
     ],
     "jsx-a11y/click-events-have-key-events": "off",
     "jsx-a11y/no-noninteractive-element-to-interactive-role": "off",
     "jsx-a11y/media-has-caption": "off",
+    "no-underscore-dangle": "off"
   },
   parser: "babel-eslint"
 };
