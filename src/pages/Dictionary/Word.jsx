@@ -22,9 +22,8 @@ export default class Word extends React.PureComponent {
     };
   }
 
-  componentDidMount = async () => {
-    await this.getSectionWords();
-    await this.setState({ isSpinnerOn: false });
+  componentDidMount() {
+    this.getSectionWords();
   }
 
   getSectionWords = async () => {
@@ -50,7 +49,7 @@ export default class Word extends React.PureComponent {
       nextTraining: el.userWord.optional.nextTraining,
     }));
 
-    this.setState({ words: stateWords });
+    this.setState({ words: stateWords, isSpinnerOn: false });
   }
 
   returnToLearning(id, indicator, trained, lastTrained, nextTraining) {
