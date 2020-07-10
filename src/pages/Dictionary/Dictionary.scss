@@ -67,7 +67,6 @@ $media-width: 699px;
 
     .word-container {
       position: relative;
-      word-break: break-word;
       font-family: Rubik;
       font-style: normal;
       font-size: 14px;
@@ -108,7 +107,7 @@ $media-width: 699px;
       }
 
       .word {
-        min-width: 90px;
+        min-width: 105px;
 
         .word-name {
           font-weight: bold;
@@ -174,6 +173,10 @@ $media-width: 699px;
             align-items: center;
           }
         }        
+      }
+
+      .delete {
+        @extend .audio;
       }
 
       .info {
