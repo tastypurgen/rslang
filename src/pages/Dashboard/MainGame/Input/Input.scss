@@ -1,29 +1,103 @@
-.Input {
-    font-size: 18px;
-    line-height: 21px;
-    outline: none;
-    border: none;
-    height: 24px;
-    background: rgba(55, 56, 60, 0.1);
-    padding-left: 9px;
-    padding-right: 7px;
-    text-align: center;
-}
+.game-input {
+    display: inline-block;
+    position: relative;
+    padding: 0;
+    margin: 0.25rem 0;
 
-.Input--right {
-    background: rgba(50, 190, 166, 0.2);
-}
+    .background {
+        background: rgba(55, 56, 60, 0.1);
+        margin: 0;
+        border-radius: 2px;
+        padding: 0.25rem 0.25em;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
 
-.Input--wrong {
-    background: rgba(224, 79, 95, 0.1);
-}
+        span {
+            // visibility: hidden;
+            opacity: 0;
+        }
+    }
 
-.Input--default {
-    background: rgba(37, 182, 210, 0.2);
-}
+    .word-container {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        visibility: hidden;
+        -webkit-transform-origin: 0 50%;
+        transform-origin: 0 50%;
+        padding-bottom: 2px;
+        border-bottom: 2px solid transparent;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
 
-@media (max-width: 350px) {
-    .Input {
-        font-size: 16px;
+    .answer-input {
+        background: transparent;
+        border: 0 none;
+        display: block;
+        font: inherit;
+        font-style: inherit;
+        font-variant-ligatures: inherit;
+        font-variant-caps: inherit;
+        font-variant-numeric: inherit;
+        font-variant-east-asian: inherit;
+        font-weight: inherit;
+        font-stretch: inherit;
+        font-size: inherit;
+        line-height: inherit;
+        font-family: inherit;
+        margin: 0;
+        outline: none;
+        padding: 0;
+        resize: none;
+        -webkit-appearance: none;
+        -webkit-font-smoothing: antialiased;
+        border-radius: 0;
+        -webkit-border-radius: 0;
+
+        // display: inline;
+        position: absolute;
+        left: 0;
+        top: 0;
+        margin: 0;
+        width: 100%;
+        padding: 0 0.25em;
+        overflow: hidden;
     }
 }
+
+// .Input {
+//     font-size: 18px;
+//     line-height: 21px;
+//     outline: none;
+//     border: none;
+//     height: 24px;
+//     background: rgba(55, 56, 60, 0.1);
+//     padding-left: 9px;
+//     padding-right: 7px;
+//     text-align: center;
+// }
+
+// .Input--right {
+//     background: rgba(50, 190, 166, 0.2);
+// }
+
+// .Input--wrong {
+//     background: rgba(224, 79, 95, 0.1);
+// }
+
+// .Input--default {
+//     background: rgba(37, 182, 210, 0.2);
+// }
+
+// @media (max-width: 350px) {
+//     .Input {
+//         font-size: 16px;
+//     }
+// }

@@ -11,9 +11,10 @@ const Input = (props) => {
   const {
     textExample, wordData, changeRightAnswerState, exampleSentence, userWord,
     setIndicator, autoPronunciation, inputValue, setInputClassesAndReadState,
-    inputClasses, inputReadOnlyFlag, clearInputValue,
+    inputClasses, inputReadOnlyFlag, updateInput, showNextCard,
   } = props;
   const { word, _id, audio } = wordData;
+
   let leftAndRightPartsOfSentce;
   if (exampleSentence) {
     leftAndRightPartsOfSentce = getSentenceByTags(textExample);
@@ -71,10 +72,53 @@ const Input = (props) => {
   return (
     <span>
       {leftpart}
-      <input
-        value={inputValue}
+      <span className="game-input" data-word="night" data-audio-hash="93a04b066fd81a1017825f2dcda313b2">
+        <span className="background">
+          {word.split('').map((letter, index) => <span index={index} className="hidden">{letter}</span>)}
+        </span>
+        {/* <span className="word-container">
+          <span index="0" className="hidden">n</span>
+          <span index="1" className="hidden">i</span>
+          <span index="2" className="hidden">g</span>
+          <span index="3" className="hidden">h</span>
+          <span index="4" className="hidden">t</span>
+        </span>
+        <span className="animate-typing-container">
+        <span index="0" className="hidden">n</span>
+        <span index="1" className="hidden">i</span>
+        <span index="2" className="hidden">g</span>
+        <span index="3" className="hidden">h</span>
+        <span index="4" className="hidden">t</span>
+      </span> */}
+        <input
+          className="answer-input"
+          type="text"
+          data-idx="0"
+          maxLength="50"
+          autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck="false"
+          onKeyPress={(e) => {
+            if (e.key === 'Enter') {
+              checkInputWord(e.target.value);
+              console.log('e.target.value === word: ', e.target.value === word);
+              if (e.target.value === word) {
+                // showNextCard();
+              }
+            }
+          }}
+          onChange={(e) => {
+            updateInput(e.target.value);
+          }}
+          value={inputValue}
+        />
+      </span>
+
+      {/* <input
+        value={word}
         readOnly={inputReadOnlyFlag}
-        className={inputClasses}
+        className="input-container"
         type="text"
         onKeyPress={(evt) => {
           if (evt.key === 'Enter') {
@@ -82,11 +126,11 @@ const Input = (props) => {
           }
         }}
         onChange={(evt) => {
-          clearInputValue(evt.target.value);
+          updateInput(evt.target.value);
         }}
         maxLength={word.length}
         size={word.length}
-      />
+      /> */}
       {rightPart}
     </span>
   );

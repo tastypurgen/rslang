@@ -28,10 +28,59 @@ class MainGame extends PureComponent {
     wordsData: [],
     currentWordIndex: 0,
     indicator: 1,
-    inputClasses: 'Input',
+    inputClasses: 'input',
     inputReadOnlyFlag: false,
     difficultyBtnActive: false,
     inputValue: '',
+  };
+
+  componentDidMount = async () => {
+    const setingsData = await getUserSettings(localStorage.userToken, localStorage.userId);
+    this.setState({
+      settingsData: setingsData.optional,
+    });
+    const filter = {
+      $or: [
+        {
+          $and: [
+            { 'userWord.optional.indicator': 2 },
+            { 'userWord.optional.deleted': false },
+          ],
+        },
+        {
+          $and: [
+            { 'userWord.optional.indicator': 3 },
+            { 'userWord.optional.deleted': false },
+          ],
+        },
+        {
+          $and: [
+            { 'userWord.optional.indicator': 4 },
+            { 'userWord.optional.deleted': false },
+          ],
+        },
+        { userWord: null },
+      ],
+    };
+
+    const wordsDataResponse = await getUserAggregatedWords(
+      JSON.stringify(filter), setingsData.optional.maxCardsPerDay,
+    );
+    const todayWordData = shuffleArray(wordsDataResponse[0].paginatedResults);
+
+    this.setIndicator(todayWordData[0].userWord);
+    this.setState({
+      wordsData: todayWordData,
+      isDataEnabled: true,
+    });
+
+    document.querySelector('.answer-input').focus();
+
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    getAllUserWords().then((res) => {
+      console.log('Мои слова');
+      console.log(res);
+    });
   };
 
   changePopupShowState = (value) => {
@@ -40,10 +89,11 @@ class MainGame extends PureComponent {
     });
   }
 
-  clearInputValue = (newValue) => {
+  updateInput = (newValue) => {
     this.setState({
       inputValue: newValue,
     });
+    document.querySelector('.answer-input').focus();
   }
 
   setInputClassesAndReadState = (classes, readonly) => {
@@ -52,6 +102,14 @@ class MainGame extends PureComponent {
       inputReadOnlyFlag: readonly,
     });
   };
+
+  showNextCard = () => {
+    const { currentWordIndex } = this.state;
+    this.setState({
+      currentWordIndex: currentWordIndex + 1,
+      showRightAnswer: false,
+    });
+  }
 
   changeCardToLeft = () => {
     const { currentWordIndex, wordsData } = this.state;
@@ -80,6 +138,7 @@ class MainGame extends PureComponent {
     this.setState({
       showRightAnswer: value,
     });
+    document.querySelector('.answer-input').blur();
   };
 
   initCardComponent = (wordData) => {
@@ -165,7 +224,7 @@ class MainGame extends PureComponent {
       buttonComponent.push(( // showRightAnswer
         <AssessmentButtons
           key={Math.random()}
-          clearInputValue={this.clearInputValue}
+          updateInput={this.updateInput}
           setShowRightAnswer={this.setShowRightAnswer}
           setInputClassesAndReadState={this.setInputClassesAndReadState}
         />
@@ -184,7 +243,7 @@ class MainGame extends PureComponent {
               <p className="MainGame__card-sentence">
                 <Input
                   autoPronunciation={autoPronunciation}
-                  clearInputValue={this.clearInputValue}
+                  updateInput={this.updateInput}
                   currentWordIndex={currentWordIndex}
                   inputValue={inputValue}
                   inputReadOnlyFlag={inputReadOnlyFlag}
@@ -197,6 +256,7 @@ class MainGame extends PureComponent {
                   wordData={wordData}
                   wordsData={wordsData}
                   textExample={textExample}
+                  showNextCard={this.showNextCard}
                 />
               </p>
               {exampleSentence ? <p className="MainGame__card-sentence-translation">{textExampleTranslate}</p>
@@ -316,13 +376,11 @@ class MainGame extends PureComponent {
             role="button"
             onClick={() => {
               if (currentWordIndex < wordsData.length - 1) {
-                this.clearInputValue('');
+                this.updateInput('');
                 this.setInputClassesAndReadState('Input', false);
                 this.setIndicator(wordsData[currentWordIndex + 1].userWord);
-                this.setState({
-                  currentWordIndex: currentWordIndex + 1,
-                  showRightAnswer: false,
-                });
+                this.showNextCard();
+                this.updateInput('');
               } else {
                 this.changePopupShowState(true);
               }
@@ -342,58 +400,6 @@ class MainGame extends PureComponent {
         ) : null}
       </div>
     );
-  };
-
-  componentDidMount = async () => {
-    const setingsData = await getUserSettings(localStorage.userToken, localStorage.userId);
-    this.setState({
-      settingsData: setingsData.optional,
-    });
-    const filter = {
-      $or: [
-        {
-          $and: [
-            { 'userWord.optional.indicator': 2 },
-            { 'userWord.optional.deleted': false },
-          ],
-        },
-        {
-          $and: [
-            { 'userWord.optional.indicator': 3 },
-            { 'userWord.optional.deleted': false },
-          ],
-        },
-        {
-          $and: [
-            { 'userWord.optional.indicator': 4 },
-            { 'userWord.optional.deleted': false },
-          ],
-        },
-        { userWord: null },
-      ],
-    };
-    //
-    // const date = new Date();
-    // console.log(date.toLocaleDateString());
-    //
-
-    const wordsDataResponse = await getUserAggregatedWords(
-      JSON.stringify(filter), setingsData.optional.maxCardsPerDay,
-    );
-    const todayWordData = shuffleArray(wordsDataResponse[0].paginatedResults);
-
-    this.setIndicator(todayWordData[0].userWord);
-    this.setState({
-      wordsData: todayWordData,
-      isDataEnabled: true,
-    });
-
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    getAllUserWords().then((res) => {
-      console.log('Мои слова');
-      console.log(res);
-    });
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   };
 
   render() {
