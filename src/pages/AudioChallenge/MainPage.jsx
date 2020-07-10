@@ -1,6 +1,7 @@
 import React from 'react';
 import AudioChallenge from './AudioChallenge';
 import { getRandomWords } from '../../services/getWords';
+import checkUserWordsForGames from '../../utils/checkUserWords';
 
 export default class MainPage extends React.PureComponent {
   constructor(props) {
@@ -19,7 +20,12 @@ export default class MainPage extends React.PureComponent {
   render() {
     const { play, value } = this.state;
     if (!play) {
-      getRandomWords(value, 3);
+      if (value === '6') {
+        checkUserWordsForGames();
+        getRandomWords(0, 3);
+      } else {
+        getRandomWords(value, 3);
+      }
       return (
         <div className="audio-challenge" id="level-0">
           <div>

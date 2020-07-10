@@ -23,7 +23,6 @@ export default class Word extends React.PureComponent {
 
   componentDidMount() {
     this.getSectionWords();
-    setTimeout(() => this.setState({ isSpinnerOn: false }), 1000);
   }
 
   getSectionWords = async () => {
@@ -49,7 +48,7 @@ export default class Word extends React.PureComponent {
       nextTraining: el.userWord.optional.nextTraining,
     }));
 
-    this.setState({ words: stateWords });
+    this.setState({ words: stateWords, isSpinnerOn: false });
   }
 
   returnToLearning(id, indicator, trained, lastTrained, nextTraining) {

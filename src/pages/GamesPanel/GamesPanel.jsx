@@ -27,6 +27,7 @@ const GamesPanel = () => {
               localStorage.difficulty = e.target.value;
             }}
           >
+            <option value="6">Изученные слова</option>
             <option value="0">Очень легко</option>
             <option value="1">Легко</option>
             <option value="2">Средне</option>

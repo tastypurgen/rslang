@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import './AudioChallenge.scss';
 import Answers from './Answers';
 import Word from './Word';
@@ -202,13 +203,23 @@ export default class AudioChallenge extends React.PureComponent {
           ))}
         </div>
         <input
-          className="return-button"
+          className="again-button"
           type="button"
-          value="Попробовать еще раз"
+          value="Еще раз"
           onClick={() => {
             this.startGame();
           }}
         />
+        <NavLink to="/games-panel">
+          <input
+            className="return-button"
+            type="button"
+            value="Выйти"
+            onClick={() => {
+              this.startGame();
+            }}
+          />
+        </NavLink>
       </div>
     );
   }
