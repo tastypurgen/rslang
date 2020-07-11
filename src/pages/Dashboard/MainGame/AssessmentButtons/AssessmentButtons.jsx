@@ -2,7 +2,7 @@ import React from 'react';
 import './AssessmentButtons.scss';
 
 const AssessmentButtons = (props) => {
-  const { setShowRightAnswer, setInputClassesAndReadState, clearInputValue } = props;
+  const { setShowRightAnswer, setInputClassesAndReadState, updateInput } = props;
 
   return (
     <div className="AssessmentButtons">
@@ -11,7 +11,7 @@ const AssessmentButtons = (props) => {
         className="AssessmentButtons__button"
         onClick={() => {
           setInputClassesAndReadState('Input', false);
-          clearInputValue('');
+          updateInput('');
           setShowRightAnswer(false);
         }}
         type="button"

@@ -7,11 +7,27 @@ import {
 } from '../../../../services/userWords';
 import playAudioFunction from '../../../../utils/playAudioFunction';
 
+let cachedValue;
+
+let errors = false;
+const checkFirstAnswer = (right) => {
+  if (right && !errors) {
+    return true;
+  }
+  if (right && errors) {
+    errors = false;
+  }
+  if (!right) {
+    errors = true;
+  }
+  return false;
+};
+
 const Input = (props) => {
   const {
     textExample, wordData, changeRightAnswerState, exampleSentence, userWord,
     setIndicator, autoPronunciation, inputValue, setInputClassesAndReadState,
-    inputClasses, inputReadOnlyFlag, updateInput, showNextCard,
+    updateInput, changingMode, isChecking,
   } = props;
   const { word, _id, audio } = wordData;
 
@@ -54,18 +70,30 @@ const Input = (props) => {
     }
   };
 
+  const getRightLettersArray = () => word.split('').reduce((acc, rightLetter, i) => {
+    if (rightLetter === cachedValue[i]) {
+      acc.push(i);
+      return acc;
+    }
+    return acc;
+  }, []);
+
   const checkInputWord = (input) => {
     if (autoPronunciation) {
-      playAudioFunction(`https://raw.githubusercontent.com/Koptohhka/rslang-data/master/${audio}`);
+      playAudioFunction(`https://raw.githubusercontent.com/tastypurgen/rslang-data/master/${audio}`);
     }
+    setInputClassesAndReadState('Input Input--right', true);
     if (input.toLowerCase() === word.toLowerCase()) {
-      setInputClassesAndReadState('Input Input--right', true);
-      postUserWordData(5, 1);
+      if (checkFirstAnswer(true)) postUserWordData(5, 1);
+      else postUserWordData(2, 0);
       changeRightAnswerState(true);
     } else {
-      setInputClassesAndReadState('Input Input--wrong', true);
-      postUserWordData(2, 0);
-      changeRightAnswerState(true);
+      checkFirstAnswer(false);
+      cachedValue = inputValue;
+      changingMode(true);
+      updateInput('');
+      // changeRightAnswerState(true);
+      // setInputClassesAndReadState('Input Input--wrong', true);
     }
   };
 
@@ -74,16 +102,18 @@ const Input = (props) => {
       {leftpart}
       <span className="game-input" data-word="night" data-audio-hash="93a04b066fd81a1017825f2dcda313b2">
         <span className="background">
-          {word.split('').map((letter, index) => <span index={index} className="hidden">{letter}</span>)}
+          {word.split('').map((letter, index) => <span index={index} key={letter + Math.random()} className="hidden">{letter}</span>)}
         </span>
-        {/* <span className="word-container">
-          <span index="0" className="hidden">n</span>
-          <span index="1" className="hidden">i</span>
-          <span index="2" className="hidden">g</span>
-          <span index="3" className="hidden">h</span>
-          <span index="4" className="hidden">t</span>
-        </span>
-        <span className="animate-typing-container">
+        {isChecking && (
+          <span className="word-checker">
+            {word.split('').map((letter, index) => {
+              if (index === getRightLettersArray()[index]) return <span data-index={index} className="right" key={letter + Math.random()}>{letter}</span>;
+              return <span data-index={index} key={letter + Math.random()}>{letter}</span>;
+            })}
+          </span>
+        )}
+
+        {/* <span className="animate-typing-container">
         <span index="0" className="hidden">n</span>
         <span index="1" className="hidden">i</span>
         <span index="2" className="hidden">g</span>
@@ -102,7 +132,6 @@ const Input = (props) => {
           onKeyPress={(e) => {
             if (e.key === 'Enter') {
               checkInputWord(e.target.value);
-              console.log('e.target.value === word: ', e.target.value === word);
               if (e.target.value === word) {
                 // showNextCard();
               }
@@ -110,6 +139,8 @@ const Input = (props) => {
           }}
           onChange={(e) => {
             updateInput(e.target.value);
+
+            changingMode(false);
           }}
           value={inputValue}
         />

@@ -32,6 +32,7 @@ class MainGame extends PureComponent {
     inputReadOnlyFlag: false,
     difficultyBtnActive: false,
     inputValue: '',
+    isChecking: false,
   };
 
   componentDidMount = async () => {
@@ -82,6 +83,10 @@ class MainGame extends PureComponent {
       console.log(res);
     });
   };
+
+  changingMode = (bool) => {
+    this.setState({ isChecking: bool });
+  }
 
   changePopupShowState = (value) => {
     this.setState({
@@ -142,11 +147,10 @@ class MainGame extends PureComponent {
   };
 
   initCardComponent = (wordData) => {
-    console.log(wordData);
     const { changeCardToLeft } = this;
     const {
       settingsData, showRightAnswer, wordsData, currentWordIndex, indicator, inputClasses,
-      inputReadOnlyFlag, difficultyBtnActive, inputValue,
+      inputReadOnlyFlag, difficultyBtnActive, inputValue, isChecking,
     } = this.state;
 
     const {
@@ -183,7 +187,7 @@ class MainGame extends PureComponent {
           onClick={() => {
             console.log(settingsData);
             if (autoPronunciation) {
-              playAudioFunction(`https://raw.githubusercontent.com/Koptohhka/rslang-data/master/${audio}`);
+              playAudioFunction(`https://raw.githubusercontent.com/tastypurgen/rslang-data/master/${audio}`);
             }
             const trainedValue = userWord?.optional?.trained + 1 || 1;
             const indicatorValue = userWord?.optional?.indicator || 2;
@@ -257,6 +261,8 @@ class MainGame extends PureComponent {
                   wordsData={wordsData}
                   textExample={textExample}
                   showNextCard={this.showNextCard}
+                  isChecking={isChecking}
+                  changingMode={this.changingMode}
                 />
               </p>
               {exampleSentence ? <p className="MainGame__card-sentence-translation">{textExampleTranslate}</p>
@@ -351,7 +357,7 @@ class MainGame extends PureComponent {
                       role="button"
                       onClick={() => {
                         if (window.isClickEnabled) {
-                          playAudioFunction(`https://raw.githubusercontent.com/Koptohhka/rslang-data/master/${audio}`);
+                          playAudioFunction(`https://raw.githubusercontent.com/tastypurgen/rslang-data/master/${audio}`);
                         }
                       }}
                       className="MainGame__speaker-icon word-info__full-word--item"
