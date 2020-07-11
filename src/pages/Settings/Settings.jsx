@@ -1,35 +1,34 @@
 import React, { PureComponent } from 'react';
-import './Settings.scss';
+import { getUserSettings, setUserSettings } from '../../services/settingsService';
+import SettingsForm from './SettingsForm/SettingsForm';
 
 export default class Settings extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      wordsPerDay: 50,
-      maxCardsPerDay: 40,
-      cardInfo: {
-        wordTranslation: true,
-        explanationSentence: false,
-        exampleSentence: false,
-        wordTranscription: false,
-        associationImage: false,
-      },
-      autoPronunciation: true,
-      showWordAndSentenceTranslation: false,
-      displayShowAnswerBtn: false,
-      displayDeleteBtn: true,
-      displayDifficultBtn: false,
-      displayAssessmentBtns: false,
-      isRequiredInputChecked: true,
+      isDataLoaded: false,
+      isDataSaved: false,
+      token: localStorage.getItem('userToken'),
+      userId: localStorage.getItem('userId'),
     };
   }
 
+  componentDidMount() {
+    this.loadUserSettings();
+  }
+
   setRange(event) {
-    this.setState({ [event.target.dataset.setting_name]: +event.target.value });
+    this.setState({
+      [event.target.dataset.setting_name]: +event.target.value,
+      isDataSaved: false,
+    });
   }
 
   setCheckBox(event) {
-    this.setState({ [event.target.dataset.setting_name]: event.target.checked });
+    this.setState({
+      [event.target.dataset.setting_name]: event.target.checked,
+      isDataSaved: false,
+    });
   }
 
   async setCheckBoxGroup(event) {
@@ -39,9 +38,44 @@ export default class Settings extends PureComponent {
       cardInfo: {
         ...prevState.cardInfo,
         [settingName]: isChecked,
+        isDataSaved: false,
       },
     }));
     this.isRequiredInputChecked();
+  }
+
+  setStateFromObj(response) {
+    this.setState({
+      isDataLoaded: true,
+      wordsPerDay: response.wordsPerDay,
+      maxCardsPerDay: response.optional.maxCardsPerDay,
+      cardInfo: {
+        wordTranslation: response.optional.wordTranslation,
+        explanationSentence: response.optional.explanationSentence,
+        exampleSentence: response.optional.exampleSentence,
+        wordTranscription: response.optional.wordTranscription,
+        associationImage: response.optional.associationImage,
+      },
+      autoPronunciation: response.optional.autoPronunciation,
+      showWordAndSentenceTranslation: response.optional.showWordAndSentenceTranslation,
+      displayShowAnswerBtn: response.optional.displayShowAnswerBtn,
+      displayDeleteBtn: response.optional.displayDeleteBtn,
+      displayDifficultBtn: response.optional.displayDifficultBtn,
+      displayAssessmentBtns: response.optional.displayAssessmentBtns,
+      isRequiredInputChecked: response.optional.isRequiredInputChecked,
+      setRange: this.setRange.bind(this),
+      setCheckBox: this.setCheckBox.bind(this),
+      setCheckBoxGroup: this.setCheckBoxGroup.bind(this),
+      saveSettings: this.saveSettings.bind(this),
+    });
+  }
+
+  async loadUserSettings() {
+    const curState = this.state;
+    const response = await getUserSettings(curState.token, curState.userId);
+    if (response.status === 200) {
+      this.setStateFromObj(response);
+    }
   }
 
   isRequiredInputChecked() {
@@ -50,205 +84,45 @@ export default class Settings extends PureComponent {
     this.setState({ isRequiredInputChecked: Object.values(cardInfo).includes(true) });
   }
 
-  saveSettings() {
-    console.log(this.state);
+  async saveSettings() {
+    const curState = this.state;
+    const settingsObj = {
+      wordsPerDay: curState.wordsPerDay,
+      optional: {
+        associationImage: curState.cardInfo.associationImage,
+        autoPronunciation: curState.autoPronunciation,
+        displayAssessmentBtns: curState.displayAssessmentBtns,
+        displayDeleteBtn: curState.displayDeleteBtn,
+        displayDifficultBtn: curState.displayDifficultBtn,
+        displayShowAnswerBtn: curState.displayShowAnswerBtn,
+        exampleSentence: curState.cardInfo.exampleSentence,
+        explanationSentence: curState.cardInfo.explanationSentence,
+        isRequiredInputChecked: curState.isRequiredInputChecked,
+        maxCardsPerDay: curState.maxCardsPerDay,
+        showWordAndSentenceTranslation: curState.showWordAndSentenceTranslation,
+        wordTranscription: curState.cardInfo.wordTranscription,
+        wordTranslation: curState.cardInfo.wordTranslation,
+      },
+    };
+    const response = await setUserSettings(curState.token, curState.userId, settingsObj);
+    if (response.status === 200) {
+      this.setState({ isDataSaved: true });
+    }
+    return response;
   }
 
   render() {
     const settings = this.state;
     return (
-      <div>
-        <h1>Настройки</h1>
-        <form action="" method="post">
-          <div className="settings__form-group">
-            <h2 className="settings__form-group__title">Настройки приложения</h2>
-            <div className="settings__input-group">
-              <label htmlFor="settings__words_per_day">Количество новых слов в день</label>
-              <input
-                type="range"
-                name="settings__words_per_day"
-                id="settings__words_per_day"
-                min="0"
-                max="100"
-                step="1"
-                data-setting_name="wordsPerDay"
-                value={settings.wordsPerDay}
-                onChange={this.setRange.bind(this)}
-              />
-              <span className="settings__range_value">{settings.wordsPerDay}</span>
-            </div>
-            <div className="settings__input-group">
-              <label htmlFor="settings__max_cards_per_day">Максимальное количество карточек на день</label>
-              <input
-                type="range"
-                name="settings__max_cards_per_day"
-                id="settings__max_cards_per_day"
-                min="0"
-                max="100"
-                step="1"
-                data-setting_name="maxCardsPerDay"
-                value={settings.maxCardsPerDay}
-                onChange={this.setRange.bind(this)}
-              />
-              <span className="settings__range_value">{settings.maxCardsPerDay}</span>
-            </div>
-          </div>
-          <div className="settings__form-group">
-            <h2 className="settings__form-group__title">Настройки карточки</h2>
-            <div className="settings__checkbox-group">
-              <div className="settings__checkbox-group__title">
-                Информация на карточке
-                <span>*</span>
-              </div>
-              <div className="settings__form-group">
-                <div className="settings__input-group">
-                  <input
-                    type="checkbox"
-                    name="settings__word_translation"
-                    id="settings__word_translation"
-                    data-setting_name="wordTranslation"
-                    checked={settings.cardInfo.wordTranslation}
-                    onChange={this.setCheckBoxGroup.bind(this)}
-                  />
-                  <label htmlFor="settings__word_translation">Перевод слова</label>
-                </div>
-                <div className="settings__input-group">
-                  <input
-                    type="checkbox"
-                    name="settings__explanation_sentence"
-                    id="settings__explanation_sentence"
-                    data-setting_name="explanationSentence"
-                    checked={settings.cardInfo.explanationSentence}
-                    onChange={this.setCheckBoxGroup.bind(this)}
-                  />
-                  <label htmlFor="settings__explanation_sentence">Предложение с объяснением значения</label>
-                </div>
-                <div className="settings__input-group">
-                  <input
-                    type="checkbox"
-                    name="settings__example_sentence"
-                    id="settings__example_sentence"
-                    data-setting_name="exampleSentence"
-                    checked={settings.cardInfo.exampleSentence}
-                    onChange={this.setCheckBoxGroup.bind(this)}
-                  />
-                  <label htmlFor="settings__example_sentence">Предложение с примером использования</label>
-                </div>
-                <div className="settings__input-group">
-                  <input
-                    type="checkbox"
-                    name="settings__word_transcription"
-                    id="settings__word_transcription"
-                    data-setting_name="wordTranscription"
-                    checked={settings.cardInfo.wordTranscription}
-                    onChange={this.setCheckBoxGroup.bind(this)}
-                  />
-                  <label htmlFor="settings__word_transcription">Транскрипция слова</label>
-                </div>
-                <div className="settings__input-group">
-                  <input
-                    type="checkbox"
-                    name="settings__association_image"
-                    id="settings__association_image"
-                    data-setting_name="associationImage"
-                    checked={settings.cardInfo.associationImage}
-                    onChange={this.setCheckBoxGroup.bind(this)}
-                  />
-                  <label htmlFor="settings__association_image">Картинка-ассоциация</label>
-                </div>
-                <div
-                  className={
-                    `settings__error ${
-                      settings.isRequiredInputChecked ? 'hidden' : ''
-                    }`
-                    }
-                >
-                  Необходимо выбрать хотя бы одну настройку карточки
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="settings__form-group">
-            <div className="settings__input-group">
-              <input
-                type="checkbox"
-                name="settings__auto_pronunciation"
-                id="settings__auto_pronunciation"
-                data-setting_name="autoPronunciation"
-                checked={settings.autoPronunciation}
-                onChange={this.setCheckBox.bind(this)}
-              />
-              <label htmlFor="settings__auto_pronunciation">Автопроизношение</label>
-            </div>
-            <div className="settings__input-group">
-              <input
-                type="checkbox"
-                name="settings__show_word_and_sentence_translation"
-                id="settings__show_word_and_sentence_translation"
-                data-setting_name="showWordAndSentenceTranslation"
-                checked={settings.showWordAndSentenceTranslation}
-                onChange={this.setCheckBox.bind(this)}
-              />
-              <label htmlFor="settings__show_word_and_sentence_translation">Показывать перевод слова и предложений</label>
-            </div>
-            <div className="settings__input-group">
-              <input
-                type="checkbox"
-                name="settings__display_show_answer_btn"
-                id="settings__display_show_answer_btn"
-                data-setting_name="displayShowAnswerBtn"
-                checked={settings.displayShowAnswerBtn}
-                onChange={this.setCheckBox.bind(this)}
-              />
-              <label htmlFor="settings__display_show_answer_btn">Отображать кнопку “Показать ответ”</label>
-            </div>
-            <div className="settings__input-group">
-              <input
-                type="checkbox"
-                name="settings__display_delete_btn"
-                id="settings__display_delete_btn"
-                data-setting_name="displayDeleteBtn"
-                checked={settings.displayDeleteBtn}
-                onChange={this.setCheckBox.bind(this)}
-              />
-              <label htmlFor="settings__display_delete_btn">Отображать кнопку “Удалить”</label>
-            </div>
-            <div className="settings__input-group">
-              <input
-                type="checkbox"
-                name="settings__display_difficult_btn"
-                id="settings__display_difficult_btn"
-                data-setting_name="displayDifficultBtn"
-                checked={settings.displayDifficultBtn}
-                onChange={this.setCheckBox.bind(this)}
-              />
-              <label htmlFor="settings__display_difficult_btn">Отображать кнопку “Сложные”</label>
-            </div>
-            <div className="settings__input-group">
-              <input
-                type="checkbox"
-                name="settings__display_assessment_btns"
-                id="settings__display_assessment_btns"
-                data-setting_name="displayAssessmentBtns"
-                checked={settings.displayAssessmentBtns}
-                onChange={this.setCheckBox.bind(this)}
-              />
-              <label htmlFor="settings__display_assessment_btns">Отображать кнопки “Снова”, “Трудно”, “Хорошо”, “Легко”</label>
-            </div>
-          </div>
-          <button
-            type="button"
-            className={
-              `settings__btn ${
-                !settings.isRequiredInputChecked ? 'inactive' : ''
-              }`
-              }
-            onClick={this.saveSettings.bind(this)}
-          >
-            Сохранить
-          </button>
-        </form>
-      </div>
+      <SettingsForm
+        settings={settings}
+        isDataLoaded={settings.isDataLoaded}
+        isDataSaved={settings.isDataSaved}
+        setRange={settings.setRange}
+        setCheckBox={settings.setCheckBox}
+        setCheckBoxGroup={settings.setCheckBoxGroup}
+        saveSettings={settings.saveSettings}
+      />
     );
   }
 }

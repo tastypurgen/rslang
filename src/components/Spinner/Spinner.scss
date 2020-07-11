@@ -1,0 +1,27 @@
+$radius: 100;
+
+.spinner {
+    position: absolute;
+    top: 45%;
+    left: 45%;
+    font-family: Rubik;
+    font-style: normal;
+    font-size: 20px;
+    line-height: 24px;
+    z-index: 10;
+
+    @media (max-width: 574px) {
+        left: 40%;
+    }
+
+    img {
+        position: absolute;
+        offset-path: path('m 50,20 m #{-$radius},0 a #{$radius},#{$radius} 0 1,1 #{2 * $radius},0 a #{$radius},#{$radius} 0 1,1 #{-2 * $radius},0');
+        animation: move 2s linear infinite;
+        }
+    @keyframes move {
+        100% { 
+            offset-distance: 100%;
+        }
+    }
+}

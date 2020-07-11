@@ -1,14 +1,21 @@
 import React from 'react';
-
+import TodayGoal from './TodayGoal/TodayGoal';
+import TodayStatistics from './TodayStatistics/TodayStatistics';
+import TotalStatistics from './TotalStatistics/TotalStatistics';
 import './Dashboard.scss';
 
-// eslint-disable-next-line arrow-body-style
-const Dashboard = () => {
-  return (
-    <div className="dashboard">
-      <h2>Dashboard</h2>
-    </div>
-  );
-};
+class Dashboard extends React.PureComponent {
+  render() {
+    return (
+      <div className="Dashboard">
+        <div className="Dashboard__container">
+          <TodayGoal />
+          <TodayStatistics />
+          <TotalStatistics />
+        </div>
+      </div>
+    );
+  }
+}
 
 export default Dashboard;

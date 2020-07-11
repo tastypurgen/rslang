@@ -1,4 +1,43 @@
-.dashboard {
-  background: rgb(243, 239, 202);
-  min-height: 50vh;
+.Dashboard {
+  position: relative;
+  background: url('./img/Big-Ben.png') no-repeat;
+  background-position: bottom;
+  background-size: contain;
+  background-color: #f8f2ee;
+  min-height: 82vh;
+  font-style: normal;
+  font-weight: normal;
+  padding-top: 49px;
+
+  .Dashboard__container {
+    max-width: 1280px;
+    width: 100%;
+    padding: 0 20px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .Dashboard__card:first-child {
+    order: 2;
+  }
+
+  @media (max-width: 1164px) {
+    .Dashboard__container {
+      gap: 15px;
+      justify-content: space-around;
+    }
+
+    .Dashboard__card:first-child,
+    .Dashboard__card:nth-child(2) {
+      margin-bottom: 40px;
+    }
+
+    @media (max-width: 696px) {
+      .Dashboard__card:nth-child(3) {
+        margin-bottom: 40px;
+      }
+    }
+  }
 }
