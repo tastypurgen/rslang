@@ -1,3 +1,6 @@
+@use "sass:color";
+$media-width: 500px;
+
 html {
     height: 100%;
   }
@@ -105,7 +108,7 @@ $difference: (#b6a4ff - #09607d) / 10;
   .answers {
     width: 90%;
 
-    @media (max-width: 500px) {
+    @media (max-width: $media-width) {
       width: 76%;
     }
 
@@ -114,7 +117,7 @@ $difference: (#b6a4ff - #09607d) / 10;
       flex-wrap: wrap;
       justify-content: space-around;
 
-      @media (max-width: 500px) {
+      @media (max-width: $media-width) {
         text-align: left;
       }      
       
@@ -124,7 +127,7 @@ $difference: (#b6a4ff - #09607d) / 10;
         margin: 0 20px;
         cursor: pointer;
 
-        @media (max-width: 500px) {
+        @media (max-width: $media-width) {
           flex-basis: 100%;
         } 
       }
@@ -226,6 +229,10 @@ $difference: (#b6a4ff - #09607d) / 10;
     background-color: #F8F2EE;
     padding: 15px;
     border-radius: 10px;
+
+    .flex-center {
+      justify-content: start;
+    }
 
     img {
       margin-right: 10px;

@@ -6,9 +6,65 @@ import {
   TabPanel,
 } from 'react-tabs';
 import './Dictionary.scss';
+import Word from './Word';
+import { getToken, getUserId } from '../../services/postUserData';
+import { getUserSettings } from '../../services/settingsService';
+
+const filters = [
+  '{"$and":[{"userWord.optional.deleted":false},{"userWord.optional.difficult":false}]}',
+  '{"$and":[{"userWord.optional.deleted":false},{"userWord.optional.difficult":true}]}',
+  '{"userWord.optional.deleted":true}',
+];
+const types = ['learning', 'difficult', 'deleted'];
 
 export default class Dictionary extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      wordInfo: {},
+      isLoaded: false,
+    };
+  }
+
+  componentDidMount() {
+    this.setStateFromSettings();
+  }
+
+  setStateFromSettings = async () => {
+    const response = await getUserSettings(getToken(), getUserId());
+    if (response.status === 200) {
+      const {
+        optional: {
+          explanationSentence,
+          exampleSentence,
+          wordTranscription,
+          associationImage,
+          showWordAndSentenceTranslation,
+        },
+      } = response;
+      this.setState({
+        isLoaded: true,
+        wordInfo: {
+          explanationSentence,
+          exampleSentence,
+          wordTranscription,
+          associationImage,
+          showWordAndSentenceTranslation,
+        },
+      });
+    }
+  }
+
   render() {
+    const { wordInfo, isLoaded } = this.state;
+
+    if (!isLoaded) {
+      return (
+        <div className="dictionary">
+          <div className="container" />
+        </div>
+      );
+    }
     return (
       <div className="dictionary">
         <div className="container">
@@ -18,15 +74,11 @@ export default class Dictionary extends PureComponent {
               <Tab className="tab complex-words">Сложные слова</Tab>
               <Tab className="tab deleted-words">Удаленные слова</Tab>
             </TabList>
-            <TabPanel className="tab-panel">
-              <h3>Список изучаемых слов</h3>
-            </TabPanel>
-            <TabPanel className="tab-panel">
-              <h3>Список сложных слов</h3>
-            </TabPanel>
-            <TabPanel className="tab-panel">
-              <h3>Список удаленных слов</h3>
-            </TabPanel>
+            {filters.map((el, i) => (
+              <TabPanel className="tab-panel" key={types[i]}>
+                <Word filter={el} type={types[i]} wordInfo={wordInfo} />
+              </TabPanel>
+            ))}
           </Tabs>
         </div>
       </div>
