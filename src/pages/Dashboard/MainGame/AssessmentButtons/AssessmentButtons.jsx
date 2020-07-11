@@ -2,7 +2,9 @@ import React from 'react';
 import './AssessmentButtons.scss';
 
 const AssessmentButtons = (props) => {
-  const { setShowRightAnswer, setInputClassesAndReadState, clearInputValue } = props;
+  const {
+    setShowRightAnswer, setInputClassesAndReadState, clearInputValue, assessUserWord,
+  } = props;
 
   return (
     <div className="AssessmentButtons">
@@ -22,7 +24,7 @@ const AssessmentButtons = (props) => {
         key="2"
         className="AssessmentButtons__button"
         onClick={() => {
-
+          assessUserWord(-1);
         }}
         type="button"
       >
@@ -32,7 +34,7 @@ const AssessmentButtons = (props) => {
         key="3"
         className="AssessmentButtons__button"
         onClick={() => {
-
+          assessUserWord(1);
         }}
         type="button"
       >
@@ -42,7 +44,7 @@ const AssessmentButtons = (props) => {
         key="4"
         className="AssessmentButtons__button"
         onClick={() => {
-
+          assessUserWord(2);
         }}
         type="button"
       >
