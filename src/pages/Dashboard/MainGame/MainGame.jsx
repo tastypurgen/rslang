@@ -1,10 +1,15 @@
 /* eslint-disable no-console */
 import React, { PureComponent } from 'react';
 import './MainGame.scss';
-import pointIcon from './images/point.svg';
-import deleteIcon from './images/delete.svg';
-import speakerIcon from './images/speaker.svg';
+// import pointIcon from './images/point.svg';
+// import deleteIcon from './images/delete.svg';
+// import speakerIcon from './images/speaker.svg';
 import AssessmentButtons from './AssessmentButtons/AssessmentButtons';
+import AnswerButton from './AnswerButton/AnswerButton';
+import DifficultyButton from './DifficultyButton/DifficultyButton';
+import DeleteButton from './DeleteButton/DeleteButton';
+import SpeakerButton from './SpeakerButton/SpeakerButton';
+import ArrowButton from './ArrowButton/ArrowButton';
 import Popup from './Popup/Popup';
 import Input from './Input/Input';
 import Indicator from '../../../components/Indicator/Indicator';
@@ -12,12 +17,55 @@ import Progressbar from '../../../components/Progressbar/ProgressBar';
 import getUserAggregatedWords from '../../../services/userAggregatedWords';
 import shuffleArray from '../../../utils/suffleArray';
 import { getUserSettings } from '../../../services/settingsService';
-import playAudioFunction from '../../../utils/playAudioFunction';
-// import { getWordByPageAndDifficultyNumber, getWordsByPa
-// geCount } from '../../../services/getWords';
+// import playAudioFunction from '../../../utils/playAudioFunction';
 import {
   createUserWord, updateUserWord, getAllUserWords,
 } from '../../../services/userWords';
+import { getUserStatistics, upsertUserStatistics } from '../../../services/userStatistics';
+
+const filterMainGame = {
+  $and: [
+    {
+      $and: [
+        {
+          $or: [
+            {
+              $and: [
+                { 'userWord.optional.nextTraining': new Date().toLocaleDateString() },
+              ],
+            },
+            {
+              $and: [
+                { 'userWord.optional.indicator': 2 },
+                { 'userWord.optional.deleted': false },
+              ],
+            },
+            {
+              $and: [
+                { 'userWord.optional.indicator': 3 },
+                { 'userWord.optional.deleted': false },
+              ],
+            },
+            {
+              $and: [
+                { 'userWord.optional.indicator': 4 },
+                { 'userWord.optional.deleted': false },
+              ],
+            },
+            { userWord: null },
+          ],
+        },
+      ],
+    },
+    {
+      $and: [
+        {
+          'userWord.optional.lastTrained': { $ne: new Date().toLocaleDateString() },
+        },
+      ],
+    },
+  ],
+};
 
 class MainGame extends PureComponent {
   state = {
@@ -34,6 +82,10 @@ class MainGame extends PureComponent {
     inputValue: '',
     isChecking: false,
   };
+
+  currentStatistic = null;
+
+  bestChainCounter = { count: 0 };
 
   componentDidMount = async () => {
     const setingsData = await getUserSettings(localStorage.userToken, localStorage.userId);
@@ -121,8 +173,25 @@ class MainGame extends PureComponent {
     const changeWordsData = wordsData.slice();
     changeWordsData.splice(currentWordIndex, 1);
     this.setState({
-      // currentWordIndex: this.state.currentWordIndex,
       wordsData: changeWordsData,
+    });
+  }
+
+  setCurrentIndex = (value) => {
+    this.setState({
+      currentWordIndex: value,
+    });
+  }
+
+  setDifficultyButtonState = (value) => {
+    this.setState({
+      difficultyBtnActive: value,
+    });
+  }
+
+  setInputValue = (value) => {
+    this.setState({
+      inputValue: value,
     });
   }
 
@@ -147,7 +216,18 @@ class MainGame extends PureComponent {
   };
 
   initCardComponent = (wordData) => {
-    const { changeCardToLeft } = this;
+    const {
+      changeCardToLeft,
+      setCurrentIndex,
+      changePopupShowState,
+      bestChainCounter,
+      setInputClassesAndReadState,
+      setIndicator,
+      setShowRightAnswer,
+      setInputValue,
+      setDifficultyButtonState,
+      currentStatistic,
+    } = this;
     const {
       settingsData, showRightAnswer, wordsData, currentWordIndex, indicator, inputClasses,
       inputReadOnlyFlag, difficultyBtnActive, inputValue, isChecking,
@@ -180,49 +260,20 @@ class MainGame extends PureComponent {
     const buttonComponent = [];
     if (displayShowAnswerBtn && !showRightAnswer) {
       buttonComponent.push((
-        <button
-          className="MainGame__answer-button"
-          type="button"
-          key={2}
-          onClick={() => {
-            console.log(settingsData);
-            if (autoPronunciation) {
-              playAudioFunction(`https://raw.githubusercontent.com/tastypurgen/rslang-data/master/${audio}`);
-            }
-            const trainedValue = userWord?.optional?.trained + 1 || 1;
-            const indicatorValue = userWord?.optional?.indicator || 2;
-            const difficultValue = userWord?.optional?.difficult || false;
-            const today = new Date();
-            const tomorrow = new Date(today);
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            const body = {
-              difficulty: 'default',
-              optional: {
-                deleted: false,
-                difficult: difficultValue,
-                indicator: indicatorValue,
-                lastTrained: today,
-                nextTraining: tomorrow,
-                trained: trainedValue,
-              },
-            };
-            try {
-              if (userWord.optional.indicator < 5) {
-                updateUserWord(wordsData[currentWordIndex]._id, body);
-              }
-            } catch {
-              createUserWord(wordsData[currentWordIndex]._id, body);
-            }
-            this.setInputClassesAndReadState('Input Input--default', true);
-            this.setIndicator(userWord);
-            this.setShowRightAnswer(true);
-            this.setState({
-              inputValue: word,
-            });
-          }}
-        >
-          Показать ответ
-        </button>
+        <AnswerButton
+          settingsData={settingsData}
+          autoPronunciation={autoPronunciation}
+          userWord={userWord}
+          audio={audio}
+          currentWordIndex={currentWordIndex}
+          wordsData={wordsData}
+          setInputClassesAndReadState={setInputClassesAndReadState}
+          setIndicator={setIndicator}
+          setShowRightAnswer={setShowRightAnswer}
+          setInputValue={setInputValue}
+          bestChainCounter={bestChainCounter}
+          currentStatistic={currentStatistic}
+        />
       ));
     } else if (displayAssessmentBtns && showRightAnswer) {
       buttonComponent.push(( // showRightAnswer
@@ -237,15 +288,15 @@ class MainGame extends PureComponent {
     return (
       <div className={showRightAnswer ? 'MainGame__card MainGame__card--active' : 'MainGame__card'}>
         <div className="MainGame__indicator-container">
-          {userWord
-            ? <Indicator indicator={indicator} />
-            : <Indicator indicator={1} />}
+          <Indicator indicator={indicator} />
         </div>
         <div className="MainGame__container">
           <div className="MainGame__flex-wrapper">
             <div className="MainGame__sentence-wrapper">
               <p className="MainGame__card-sentence">
                 <Input
+                  bestChainCounter={this.bestChainCounter}
+                  currentStatistic={this.currentStatistic}
                   autoPronunciation={autoPronunciation}
                   updateInput={this.updateInput}
                   currentWordIndex={currentWordIndex}
@@ -270,78 +321,24 @@ class MainGame extends PureComponent {
             </div>
             <div className="Maingame__control-butttons">
               {displayDifficultBtn ? (
-                <img
-                  className={difficultyBtnActive ? 'MainGame__difficult-button--disabled' : 'MainGame__difficult-button'}
-                  role="button"
-                  onClick={() => {
-                    if (!difficultyBtnActive) {
-                      const indicatorValue = userWord?.optional?.indicator || 1;
-                      const trainedValue = userWord?.optional?.trained + 1 || 1;
-                      const today = new Date();
-                      const tomorrow = new Date(today);
-                      tomorrow.setDate(tomorrow.getDate() + 1);
-                      const body = {
-                        optional: {
-                          deleted: false,
-                          difficult: true,
-                          indicator: indicatorValue,
-                          lastTrained: today,
-                          nextTraining: tomorrow,
-                          trained: trainedValue,
-                        },
-                      };
-                      if (!userWord) {
-                        createUserWord(wordsData[currentWordIndex]._id, body);
-                      } else {
-                        updateUserWord(wordsData[currentWordIndex]._id, body);
-                      }
-                      this.setState({
-                        difficultyBtnActive: true,
-                      });
-                    }
-                  }}
-                  title={difficultyBtnActive ? 'Добавлено в сложные' : 'Добавить в сложные'}
-                  src={pointIcon}
-                  alt="point-icon"
+                <DifficultyButton
+                  difficultyBtnActive={difficultyBtnActive}
+                  userWord={userWord}
+                  wordsData={wordsData}
+                  currentWordIndex={currentWordIndex}
+                  setDifficultyButtonState={setDifficultyButtonState}
                 />
               ) : null}
               {displayDeleteBtn ? (
-                <img
-                  title="Удалить слово"
-                  role="button"
-                  alt="delete-icon"
-                  src={deleteIcon}
-                  onClick={() => {
-                    this.setInputClassesAndReadState('Input', false);
-                    this.setIndicator(userWord);
-                    this.setShowRightAnswer(false);
-                    this.setState({
-                      inputValue: '',
-                    });
-                    const indicatorValue = userWord?.optional?.indicator || 1;
-                    const trainedValue = userWord?.optional?.trained || 1;
-                    const body = {
-                      optional: {
-                        deleted: true,
-                        difficult: false,
-                        indicator: indicatorValue,
-                        lastTrained: new Date(),
-                        nextTraining: new Date(),
-                        trained: trainedValue,
-                      },
-                    };
-                    try {
-                      if (userWord.optional.indicator < 5) {
-                        console.log(userWord.optional.indicator);
-                        updateUserWord(wordsData[currentWordIndex]._id, body);
-                      }
-                    } catch {
-                      createUserWord(wordsData[currentWordIndex]._id, body);
-                      console.log('Слова нит');
-                    }
-                    changeCardToLeft();
-                  }}
-                  className="MainGame__delete-button"
+                <DeleteButton
+                  wordsData={wordsData}
+                  currentWordIndex={currentWordIndex}
+                  userWord={userWord}
+                  setInputClassesAndReadState={setInputClassesAndReadState}
+                  setIndicator={setIndicator}
+                  setShowRightAnswer={setShowRightAnswer}
+                  setInputValue={setInputValue}
+                  changeCardToLeft={changeCardToLeft}
                 />
               ) : null}
             </div>
@@ -352,18 +349,7 @@ class MainGame extends PureComponent {
                 {associationImage ? <img src={`https://raw.githubusercontent.com/koptohhka/rslang-data/master/${image}`} alt="" className="MainGame__image" /> : null}
                 <div className="MainGame__word-info">
                   <div className="word-info__full-word">
-                    <img
-                      title="Прослушать слово"
-                      role="button"
-                      onClick={() => {
-                        if (window.isClickEnabled) {
-                          playAudioFunction(`https://raw.githubusercontent.com/tastypurgen/rslang-data/master/${audio}`);
-                        }
-                      }}
-                      className="MainGame__speaker-icon word-info__full-word--item"
-                      src={speakerIcon}
-                      alt="Динамик"
-                    />
+                    <SpeakerButton audio={audio} />
                     <p className="word-info__word word-info__full-word--item">{word}</p>
                     {wordTranscription ? <p className="word-info__transcription">{transcription}</p> : null}
                     {wordTranslation ? <p className="word-info__translation word-info__full-word--item">{wordData.wordTranslate}</p> : null}
@@ -376,43 +362,87 @@ class MainGame extends PureComponent {
           {buttonComponent}
         </div>
         {showRightAnswer ? (
-
-          <div
-            tabIndex={0}
-            role="button"
-            onClick={() => {
-              if (currentWordIndex < wordsData.length - 1) {
-                this.updateInput('');
-                this.setInputClassesAndReadState('Input', false);
-                this.setIndicator(wordsData[currentWordIndex + 1].userWord);
-                this.showNextCard();
-                this.updateInput('');
-              } else {
-                this.changePopupShowState(true);
-              }
-            }}
-            className="MainGame__right-arrow"
-          >
-            <svg
-              fill="#C4C4C4"
-              width="31"
-              height="31"
-              viewBox="0 0 31 31"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M10.4835 5.02314L17.6575 12.0596H0.345215V18.6234H17.6575L10.4835 25.6598L15.0532 30.3445L30.3488 15.3427L15.0532 0.33844L10.4835 5.02314Z" />
-            </svg>
-          </div>
+          <ArrowButton
+            currentStatistic={currentStatistic}
+            changePopupShowState={changePopupShowState}
+            currentWordIndex={currentWordIndex}
+            wordsData={wordsData}
+            setIndicator={setIndicator}
+            setInputClassesAndReadState={setInputClassesAndReadState}
+            setInputValue={setInputValue}
+            setCurrentIndex={setCurrentIndex}
+            setShowRightAnswer={setShowRightAnswer}
+            setDifficultyButtonState={setDifficultyButtonState}
+          />
         ) : null}
       </div>
     );
+  };
+
+  componentDidMount = async () => {
+    const setingsData = await getUserSettings(localStorage.userToken, localStorage.userId);
+    this.setState({
+      settingsData: setingsData.optional,
+    });
+
+    const statisticsData = await getUserStatistics();
+    const { optional } = statisticsData;
+    console.log(optional.today);
+
+    if (optional.today.date !== new Date().toLocaleDateString()) {
+      const todayStatistic = {
+        learnedWords: 0,
+        optional: {
+          today: {
+            date: new Date().toLocaleDateString(),
+            cards: 0,
+            newWords: 0,
+            rightAnswers: 0,
+            longestChain: 0,
+            finishWordsLeft: setingsData.optional.maxCardsPerDay,
+          },
+        },
+      };
+      this.currentStatistic = todayStatistic;
+      upsertUserStatistics(todayStatistic);
+    } else {
+      const userStatistics = await getUserStatistics();
+      delete userStatistics.id;
+      this.currentStatistic = userStatistics;
+    }
+
+    let wordsdataLengthValue = this.currentStatistic.optional.today.finishWordsLeft;
+    if (this.currentStatistic.optional.today.isFinished) {
+      wordsdataLengthValue = setingsData.optional.maxCardsPerDay;
+      console.log(wordsdataLengthValue);
+    } else if (this.currentStatistic.optional.today.finishWordsLeft < 1) {
+      this.currentStatistic.optional.today.finishWordsLeft = setingsData.optional.maxCardsPerDay;
+      wordsdataLengthValue = setingsData.optional.maxCardsPerDay;
+    }
+
+    const wordsDataResponse = await getUserAggregatedWords(
+      JSON.stringify(filterMainGame), wordsdataLengthValue,
+    );
+    const todayWordData = shuffleArray(wordsDataResponse[0].paginatedResults);
+    console.log(wordsDataResponse);
+    this.setIndicator(todayWordData[0].userWord);
+    this.setState({
+      wordsData: todayWordData,
+      isDataEnabled: true,
+    });
+
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    getAllUserWords().then((res) => {
+      console.log('Мои слова');
+      console.log(res);
+    });
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   };
 
   render() {
     const {
       changePopupShowState, initCardComponent, state,
     } = this;
-    // state.showRightAnswer
     const {
       currentWordIndex, wordsData, isDataEnabled, showPopup,
     } = state;

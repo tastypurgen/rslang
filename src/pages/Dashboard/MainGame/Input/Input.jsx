@@ -6,6 +6,7 @@ import {
   createUserWord, updateUserWord,
 } from '../../../../services/userWords';
 import playAudioFunction from '../../../../utils/playAudioFunction';
+import { upsertUserStatistics } from '../../../../services/userStatistics';
 
 let cachedValue;
 
@@ -27,7 +28,7 @@ const Input = (props) => {
   const {
     textExample, wordData, changeRightAnswerState, exampleSentence, userWord,
     setIndicator, autoPronunciation, inputValue, setInputClassesAndReadState,
-    updateInput, changingMode, isChecking,
+    updateInput, changingMode, isChecking, currentStatistic, bestChainCounter,
   } = props;
   const { word, _id, audio } = wordData;
 
@@ -88,14 +89,29 @@ const Input = (props) => {
       if (checkFirstAnswer(true)) postUserWordData(5, 1);
       else postUserWordData(2, 0);
       changeRightAnswerState(true);
+      bestChainCounter.count += 1;
+      console.log(bestChainCounter.count);
+      if (currentStatistic.optional.today.longestChain < bestChainCounter.count) {
+        currentStatistic.optional.today.longestChain = bestChainCounter.count;
+        console.log(currentStatistic.optional.today.longestChain);
+      }
+      currentStatistic.optional.today.rightAnswers += 1;
     } else {
       checkFirstAnswer(false);
       cachedValue = inputValue;
       changingMode(true);
       updateInput('');
+      bestChainCounter.count = 0;
       // changeRightAnswerState(true);
       // setInputClassesAndReadState('Input Input--wrong', true);
     }
+    if (!userWord) {
+      currentStatistic.optional.today.newWords += 1;
+    }
+    currentStatistic.optional.today.cards += 1;
+    currentStatistic.optional.today.finishWordsLeft -= 1;
+    upsertUserStatistics(currentStatistic);
+    console.log(currentStatistic);
   };
 
   return (
@@ -113,14 +129,6 @@ const Input = (props) => {
             })}
           </span>
         )}
-
-        {/* <span className="animate-typing-container">
-        <span index="0" className="hidden">n</span>
-        <span index="1" className="hidden">i</span>
-        <span index="2" className="hidden">g</span>
-        <span index="3" className="hidden">h</span>
-        <span index="4" className="hidden">t</span>
-      </span> */}
         <input
           className="answer-input"
           type="text"
