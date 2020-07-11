@@ -1,8 +1,8 @@
 import React from 'react';
 import './SpeakIt.scss';
+import Spinner from '../../components/Spinner/Spinner';
 import StartScreen from './StartScreen/StartScreen';
 import DifficultyControls from './DifficultyControls/DifficultyControls';
-import Loader from './Loader/Loader';
 import ControllPanel from './controllPanel/ControllPanel';
 import Image from './image/Image';
 import WordsList from './wordsList/WordsList';
@@ -25,7 +25,6 @@ class SpeakIt extends React.Component {
       isDataLoaded: false,
       isResultsOn: false,
       isSpeechRecognitionOn: false,
-      playModeOn: false,
       rightWordsObject: {},
     }
 
@@ -34,7 +33,6 @@ class SpeakIt extends React.Component {
     async componentDidMount() {
       const { isDataLoaded, currentDifficulty } = this.state;
       if (!isDataLoaded) {
-        // const { currentDifficulty } = this.state;
         const response = await getTheWordsData(getTheRandomPage(), currentDifficulty);
         this.data = toShuffleArray(response);
         this.setState({
@@ -50,7 +48,8 @@ class SpeakIt extends React.Component {
     }
 
     ChangeRightWordsObject = (word) => {
-      const currentState = this.state.rightWordsObject;
+      const { rightWordsObject } = this.state;
+      const currentState = rightWordsObject;
       currentState[word] = true;
       this.setState({
         rightWordsObject: currentState,
@@ -73,16 +72,13 @@ class SpeakIt extends React.Component {
       });
     }
 
-    changeActiveImage = (imagePath, wordIndex) => {
+    changeActiveImage = (imagePath) => {
       this.setState({
         currentImage: `https://raw.githubusercontent.com/Koptohhka/rslang-data/master/${imagePath}`,
-        // wordActiveElement: wordIndex
       });
     }
 
     changeActiveImageCaption = (wordTranslation) => {
-      // const response = await getTheWordTranslation(word);
-      console.log(wordTranslation);
       this.setState({
         currentImageCaption: wordTranslation,
       });
@@ -130,7 +126,6 @@ class SpeakIt extends React.Component {
         difficultyActiveElement: value,
         wordActiveElement: null,
         currentImageCaption: '',
-        playModeOn: false,
       });
       const { currentDifficulty } = this.state;
       const response = await getTheWordsData(getTheRandomPage(), currentDifficulty);
@@ -142,10 +137,24 @@ class SpeakIt extends React.Component {
 
     render() {
       const {
-        toHandleDifficultyControls, toStartNewGame, toHandeResults, data, changeWordActiveElement, ChangeRightWordsObject, changeSpeechRecognitionState, changeActiveImage, toHandleTheWord, startTheGame,
+        toHandleDifficultyControls,
+        toStartNewGame, toHandeResults,
+        data, changeWordActiveElement,
+        ChangeRightWordsObject,
+        changeSpeechRecognitionState,
+        changeActiveImage,
+        toHandleTheWord,
+        startTheGame,
       } = this;
       const {
-        isResultsOn, isDataLoaded, rightWordsObject, isSpeechRecognitionOn, difficultyActiveElement, currentImage, currentImageCaption, wordActiveElement, isAppStarted,
+        isResultsOn,
+        isDataLoaded,
+        rightWordsObject,
+        isSpeechRecognitionOn,
+        difficultyActiveElement, currentImage,
+        currentImageCaption,
+        wordActiveElement,
+        isAppStarted,
       } = this.state;
       let component;
       if (!isAppStarted) {
@@ -195,7 +204,7 @@ class SpeakIt extends React.Component {
         );
       } else {
         component = (
-          <Loader />
+          <Spinner />
         );
       }
       return (

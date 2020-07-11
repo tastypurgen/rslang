@@ -3,7 +3,13 @@ import './Word.scss';
 
 const Word = (props) => {
   const {
-    toHandleTheWord, wordData, wordIndex, activeIndex, changeActiveImage, changeWordActiveElement, playModeState, rightWords,
+    toHandleTheWord,
+    wordData, wordIndex,
+    activeIndex,
+    changeActiveImage,
+    changeWordActiveElement,
+    playModeState,
+    rightWords,
   } = props;
   const { word, transcription, image } = wordData;
   const classesArray = ['Word'];
