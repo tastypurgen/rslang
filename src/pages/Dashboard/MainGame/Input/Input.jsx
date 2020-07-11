@@ -84,6 +84,7 @@ const Input = (props) => {
     }
     setInputClassesAndReadState('Input Input--right', true);
     if (input.toLowerCase() === word.toLowerCase()) {
+      indicatorValue = userWord?.optional?.indicator || 2;
       if (checkFirstAnswer(true)) postUserWordData(5, 1);
       else postUserWordData(2, 0);
       changeRightAnswerState(true);
