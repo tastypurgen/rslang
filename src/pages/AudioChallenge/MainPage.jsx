@@ -1,14 +1,13 @@
 import React from 'react';
 import AudioChallenge from './AudioChallenge';
 import { getRandomWords } from '../../services/getWords';
-import checkUserWordsForGames from '../../utils/checkUserWords';
 
 export default class MainPage extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       play: false,
-      value: document.getElementById('difficulty') ? document.getElementById('difficulty').value : 0,
+      value: document.getElementById('difficulty') ? document.getElementById('difficulty').value : 1,
     };
     this.handleClick = this.handleClick.bind(this);
   }
@@ -21,7 +20,6 @@ export default class MainPage extends React.PureComponent {
     const { play, value } = this.state;
     if (!play) {
       if (value === '6') {
-        checkUserWordsForGames();
         getRandomWords(0, 3);
       } else {
         getRandomWords(value, 3);
@@ -37,7 +35,7 @@ export default class MainPage extends React.PureComponent {
       );
     }
     return (
-      <AudioChallenge difficulty={value} />
+      <AudioChallenge />
     );
   }
 }

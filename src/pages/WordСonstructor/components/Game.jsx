@@ -40,19 +40,32 @@ export default class Game extends PureComponent {
 
   setWords = () => {
     const words = JSON.parse(localStorage.words).sort(() => Math.random() - 0.5);
+    const userWords = JSON.parse(localStorage.userWords).sort(() => Math.random() - 0.5);
     const wordsPerGame = 10;
     const { gameWords } = this.state;
     gameWords.splice(0);
 
-    words.slice(0, wordsPerGame).map((word) => gameWords.push({
-      id: word.id,
-      word: word.word,
-      translation: word.wordTranslate,
-      audio: URI + word.audio,
-      img: URI + word.image,
-      shuffledLetters: shuffleLetters(word.word, word.id),
-      answerLetters: createAnswerLetters(word.word.length, word.id),
-    }));
+    if (localStorage.difficulty === '6') {
+      userWords.slice(0, wordsPerGame).map((word) => gameWords.push({
+        id: word.id,
+        word: word.word,
+        translation: word.wordTranslate,
+        audio: URI + word.audio,
+        img: URI + word.image,
+        shuffledLetters: shuffleLetters(word.word, word.id),
+        answerLetters: createAnswerLetters(word.word.length, word.id),
+      }));
+    } else {
+      words.slice(0, wordsPerGame).map((word) => gameWords.push({
+        id: word.id,
+        word: word.word,
+        translation: word.wordTranslate,
+        audio: URI + word.audio,
+        img: URI + word.image,
+        shuffledLetters: shuffleLetters(word.word, word.id),
+        answerLetters: createAnswerLetters(word.word.length, word.id),
+      }));
+    }
 
     this.setState({ isWordsLoaded: true });
   }

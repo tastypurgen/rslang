@@ -31,12 +31,14 @@ export default class WordConstructor extends PureComponent {
     });
   }
 
-  restartGame = async () => {
-    const { difficulty } = this.state;
-    await getRandomWords(difficulty, 2);
+  restartGame = () => {
+    const { difficulty } = localStorage;
     this.setState({
       isFinished: false,
     });
+    if (difficulty !== '6') {
+      getRandomWords(difficulty, 2);
+    }
   }
 
   render() {

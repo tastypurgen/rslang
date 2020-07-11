@@ -7,12 +7,17 @@ const checkUserWordsForGames = async () => {
       { 'userWord.optional.indicator': 5 }],
   };
   const content = await getUserAggregatedWords(JSON.stringify(filter));
-  console.log(content[0].paginatedResults);
-  if (content[0].paginatedResults.length >= 10) {
-    localStorage.userWords = JSON.stringify(content[0].paginatedResults);
-  } else {
-    localStorage.userWords = '[]';
-  }
+  return content[0].paginatedResults.length >= 10;
 };
 
-export default checkUserWordsForGames;
+const getUserWordsForGames = async () => {
+  const filter = {
+    $and: [
+      { 'userWord.optional.deleted': false },
+      { 'userWord.optional.indicator': 5 }],
+  };
+  const content = await getUserAggregatedWords(JSON.stringify(filter));
+  localStorage.userWords = JSON.stringify(content[0].paginatedResults);
+};
+
+export { checkUserWordsForGames, getUserWordsForGames };
