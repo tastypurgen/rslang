@@ -27,7 +27,7 @@ const checkFirstAnswer = (right) => {
 const Input = (props) => {
   const {
     textExample, wordData, changeRightAnswerState, exampleSentence, userWord,
-    setIndicator, autoPronunciation, inputValue, setInputClassesAndReadState,
+    setIndicator, autoPronunciation, inputValue, inputReadOnlyFlag, setInputClassesAndReadState,
     updateInput, changingMode, isChecking, currentStatistic, bestChainCounter,
   } = props;
   const { word, _id, audio } = wordData;
@@ -40,10 +40,7 @@ const Input = (props) => {
   }
   const { leftpart, rightPart } = leftAndRightPartsOfSentce;
 
-  let indicatorValue = 5;
-  if (userWord) {
-    indicatorValue = userWord.optional.indicator + 1;
-  }
+  let indicatorValue;
 
   const postUserWordData = (answerIndicatorValue, additionalIndicatorValue) => {
     const trainedValue = userWord?.optional?.trained + 1 || 1;
@@ -83,11 +80,22 @@ const Input = (props) => {
     if (autoPronunciation) {
       playAudioFunction(`https://raw.githubusercontent.com/tastypurgen/rslang-data/master/${audio}`);
     }
-    setInputClassesAndReadState('Input Input--right', true);
     if (input.toLowerCase() === word.toLowerCase()) {
       indicatorValue = userWord?.optional?.indicator || 2;
-      if (checkFirstAnswer(true)) postUserWordData(5, 1);
-      else postUserWordData(2, 0);
+      console.log(userWord);
+      console.log('indicatorValue: ', indicatorValue);
+      if (checkFirstAnswer(true)) {
+        if (userWord) {
+          indicatorValue = userWord.optional.indicator + 1;
+        } else {
+          indicatorValue = 5;
+        }
+        console.log('right');
+        postUserWordData(5, 1);
+      } else {
+        console.log('false');
+        postUserWordData(2, 0);
+      }
       changeRightAnswerState(true);
       bestChainCounter.count += 1;
       console.log(bestChainCounter.count);
@@ -96,14 +104,14 @@ const Input = (props) => {
         console.log(currentStatistic.optional.today.longestChain);
       }
       currentStatistic.optional.today.rightAnswers += 1;
+      setInputClassesAndReadState('Input Input--right', true);
     } else {
+      console.log('Сюда');
       checkFirstAnswer(false);
       cachedValue = inputValue;
       changingMode(true);
       updateInput('');
       bestChainCounter.count = 0;
-      // changeRightAnswerState(true);
-      // setInputClassesAndReadState('Input Input--wrong', true);
     }
     if (!userWord) {
       currentStatistic.optional.today.newWords += 1;
@@ -130,6 +138,7 @@ const Input = (props) => {
           </span>
         )}
         <input
+          readOnly={inputReadOnlyFlag}
           className="answer-input"
           type="text"
           data-idx="0"
@@ -141,9 +150,6 @@ const Input = (props) => {
           onKeyPress={(e) => {
             if (e.key === 'Enter') {
               checkInputWord(e.target.value);
-              if (e.target.value === word) {
-                // showNextCard();
-              }
             }
           }}
           onChange={(e) => {
