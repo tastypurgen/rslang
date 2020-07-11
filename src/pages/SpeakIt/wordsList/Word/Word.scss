@@ -3,9 +3,12 @@
     font-size: 18px;
     margin-top: 10px;
     margin-bottom: 10px;
+    margin-left: 2px;
+    margin-right: 2px;
     padding: 20px;
     padding-left: 47px;
-    width: 190px;
+    width: 100%;
+    max-width: 190px;
     border: 2px solid gray;
     border-radius: 5px;
     -webkit-border-radius: 3px;
@@ -36,6 +39,37 @@
     }
 }
 
+@media (max-width: 630px) {
+    .Word {
+        font-size: 17px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding: 12px;
+        padding-left: 47px;
+        width: 190px;
+        border: 2px solid gray;
+
+
+        .Word__icon {
+            top: 20px;
+            left: 14px;
+        }
+    }
+
+    @media (max-width: 500px) {
+        .Word {
+            max-width: 160px;
+
+            .Word__icon {
+                width: 25px;
+                height: 25px;
+                top: 20px;
+                left: 14px;
+            }
+        }
+    }
+}
+
 .Word--active {
     background: #32BEA6;
     border-color: #32BEA6;
@@ -60,10 +94,6 @@
 
 .Word--right .Word__icon svg {
     fill: white;
-}
-
-.Word--right:hover {
-
 }
 
 .Word--playing:hover {

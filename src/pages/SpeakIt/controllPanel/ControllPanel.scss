@@ -14,4 +14,30 @@
         color: white;
         font-size: 18px;
     }
+
+    @media (max-width: 630px) {
+        .ControllPanel__button {
+            width: 150px;
+            height: 29px;
+        }
+    
+        @media (max-width: 520px) {
+            .ControllPanel__button {
+                width: 130px;
+                height: 25px;
+                font-size: 15px;
+            }
+        }
+    }
+}
+
+@media (max-width: 460px) {
+    .ControllPanel {
+        flex-direction: column;
+        align-items: center;
+
+        .ControllPanel__button {
+            margin-bottom: 10px;
+        }
+    }
 }

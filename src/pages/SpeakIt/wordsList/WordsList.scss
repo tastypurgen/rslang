@@ -13,3 +13,12 @@
 }
 
 
+@media (max-width: 410px) {
+    .WordList__list {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }    
+}
+
+
