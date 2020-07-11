@@ -6,16 +6,18 @@ import { NavLink } from 'react-router-dom';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import RenderTime from './timer';
 import speaker from './image/speaker.png';
-
+import Spinner from '../../components/Spinner/Spinner';
 import errorSound from './sounds/error.mp3';
 import correctSound from './sounds/correct.mp3';
 
 function Sprint() {
   const [isGameOn, setIsGameOn] = useState(false);
   const sprintSection = useRef(null);
+  const engGameSection = useRef(null);
   const source = 'https://raw.githubusercontent.com/tastypurgen/rslang-data/master/';
   const [correctAnswers, setCorrectAnswers] = useState([]);
   const [wrongAnswers, setWrongAnswers] = useState([]);
+  const [isSpinnerOn, setIsSpinnerOn] = useState(false);
   const difficultyLevel = {
     difficulty: document.getElementById('difficulty') ? document.getElementById('difficulty').value : 1,
   };
@@ -37,7 +39,8 @@ function Sprint() {
   let [wordsPool, setWordsPool] = useState([]);
 
   function loadWord() {
-    const url = `https://afternoon-falls-25894.herokuapp.com/words?page=${pageNumber}&group=${difficultyLevel.difficulty}&wordsPerExampleSentenceLTE=25&wordsPerPage=25`;
+    setIsSpinnerOn(true);
+    const url = `https://afternoon-falls-25894.herokuapp.com/words?page=${pageNumber}&group=${difficultyLevel.difficulty}&wordsPerExampleSentenceLTE=46&wordsPerPage=46`;
     const wordsData = JSON.parse(localStorage.getItem('wordsPool'));
     if (wordsData) {
       setWordsPool(wordsData);
@@ -45,6 +48,7 @@ function Sprint() {
     }
 
     return fetch(url).then((resp) => resp.json()).then((wordsList) => {
+      setIsSpinnerOn(false);
       setWordsPool(wordsList);
       localStorage.setItem('wordsPool', JSON.stringify(wordsList));
       return Promise.resolve(wordsList);
@@ -137,6 +141,7 @@ function Sprint() {
   }, []);
   return (
     <section ref={sprintSection} onKeyDown={answerWithKey} className="sprint-section" tabIndex="0">
+      {isSpinnerOn && !wordsPool.length ? <Spinner /> : true}
       <div className={`start-page ${isGameOn ? 'invisible' : 'flex'}`}>
         <div className="start-page_section">
           <h1>Спринт</h1>
@@ -153,30 +158,46 @@ function Sprint() {
           </button>
         </div>
       </div>
-      <div className={`end-game ${!wordsPool.length ? 'flex' : 'invisible'}`}>
+      <div ref={engGameSection} className={`end-game ${!wordsPool.length ? 'flex' : 'invisible'}`}>
         <div className="statistic-section">
           <h2>Конец игры!</h2>
-          <div className="answers">
-            <h3>Правильно:</h3>
-            {correctAnswers.map((correctWord, index) => (
-              <div key={(index + 1).toString()}>
-                <span>{`${correctWord.enWord}`}</span>
-              </div>
-            ))}
+          <div className="results-section">
+            <h3>
+              Правильно
+              {' '}
+              {correctAnswers.length}
+              :
+            </h3>
+            <h3>
+              Неправильно
+              {' '}
+              {wrongAnswers.length}
+              :
+            </h3>
           </div>
-          <div className="answers">
-            <h3>Неправильно:</h3>
-            {wrongAnswers.map((wrongWord, index) => (
-              <div key={(index + 1).toString()}>
-                <span>{`${wrongWord.enWord}`}</span>
-              </div>
-            ))}
+          <div className="answer-container">
+            <div className="answers">
+              {correctAnswers.map((correctWord, index) => (
+                <div key={(index + 1).toString()}>
+                  <span>{`${correctWord.enWord}`}</span>
+                </div>
+              ))}
+            </div>
+            <div className="answers">
+              {wrongAnswers.map((wrongWord, index) => (
+                <div key={(index + 1).toString()}>
+                  <span>{`${wrongWord.enWord}`}</span>
+                </div>
+              ))}
+            </div>
           </div>
           <div className="end-game_buttons">
             <button
               type="submit"
               className="button repeat"
               onClick={() => {
+                engGameSection.current.className = 'invisible';
+                sprintSection.current.focus();
                 setScore(0);
                 setCorrectAnswers([]);
                 setWrongAnswers([]);
@@ -194,7 +215,6 @@ function Sprint() {
       </div>
       <div className="level-section">
         Current Level:
-        {' '}
         {pageNumber + 1}
       </div>
       <div className={`wrapper ${isGameOn ? 'flex' : 'invisible'}`}>

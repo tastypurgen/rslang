@@ -10,6 +10,10 @@
   align-items: center;
   font-family: 'Roboto', sans-serif;
 
+  .busy-indicator{
+   
+  }
+
     .start-page {
       z-index: 2;
       width: 100%;
@@ -179,11 +183,22 @@
     align-items: center;
   }
 
+  .results-section {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+  }
+
   .answers {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+  }
+
+  .answer-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
   }
 
   .end-game_buttons {
