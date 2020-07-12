@@ -7,9 +7,7 @@ import './TodayGoal.scss';
 
 const TodayGoal = (props) => {
   const { todayStatisticsData, cardsPerDay } = props;
-  const {
-    cards, newWords, rightAnswers, longestChain,
-  } = todayStatisticsData;
+  const { cards } = todayStatisticsData;
 
   const makeGoalSentence = () => {
     let goalSentence = `Завершить ${cardsPerDay} карточек. Сегодня вы выполнили ${cards} карточек.
@@ -49,9 +47,7 @@ const TodayGoal = (props) => {
         <img className="TodayGoal__image" src={enCard} alt="английский язык" />
       </div>
       <div className="TodayGoal__progreess-container">
-        {console.log('cards: ', cards)}
-        {console.log('cardsPerDay: ', cardsPerDay)}
-        <ProgressBar progressPercent={(100 / cardsPerDay) * (cards + 1)} width="235px" />
+        <ProgressBar progressPercent={(100 / cardsPerDay) * cards} width="235px" />
         <button type="button" className="TodayGoal__button">
           <NavLink className="TodayGoal__nav-link" to="/main-game">{makeButtonCapture()}</NavLink>
         </button>

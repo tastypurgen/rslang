@@ -57,7 +57,7 @@ const AnswerButton = (props) => {
         } catch {
           createUserWord(wordsData[currentWordIndex]._id, body);
         }
-        setInputClassesAndReadState('Input Input--default', true);
+        setInputClassesAndReadState('background--default', true);
         setIndicator(userWord, indicatorValue);
         setShowRightAnswer(true);
         setInputValue(word);

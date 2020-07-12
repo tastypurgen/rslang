@@ -28,7 +28,7 @@ const Input = (props) => {
   const {
     textExample, wordData, changeRightAnswerState, exampleSentence, userWord,
     setIndicator, autoPronunciation, inputValue, inputReadOnlyFlag, setInputClassesAndReadState,
-    updateInput, changingMode, isChecking, currentStatistic, bestChainCounter,
+    updateInput, changingMode, isChecking, currentStatistic, bestChainCounter, inputClasses,
   } = props;
   const { word, _id, audio } = wordData;
 
@@ -72,7 +72,7 @@ const Input = (props) => {
     if (rightLetter === cachedValue[i]) {
       acc.push(i);
       return acc;
-    }
+    } acc.push('');
     return acc;
   }, []);
 
@@ -82,31 +82,25 @@ const Input = (props) => {
     }
     if (input.toLowerCase() === word.toLowerCase()) {
       indicatorValue = userWord?.optional?.indicator || 2;
-      console.log(userWord);
-      console.log('indicatorValue: ', indicatorValue);
       if (checkFirstAnswer(true)) {
         if (userWord) {
           indicatorValue = userWord.optional.indicator + 1;
         } else {
           indicatorValue = 5;
         }
-        console.log('right');
         postUserWordData(5, 1);
       } else {
-        console.log('false');
         postUserWordData(2, 0);
       }
       changeRightAnswerState(true);
       bestChainCounter.count += 1;
-      console.log(bestChainCounter.count);
       if (currentStatistic.optional.today.longestChain < bestChainCounter.count) {
         currentStatistic.optional.today.longestChain = bestChainCounter.count;
-        console.log(currentStatistic.optional.today.longestChain);
       }
       currentStatistic.optional.today.rightAnswers += 1;
-      setInputClassesAndReadState('Input Input--right', true);
+      setInputClassesAndReadState('background--right', true);
     } else {
-      console.log('Сюда');
+      setInputClassesAndReadState('background--false', false);
       checkFirstAnswer(false);
       cachedValue = inputValue;
       changingMode(true);
@@ -119,20 +113,21 @@ const Input = (props) => {
     currentStatistic.optional.today.cards += 1;
     currentStatistic.optional.today.finishWordsLeft -= 1;
     upsertUserStatistics(currentStatistic);
-    console.log(currentStatistic);
   };
 
   return (
     <span>
       {leftpart}
       <span className="game-input" data-word="night" data-audio-hash="93a04b066fd81a1017825f2dcda313b2">
-        <span className="background">
+        <span className={`background ${inputClasses}`}>
           {word.split('').map((letter, index) => <span index={index} key={letter + Math.random()} className="hidden">{letter}</span>)}
         </span>
         {isChecking && (
           <span className="word-checker">
             {word.split('').map((letter, index) => {
-              if (index === getRightLettersArray()[index]) return <span data-index={index} className="right" key={letter + Math.random()}>{letter}</span>;
+              if (index === getRightLettersArray()[index]) {
+                return <span data-index={index} className="right" key={letter + Math.random()}>{letter}</span>;
+              }
               return <span data-index={index} key={letter + Math.random()}>{letter}</span>;
             })}
           </span>

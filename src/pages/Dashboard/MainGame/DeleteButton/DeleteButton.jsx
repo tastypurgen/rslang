@@ -13,7 +13,8 @@ const DeleteButton = (props) => {
     userWord,
     currentWordIndex,
     wordsData,
-    changeCardToLeft,
+    changeCardToLeft, 
+    changingMode,
   } = props;
   return (
     <img
@@ -25,6 +26,7 @@ const DeleteButton = (props) => {
         if (currentWordIndex !== wordsData.length - 1) {
           setInputClassesAndReadState('Input', false);
           setIndicator(userWord);
+          changingMode(false);
           setShowRightAnswer(false);
           setInputValue('');
           const indicatorValue = userWord?.optional?.indicator || 1;

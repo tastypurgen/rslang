@@ -1,9 +1,6 @@
 /* eslint-disable no-console */
 import React, { PureComponent } from 'react';
 import './MainGame.scss';
-// import pointIcon from './images/point.svg';
-// import deleteIcon from './images/delete.svg';
-// import speakerIcon from './images/speaker.svg';
 import AssessmentButtons from './AssessmentButtons/AssessmentButtons';
 import AnswerButton from './AnswerButton/AnswerButton';
 import DifficultyButton from './DifficultyButton/DifficultyButton';
@@ -14,13 +11,11 @@ import Popup from './Popup/Popup';
 import Input from './Input/Input';
 import Indicator from '../../../components/Indicator/Indicator';
 import Progressbar from '../../../components/Progressbar/ProgressBar';
+import Spinner from '../../../components/Spinner/Spinner';
 import getUserAggregatedWords from '../../../services/userAggregatedWords';
 import shuffleArray from '../../../utils/suffleArray';
 import { getUserSettings } from '../../../services/settingsService';
-// import playAudioFunction from '../../../utils/playAudioFunction';
-import {
-  createUserWord, updateUserWord, getAllUserWords,
-} from '../../../services/userWords';
+import { getAllUserWords } from '../../../services/userWords';
 import { getUserStatistics, upsertUserStatistics } from '../../../services/userStatistics';
 
 const filterMainGame = {
@@ -76,7 +71,7 @@ class MainGame extends PureComponent {
     wordsData: [],
     currentWordIndex: 0,
     indicator: 1,
-    inputClasses: 'input',
+    inputClasses: '',
     inputReadOnlyFlag: false,
     difficultyBtnActive: false,
     inputValue: '',
@@ -332,6 +327,8 @@ class MainGame extends PureComponent {
               ) : null}
               {displayDeleteBtn ? (
                 <DeleteButton
+                  isChecking={isChecking}
+                  changingMode={this.changingMode}
                   wordsData={wordsData}
                   currentWordIndex={currentWordIndex}
                   userWord={userWord}
@@ -449,17 +446,21 @@ class MainGame extends PureComponent {
     } = state;
     return (
       <div className="MainGame">
-        {
-          isDataEnabled ? initCardComponent(wordsData[currentWordIndex]) : ''
-        }
-        <div className="MainGame__progress-bar">
-          <p className="MainGame__progress-index">{currentWordIndex + 1}</p>
-          <Progressbar
-            progressPercent={(100 / wordsData.length) * (currentWordIndex + 1)}
-          />
-          <p className="MainGame__progress-length">{wordsData.length}</p>
-        </div>
         {showPopup ? <Popup changePopupShowState={changePopupShowState} /> : null}
+        {isDataEnabled
+          ? (
+            <>
+              {initCardComponent(wordsData[currentWordIndex])}
+              <div className="MainGame__progress-bar">
+                <p className="MainGame__progress-index">{currentWordIndex + 1}</p>
+                <Progressbar
+                  progressPercent={(100 / wordsData.length) * currentWordIndex}
+                />
+                <p className="MainGame__progress-length">{wordsData.length}</p>
+              </div>
+            </>
+          )
+          : <Spinner />}
       </div>
     );
   }
