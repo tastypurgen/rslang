@@ -1,0 +1,24 @@
+.WordList__list {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 100%;
+    list-style: none;
+    padding: 20px;
+    background: white;
+
+    text-align: center;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+}
+
+
+@media (max-width: 410px) {
+    .WordList__list {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }    
+}
+
+
