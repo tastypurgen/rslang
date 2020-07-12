@@ -1,4 +1,5 @@
 import React from 'react';
+import Spinner from '../../components/Spinner/Spinner';
 import TodayGoal from './TodayGoal/TodayGoal';
 import TodayStatistics from './TodayStatistics/TodayStatistics';
 import TotalStatistics from './TotalStatistics/TotalStatistics';
@@ -62,7 +63,7 @@ class Dashboard extends React.PureComponent {
             <TodayStatistics todayStatisticsData={todayStatisticsData} />
             <TotalStatistics totalStatistics={totalStatistics} />
           </div>
-        ) : <h1>Loading</h1>}
+        ) : <Spinner />}
       </div>
     );
   }

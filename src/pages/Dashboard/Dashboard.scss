@@ -19,10 +19,6 @@
     flex-wrap: wrap;
   }
 
-  .Dashboard__card:first-child {
-    order: 2;
-  }
-
   @media (max-width: 1164px) {
     .Dashboard__container {
       gap: 15px;

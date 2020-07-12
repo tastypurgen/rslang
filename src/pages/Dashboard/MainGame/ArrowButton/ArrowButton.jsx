@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import { getUserStatistics, upsertUserStatistics } from '../../../../services/userStatistics';
 
 const ArrowButton = (props) => {
@@ -33,7 +34,7 @@ const ArrowButton = (props) => {
           upsertUserStatistics(currentStatistic);
           console.log(currentStatistic);
         } else {
-          console.log(props);
+          props.history.push('/');
         }
       }}
       className="MainGame__right-arrow"
@@ -51,4 +52,4 @@ const ArrowButton = (props) => {
   );
 };
 
-export default ArrowButton;
+export default withRouter(ArrowButton);

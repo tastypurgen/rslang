@@ -9,6 +9,7 @@ import { getUserStatistics, upsertUserStatistics } from '../../../../services/us
 const AnswerButton = (props) => {
   const {
     currentStatistic,
+    wordData,
     wordsData,
     userWord,
     currentWordIndex,
@@ -21,7 +22,8 @@ const AnswerButton = (props) => {
     setInputValue,
     bestChainCounter,
   } = props;
-  const { word } = wordsData;
+  const { word } = wordData;
+  console.log(props);
   return (
     <button
       className="MainGame__answer-button"

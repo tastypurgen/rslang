@@ -19,11 +19,11 @@ const TotalStatistics = (props) => {
         <p className="TotalStatistics__process-learning">
           {`В процессе изучения ${inProgressWordsCount} из 3600 слов`}
         </p>
-        <ProgressBar progressPercent={(100 / 3600) * (inProgressWordsCount)} />
+        <ProgressBar progressPercent={(100 / 3600) * (inProgressWordsCount + 1)} />
         <p className="TotalStatistics__learned">
           {`Выучено ${learnedWordsCount} из 3600 слов`}
         </p>
-        <ProgressBar progressPercent={(100 / 3600) * (learnedWordsCount)} />
+        <ProgressBar progressPercent={(100 / 3600) * (learnedWordsCount + 1)} />
       </div>
     </div>
   );

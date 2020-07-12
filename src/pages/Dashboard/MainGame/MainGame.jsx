@@ -266,6 +266,7 @@ class MainGame extends PureComponent {
           userWord={userWord}
           audio={audio}
           currentWordIndex={currentWordIndex}
+          wordData={wordData}
           wordsData={wordsData}
           setInputClassesAndReadState={setInputClassesAndReadState}
           setIndicator={setIndicator}

@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import ProgressBar from '../../../components/Progressbar/ProgressBar';
 import enCard from './images/en-card.svg';
+import todayGoalIcon from './images/today-goal.svg';
 import './TodayGoal.scss';
 
 const TodayGoal = (props) => {
@@ -30,6 +31,7 @@ const TodayGoal = (props) => {
   return (
     <div className="TodayGoal Dashboard__card">
       <div className="TodayGoal__title-bar">
+        <img className="TodayGoal__icon" src={todayGoalIcon} alt="сегодня" />
         <p className="TodayGoal__title">
           Цель на сегодня
         </p>
@@ -47,7 +49,9 @@ const TodayGoal = (props) => {
         <img className="TodayGoal__image" src={enCard} alt="английский язык" />
       </div>
       <div className="TodayGoal__progreess-container">
-        <ProgressBar progressPercent={33} width="235px" />
+        {console.log('cards: ', cards)}
+        {console.log('cardsPerDay: ', cardsPerDay)}
+        <ProgressBar progressPercent={(100 / cardsPerDay) * (cards + 1)} width="235px" />
         <button type="button" className="TodayGoal__button">
           <NavLink className="TodayGoal__nav-link" to="/main-game">{makeButtonCapture()}</NavLink>
         </button>
