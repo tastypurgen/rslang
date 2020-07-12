@@ -242,3 +242,60 @@
   background-color: #5405ff;
   border-radius: 5px;
 }
+
+@media screen and (max-width: 767px) {
+  .word-constructor__start-panel {
+    width: calc(100% - 20px);
+  }
+  .word-constructor__game-answers {
+    padding: 10px;
+    h2 {
+      font-size: 14px;
+    }
+  }
+  .word-constructor__game-task {
+    padding: 10px;
+    h2 {
+      font-size: 14px;
+    }
+  }
+  .word-constructor__shuffled-letter__inner-wrapper {
+    width: 20px;
+    height: 20px;
+    margin: 0 2.5px;    
+  }
+  .word-constructor__shuffled-letter {
+    border-radius: 2px;
+    font-family: 'Open Sans';
+    font-size: 10px;
+  }
+  .word-constructor__available-skips {
+    img {
+      width: 20px;
+      height: 20px;
+    }
+    p {
+      font-size: 18px;
+    }
+  }
+  .word-constructor__available-hints {
+    img {
+      width: 30px;
+      height: 30px;
+    }
+    p {
+      font-size: 18px;
+    }
+  }
+  .word-constructor__progress-bar__wrapper {
+    height: 5px;
+  }
+}
+
+@media screen and (max-width: 424px) {
+  .word-constructor__shuffled-letter__inner-wrapper {
+    width: 15px;
+    height: 15px;
+    margin: 0 2.5px;    
+  }
+}

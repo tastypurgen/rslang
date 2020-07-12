@@ -76,6 +76,18 @@ const getAllUserWords = async () => {
   return response;
 };
 
+const getUserWordById = async (wordId) => {
+  const rawResponse = await fetch(`${API}users/${getUserId()}/words/${wordId}`,
+    {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
+  const response = await rawResponse.json();
+  return response;
+};
+
 export {
-  createUserWord, deleteUserWord, getAllUserWords, updateUserWord,
+  createUserWord, deleteUserWord, getAllUserWords, updateUserWord, getUserWordById,
 };

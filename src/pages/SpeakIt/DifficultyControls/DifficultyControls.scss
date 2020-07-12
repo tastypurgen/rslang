@@ -1,0 +1,33 @@
+$warm-orange: #FFD07D;
+.DifficultyControls__list {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    list-style: none;
+    width: 240px;
+
+    margin-bottom: 20px;
+    padding-top: 20px;
+}
+
+// .DifficultyControls__decorative-element {
+//     width: 95%;
+//     margin: 0 auto;
+//     height: 4px;
+//     background-color: $warm-orange;
+//     position: absolute;
+//     top: 50%;
+
+//     transform: translateY(8px);
+//     -webkit-transform: translateY(8px);
+//     -moz-transform: translateY(8px);
+//     -ms-transform: translateY(8px);
+//     -o-transform: translateY(8px);
+// }
+
+.DifficultyControls__button {
+    width: 60px;
+    height: 27px;
+}

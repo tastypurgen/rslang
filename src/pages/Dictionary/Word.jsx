@@ -10,6 +10,7 @@ import Indicator from '../../components/Indicator/Indicator';
 import audioImg from './img/audio.png';
 import returnImg from './img/return.png';
 import infoImg from './img/info.png';
+import deleteImg from './img/delete.png';
 import { URI } from '../../utils/constants';
 
 export default class Word extends React.PureComponent {
@@ -23,12 +24,11 @@ export default class Word extends React.PureComponent {
 
   componentDidMount() {
     this.getSectionWords();
-    setTimeout(() => this.setState({ isSpinnerOn: false }), 1000);
   }
 
   getSectionWords = async () => {
     const { filter } = this.props;
-    const content = await getUserAggregatedWords(filter, 100);
+    const content = await getUserAggregatedWords(filter);
     const contentWords = content[0].paginatedResults;
     const stateWords = [];
 
@@ -49,7 +49,7 @@ export default class Word extends React.PureComponent {
       nextTraining: el.userWord.optional.nextTraining,
     }));
 
-    this.setState({ words: stateWords });
+    this.setState({ words: stateWords, isSpinnerOn: false });
   }
 
   returnToLearning(id, indicator, trained, lastTrained, nextTraining) {
@@ -69,9 +69,27 @@ export default class Word extends React.PureComponent {
     this.setState({ words: newWords });
   }
 
+  deleteWord(id, indicator, trained) {
+    const body = {
+      optional: {
+        deleted: true,
+        difficult: false,
+        indicator,
+        lastTrained: new Date().toLocaleDateString(),
+        nextTraining: new Date().toLocaleDateString(),
+        trained,
+      },
+    };
+    updateUserWord(id, body);
+    const { words } = this.state;
+    const newWords = words.filter((el) => el.wordId !== id);
+    this.setState({ words: newWords });
+  }
+
   render() {
     const { words, isSpinnerOn } = this.state;
     const { type, wordInfo } = this.props;
+
     if (isSpinnerOn) {
       return (<Spinner />);
     }
@@ -149,12 +167,25 @@ export default class Word extends React.PureComponent {
                   </span>
                 </div>
               </td>
+              <td className={type === 'deleted' ? 'hidden' : ''}>
+                <img
+                  className="delete"
+                  role="button"
+                  src={deleteImg}
+                  alt="delete"
+                  title="Удалить слово"
+                  onClick={() => this.deleteWord(el.wordId, el.indicator, el.trained)}
+                />
+              </td>
               <td className={type === 'learning' ? 'hidden' : 'return'}>
                 <img
                   role="button"
                   src={returnImg}
+                  title="Восстановить слово для изучения"
                   alt="return"
-                  onClick={() => this.returnToLearning(el.wordId, el.indicator, el.trained, el.lastTrained, el.nextTraining)}
+                  onClick={() => this.returnToLearning(
+                    el.wordId, el.indicator, el.trained, el.lastTrained, el.nextTraining,
+                  )}
                 />
               </td>
               <td>
@@ -166,10 +197,10 @@ export default class Word extends React.PureComponent {
                     раз
                     <br />
                     Дата последнего повтора
-                    {` ${new Date(el.lastTrained).toLocaleDateString()}`}
+                    {` ${el.lastTrained}`}
                     <br />
                     Снова повторится
-                    {` ${new Date(el.nextTraining).toLocaleDateString()}`}
+                    {` ${el.nextTraining}`}
                   </span>
                 </div>
               </td>
