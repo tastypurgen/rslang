@@ -26,13 +26,11 @@ async function createUserWord(wordId, body) {
       body: JSON.stringify(body),
     });
     if (rawResponse.status === 417) {
-      console.log('failed');
     } else {
       const response = await rawResponse.json();
       return response;
     }
   } catch {
-    console.log('catch srabotal');
     return 's';
   }
   return null;

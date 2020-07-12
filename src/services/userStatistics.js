@@ -2,16 +2,20 @@ import { API } from '../utils/constants';
 import { getToken, getUserId } from './postUserData';
 
 const getUserStatistics = async () => {
-  const rawResponse = await fetch(`${API}users/${getUserId()}/statistics`,
-    {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${getToken()}`,
-        Accept: 'application/json',
-      },
-    });
-  const response = await rawResponse.json();
-  return response;
+  try {
+    const rawResponse = await fetch(`${API}users/${getUserId()}/statistics`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+          Accept: 'application/json',
+        },
+      });
+    const response = await rawResponse.json();
+    return response;
+  } catch {
+    return false;
+  }
 };
 
 const upsertUserStatistics = async (body) => {

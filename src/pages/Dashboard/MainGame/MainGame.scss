@@ -1,10 +1,9 @@
 .MainGame {
-
     .MainGame__left-arrow,
     .MainGame__right-arrow {
         outline: none;
         position: relative;
-        border: 1px solid #C4C4C4;
+        border: 1px solid #c4c4c4;
         width: 60px;
         height: 60px;
         border-radius: 50%;
@@ -55,19 +54,19 @@
 
     .MainGame__left-arrow:hover,
     .MainGame__right-arrow:hover {
-        border-color: #82D243;
+        border-color: #82d243;
         cursor: pointer;
     }
 
     .MainGame__left-arrow:hover svg,
     .MainGame__right-arrow:hover svg {
-        fill: #82D243;
+        fill: #82d243;
     }
 }
 
 .MainGame {
     min-height: 84vh;
-    background: #F8F2EE;
+    background: #f8f2ee;
     padding: 0 20px;
     padding-top: 68px;
     position: relative;
@@ -84,11 +83,10 @@
     .MainGame__card {
         padding-top: 24px;
         position: relative;
-        // min-width: 379px;
         max-width: 530px;
         min-height: 216px;
         margin: 0 auto;
-        background: #FFFFFF;
+        background: #ffffff;
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
         border-radius: 10px;
         padding-bottom: 25px;
@@ -103,7 +101,7 @@
 
             width: 136px;
             height: 22px;
-            background: #25B6D2;
+            background: #25b6d2;
             border-radius: 320px;
             margin-top: 63px;
             margin-left: auto;
@@ -120,7 +118,6 @@
     .MainGame__container {
         margin-left: 30px;
         margin-right: 30px;
-        // max-width: 520px;
 
         .MainGame__flex-wrapper {
             display: flex;
@@ -129,17 +126,14 @@
 
             .MainGame__sentence-wrapper {
                 width: 100%;
-                // margin-right: 63px;
             }
 
             .MainGame__card-sentence {
-                // max-width: 360px;
-                // display: inline-block;
                 width: 100%;
                 font-size: 20px;
                 line-height: 24px;
-                color: #37383C;
-                border-bottom: 1px solid #C4C4C4;
+                color: #37383c;
+                border-bottom: 1px solid #c4c4c4;
                 padding-bottom: 11px;
                 margin-bottom: 9px;
             }
@@ -153,7 +147,7 @@
             .MainGame__card-sentence-translation {
                 font-size: 16px;
                 line-height: 19px;
-                color: #607D8B;
+                color: #607d8b;
             }
 
             .MainGame__delete-button {
@@ -170,7 +164,7 @@
             }
 
             .MainGame__difficult-button--disabled:after {
-                content: '';
+                content: "";
                 display: block;
             }
         }
@@ -212,7 +206,6 @@
             .word-info__second-sentence-example {
                 margin-bottom: 8px;
             }
-
         }
     }
 
@@ -229,18 +222,17 @@
         align-items: center;
 
         .MainGame__progress-index {
-            color: #32BEA6;
+            color: #32bea6;
             margin-right: 19px;
         }
 
         .MainGame__progress-length {
             margin-left: 19px;
-            color: #C4C4C4;
+            color: #c4c4c4;
         }
     }
 
     @media (max-width: 750px) {
-
         .MainGame__left-arrow,
         .MainGame__right-arrow {
             transform: scale(0.88);
@@ -259,8 +251,6 @@
         }
 
         .MainGame__container {
-
-
             .MainGame__flex-wrapper {
                 flex-direction: column;
                 margin-bottom: 30px;
@@ -289,7 +279,6 @@
         }
 
         @media (max-width: 421px) {
-
             .MainGame__left-arrow,
             .MainGame__right-arrow {
                 transform: scale(0.78);

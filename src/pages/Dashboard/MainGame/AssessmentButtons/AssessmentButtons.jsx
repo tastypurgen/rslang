@@ -3,7 +3,7 @@ import './AssessmentButtons.scss';
 
 const AssessmentButtons = (props) => {
   const {
-    setShowRightAnswer, setInputClassesAndReadState, clearInputValue, assessUserWord,
+    setShowRightAnswer, setInputClassesAndReadState, updateInput, assessUserWord,
   } = props;
 
   return (
@@ -13,7 +13,7 @@ const AssessmentButtons = (props) => {
         className="AssessmentButtons__button"
         onClick={() => {
           setInputClassesAndReadState('Input', false);
-          clearInputValue('');
+          updateInput('');
           setShowRightAnswer(false);
         }}
         type="button"

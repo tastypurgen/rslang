@@ -3,7 +3,6 @@ import { NavLink } from 'react-router-dom';
 import './Header.scss';
 
 import userImg from './img/user.png';
-import statisticImg from './img/statistic.png';
 
 class Header extends React.PureComponent {
   constructor(props) {
@@ -61,9 +60,6 @@ class Header extends React.PureComponent {
             <NavLink to="/dictionary">Словарь</NavLink>
           </li>
         </ul>
-        <NavLink className="statistic" to="/statistic">
-          <img src={statisticImg} alt="statistic" />
-        </NavLink>
       </div>
     );
   }
