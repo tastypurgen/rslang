@@ -19,7 +19,6 @@ const ControllPanel = (props) => {
       <button
         type="button"
         onClick={() => {
-          // props.changePlayModeState();
           props.changeSpeechRecognitionState();
           setSpeechState(!speechState);
           if (speechState) {
