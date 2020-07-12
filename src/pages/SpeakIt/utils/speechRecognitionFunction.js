@@ -10,11 +10,10 @@ const speechRecognitionFunction = () => {
         const recognitionEventFunction = (evt) => {
             const resultArray = Array.from(evt.results);
             res(resultArray[0][0].transcript);
-            console.log(evt);
-        }
+        };
 
         window.recognition.addEventListener('result', recognitionEventFunction);
-    })
-}
+    });
+};
 
 export default speechRecognitionFunction;

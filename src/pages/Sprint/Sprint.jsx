@@ -278,7 +278,7 @@ function Sprint() {
             >
               {RenderTime}
             </CountdownCircleTimer>
-          ) : true }
+          ) : true}
         </div>
       </div>
     </section>
