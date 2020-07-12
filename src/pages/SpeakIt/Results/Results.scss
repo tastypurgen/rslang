@@ -1,0 +1,111 @@
+.Results__container {
+    padding-top: 30px;
+    padding-bottom: 30px;
+
+    .Results__list {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        list-style: none;
+        padding-top: 30px;
+        padding-bottom: 30px;
+        padding-left: 20px;
+        padding-right: 20px;
+        box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+        background: white;
+        font-size: 16px;
+        margin-bottom: 30px;
+
+        .Results__list-item {
+            position: relative;
+            margin-bottom: 15px;
+            border: 2px solid #32BEA6;
+            max-width: 340px;
+            width: 100%;
+            border-radius: 320px;
+            padding: 8px;
+
+            .Results__icon {
+                width: 20px;
+                height: 20px;
+                position: absolute;
+                top: 10px;
+                left: 10px;
+
+                .Results__icon svg {}
+            }
+        }
+
+        .Results__list-item span {
+            margin-left: 4px;
+            margin-right: 4px;
+        }
+
+        .Results__list-item--right {
+            border-color: #82D243;
+            background-color: #82D243;
+            color: white;
+        }
+    }
+
+    .Result__button-container {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+
+        .Result__return,
+        .Result__new-game {
+            outline: none;
+            cursor: pointer;
+            border: none;
+            width: 180px;
+            height: 40px;
+            background: #25B6D2;
+            border-radius: 320px;
+            color: white;
+            font-size: 18px;
+        }
+    }
+
+    .Results__statistics-description {
+        text-align: center;
+        font-size: 18px;
+        margin: 0 auto;
+        margin-bottom: 20px;
+        color: white;
+        background: #32BEA6;
+        width: 100%;
+        max-width: 340px;
+        padding: 12px;
+
+        border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        -ms-border-radius: 5px;
+        -o-border-radius: 5px;
+    }
+
+    @media (max-width: 450px) {
+        .Results__list {
+            font-size: 14px;
+
+            .Results__list-item .Results__icon {
+                width: 13px;
+                height: 13px;
+            }
+        }
+
+        .Result__button-container .Result__return,
+        .Result__button-container .Result__new-game {
+            width: 120px;
+            height: 30px;
+            font-size: 18px;
+        }
+
+        .Results__statistics-description {
+            padding: 8px;
+            font-size: 16px;
+        }
+    }
+}

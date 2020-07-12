@@ -16,7 +16,7 @@ import playAudioFunction from '../../../utils/playAudioFunction';
 // import { getWordByPageAndDifficultyNumber, getWordsByPa
 // geCount } from '../../../services/getWords';
 import {
-  createUserWord, updateUserWord, getAllUserWords,
+  createUserWord, updateUserWord, getAllUserWords, getUserWordById,
 } from '../../../services/userWords';
 
 class MainGame extends PureComponent {
@@ -168,6 +168,7 @@ class MainGame extends PureComponent {
           clearInputValue={this.clearInputValue}
           setShowRightAnswer={this.setShowRightAnswer}
           setInputClassesAndReadState={this.setInputClassesAndReadState}
+          assessUserWord={this.assessUserWord}
         />
       ));
     }
@@ -314,19 +315,7 @@ class MainGame extends PureComponent {
           <div
             tabIndex={0}
             role="button"
-            onClick={() => {
-              if (currentWordIndex < wordsData.length - 1) {
-                this.clearInputValue('');
-                this.setInputClassesAndReadState('Input', false);
-                this.setIndicator(wordsData[currentWordIndex + 1].userWord);
-                this.setState({
-                  currentWordIndex: currentWordIndex + 1,
-                  showRightAnswer: false,
-                });
-              } else {
-                this.changePopupShowState(true);
-              }
-            }}
+            onClick={this.goToNextCard}
             className="MainGame__right-arrow"
           >
             <svg
@@ -342,6 +331,43 @@ class MainGame extends PureComponent {
         ) : null}
       </div>
     );
+  };
+
+  assessUserWord = async (valueChange) => {
+    const { wordsData, currentWordIndex } = this.state;
+    const userWordId = wordsData[currentWordIndex]._id;
+    const userWord = await getUserWordById(userWordId);
+    let wordIndicator = userWord.optional.indicator + valueChange;
+
+    if (wordIndicator > 5) wordIndicator = 5;
+    if (wordIndicator < 1) wordIndicator = 1;
+
+    await this.setState({
+      indicator: wordIndicator,
+    });
+
+    userWord.optional.indicator = wordIndicator;
+    delete userWord.id;
+    delete userWord.wordId;
+
+    await updateUserWord(userWordId, userWord);
+
+    this.goToNextCard();
+  };
+
+  goToNextCard = () => {
+    const { wordsData, currentWordIndex } = this.state;
+    if (currentWordIndex < wordsData.length - 1) {
+      this.clearInputValue('');
+      this.setInputClassesAndReadState('Input', false);
+      this.setIndicator(wordsData[currentWordIndex + 1].userWord);
+      this.setState({
+        currentWordIndex: currentWordIndex + 1,
+        showRightAnswer: false,
+      });
+    } else {
+      this.changePopupShowState(true);
+    }
   };
 
   componentDidMount = async () => {
