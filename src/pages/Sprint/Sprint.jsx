@@ -1,7 +1,9 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import './Sprint.scss';
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, {
+  useEffect, useState, useRef, useCallback,
+} from 'react';
 import { NavLink } from 'react-router-dom';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import RenderTime from './timer';
@@ -149,13 +151,13 @@ function Sprint() {
           <span>Игра на время, отгадывай слова и получай баллы!</span>
           <button
             type="submit"
-            className="button correct"
+            className="button correct start-btn"
             onClick={() => {
               sprintSection.current.focus();
               setIsGameOn(true);
             }}
           >
-            Play!
+            Начать
           </button>
         </div>
       </div>

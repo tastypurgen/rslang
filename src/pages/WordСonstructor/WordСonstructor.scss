@@ -23,13 +23,15 @@
 }
 
 .word-constructor__btn {
+  min-width: 149px;
+  height: 34px;
   text-align: center;
   font-family: 'Open Sans'; 
   padding: 5px 20px;
   display: block;  
   font-size: 16px;  
   color: #ffffff;
-  background-color: #ff570f;  
+  background-color: #25B6D2;  
   border-radius: 15px;
   border: none;  
   outline: none;
@@ -44,6 +46,9 @@
   }
   &.word-constructor__btn_red {
     background-color: #f20000;
+  }
+  &.word-constructor__btn_green {
+    background-color: #32bea6;
   }
   &.word-constructor__btn_blue {
     background-color: #25b6d2;

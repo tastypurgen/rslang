@@ -55,7 +55,7 @@ export default class WordConstructor extends PureComponent {
               Игра-головоломка, в которой необходимо составить
               слова из перемешанных случайным образом букв.
             </p>
-            <button className="word-constructor__btn word-constructor__btn_margin" type="button" onClick={this.startGame}>Играть</button>
+            <button className="word-constructor__btn word-constructor__btn_margin" type="button" onClick={this.startGame}>Начать</button>
           </div>
         </div>
       );

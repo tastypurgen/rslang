@@ -15,7 +15,7 @@ const StartScreen = (props) => {
           }}
           className="StartScreen__button"
         >
-          Начать!
+          Начать
         </button>
       </div>
     </div>
