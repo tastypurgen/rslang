@@ -28,6 +28,7 @@ class Dashboard extends React.PureComponent {
   }
 
   componentDidMount = async () => {
+    window.mainGameModeValue = 'Все слова';
     const userSettingData = await getUserSettings(localStorage.userToken, localStorage.userId);
     this.cardsPerDay = userSettingData.optional.maxCardsPerDay;
     const inProgressWords = await getUserAggregatedWords(filters.inProgress);
@@ -56,7 +57,7 @@ class Dashboard extends React.PureComponent {
         {isdataLoaded ? (
           <div className="Dashboard__container">
             <TodayGoal cardsPerDay={cardsPerDay} todayStatisticsData={todayStatisticsData} />
-            <TodayStatistics todayStatisticsData={todayStatisticsData} />
+            <TodayStatistics cardsPerDay={cardsPerDay} todayStatisticsData={todayStatisticsData} />
             <TotalStatistics totalStatistics={totalStatistics} />
           </div>
         ) : <Spinner />}

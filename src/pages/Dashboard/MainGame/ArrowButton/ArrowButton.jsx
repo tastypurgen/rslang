@@ -15,6 +15,7 @@ const ArrowButton = (props) => {
     setShowRightAnswer,
     setDifficultyButtonState,
     setIsWordFinished,
+    changingMode,
   } = props;
   return (
     <div
@@ -36,6 +37,7 @@ const ArrowButton = (props) => {
         } else {
           props.history.push('/');
         }
+        changingMode(false);
       }}
       className="MainGame__right-arrow"
     >

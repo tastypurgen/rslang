@@ -1,0 +1,1 @@
+window.mainGameModeValue = 'Все слова';

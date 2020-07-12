@@ -21,6 +21,7 @@ import AboutTeam from './pages/AboutTeam/AboutTeam';
 import Promo from './pages/Promo/Promo';
 import Statistic from './pages/Statistic/Statistic';
 import Settings from './pages/Settings/Settings';
+import './utils/mainGameModeValue';
 
 export default class App extends Component {
   state = {

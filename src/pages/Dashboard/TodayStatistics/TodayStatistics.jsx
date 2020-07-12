@@ -3,7 +3,7 @@ import calendar from './calendar.svg';
 import './TodayStatistics.scss';
 
 const TodayStatistics = (props) => {
-  const { todayStatisticsData } = props;
+  const { todayStatisticsData, cardsPerDay } = props;
   const {
     cards, newWords, rightAnswers, longestChain,
   } = todayStatisticsData;
@@ -32,6 +32,12 @@ const TodayStatistics = (props) => {
           Лучшая серия
           <p className="TodayStatistics__number--green">{longestChain}</p>
         </li>
+        {(cards <= cardsPerDay) ? null : (
+          <li className="TodayStatistics__list-item">
+            Пройдено слов дополнительно
+            <p className="TodayStatistics__number--green">{cards - cardsPerDay}</p>
+          </li>
+        )}
       </ul>
     </div>
   );

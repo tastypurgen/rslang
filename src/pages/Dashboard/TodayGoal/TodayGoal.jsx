@@ -13,7 +13,7 @@ const TodayGoal = (props) => {
     let goalSentence = `Завершить ${cardsPerDay} карточек. Сегодня вы выполнили ${cards} карточек.
   Для достижения цели выучите ещё ${cardsPerDay - cards} карточек.`;
     if (cards >= cardsPerDay) {
-      goalSentence = `Вы успешно завершили дневную норму - ${cards} карточек! Вы можете продолжить изучние английских слов.`;
+      goalSentence = 'Вы успешно завершили дневную норму карточек! Вы можете продолжить изучние английских слов.';
     }
     return goalSentence;
   };
@@ -33,11 +33,14 @@ const TodayGoal = (props) => {
         <p className="TodayGoal__title">
           Цель на сегодня
         </p>
-        <select className="TodayGoal__select">
+        <select
+          onChange={(evt) => {
+            window.mainGameModeValue = evt.target.value;
+          }}
+          className="TodayGoal__select"
+        >
           <option>Все слова</option>
-          <option>чето еще</option>
-          <option>чето еще</option>
-          <option>А зачем эти селекты нужны вообще?</option>
+          <option>Только сложные</option>
         </select>
       </div>
       <div className="TodayGoal__flex-wrapper">

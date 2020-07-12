@@ -8,6 +8,7 @@ import DeleteButton from './DeleteButton/DeleteButton';
 import SpeakerButton from './SpeakerButton/SpeakerButton';
 import ArrowButton from './ArrowButton/ArrowButton';
 import Popup from './Popup/Popup';
+import AlertPopup from './AlertPopup/AlertPopup';
 import Input from './Input/Input';
 import Indicator from '../../../components/Indicator/Indicator';
 import Progressbar from '../../../components/Progressbar/ProgressBar';
@@ -62,8 +63,62 @@ const filterMainGame = {
   ],
 };
 
+const filtersObject = {
+  'Все слова': {
+    $and: [
+      {
+        $and: [
+          {
+            $or: [
+              {
+                $and: [
+                  { 'userWord.optional.nextTraining': new Date().toLocaleDateString() },
+                ],
+              },
+              {
+                $and: [
+                  { 'userWord.optional.indicator': 2 },
+                  { 'userWord.optional.deleted': false },
+                ],
+              },
+              {
+                $and: [
+                  { 'userWord.optional.indicator': 3 },
+                  { 'userWord.optional.deleted': false },
+                ],
+              },
+              {
+                $and: [
+                  { 'userWord.optional.indicator': 4 },
+                  { 'userWord.optional.deleted': false },
+                ],
+              },
+              { userWord: null },
+            ],
+          },
+        ],
+      },
+      {
+        $and: [
+          {
+            'userWord.optional.lastTrained': { $ne: new Date().toLocaleDateString() },
+          },
+        ],
+      },
+    ],
+  },
+  'Только сложные': {
+    $and: [
+      { 'userWord.optional.difficult': true },
+      { 'userWord.optional.deleted': false },
+    ],
+  },
+};
+
 class MainGame extends PureComponent {
   state = {
+    alertPopupCaption: '',
+    alertPopupState: false,
     showPopup: false,
     settingsData: null,
     showRightAnswer: false,
@@ -83,26 +138,6 @@ class MainGame extends PureComponent {
 
   bestChainCounter = { count: 0 };
 
-  // componentDidMount = async () => {
-  //   const setingsData = await getUserSettings(localStorage.userToken, localStorage.userId);
-  //   this.setState({
-  //     settingsData: setingsData.optional,
-  //   });
-
-  //   const wordsDataResponse = await getUserAggregatedWords(
-  //     JSON.stringify(filterMainGame), setingsData.optional.maxCardsPerDay,
-  //   );
-  //   const todayWordData = shuffleArray(wordsDataResponse[0].paginatedResults);
-
-  //   this.setIndicator(todayWordData[0].userWord);
-  //   this.setState({
-  //     wordsData: todayWordData,
-  //     isDataEnabled: true,
-  //   });
-
-  //   document.querySelector('.answer-input').focus();
-  // };
-
   setIsWordFinished = (value) => {
     this.setState({
       isWordFinished: value,
@@ -116,6 +151,13 @@ class MainGame extends PureComponent {
   changePopupShowState = (value) => {
     this.setState({
       showPopup: value,
+    });
+  }
+
+  changeAlertPopupState = (value, caption) => {
+    this.setState({
+      alertPopupCaption: caption,
+      alertPopupState: value,
     });
   }
 
@@ -201,11 +243,12 @@ class MainGame extends PureComponent {
       setDifficultyButtonState,
       changingMode,
       setIsWordFinished,
+      changeAlertPopupState,
       currentStatistic,
     } = this;
     const {
       settingsData, showRightAnswer, wordsData, currentWordIndex, indicator, inputClasses,
-      inputReadOnlyFlag, difficultyBtnActive, inputValue, isChecking, isWordFinished,
+      inputReadOnlyFlag, difficultyBtnActive, inputValue, isChecking, isWordFinished, alertPopupCaption,
     } = this.state;
 
     const {
@@ -236,6 +279,8 @@ class MainGame extends PureComponent {
     if (displayShowAnswerBtn && !showRightAnswer) {
       buttonComponent.push((
         <AnswerButton
+          setIsWordFinished={setIsWordFinished}
+          isWordFinished={isWordFinished}
           settingsData={settingsData}
           autoPronunciation={autoPronunciation}
           userWord={userWord}
@@ -311,6 +356,8 @@ class MainGame extends PureComponent {
               ) : null}
               {displayDeleteBtn ? (
                 <DeleteButton
+                  changeAlertPopupState={changeAlertPopupState}
+                  alertPopupCaption={alertPopupCaption}
                   isChecking={isChecking}
                   changingMode={this.changingMode}
                   wordsData={wordsData}
@@ -345,6 +392,7 @@ class MainGame extends PureComponent {
         </div>
         {showRightAnswer ? (
           <ArrowButton
+            changingMode={changingMode}
             setIsWordFinished={setIsWordFinished}
             currentStatistic={currentStatistic}
             changePopupShowState={changePopupShowState}
@@ -405,7 +453,6 @@ class MainGame extends PureComponent {
   };
 
   componentDidMount = async () => {
-    console.log(this.props);
     const setingsData = await getUserSettings(localStorage.userToken, localStorage.userId);
     this.setState({
       settingsData: setingsData.optional,
@@ -445,25 +492,36 @@ class MainGame extends PureComponent {
     }
 
     const wordsDataResponse = await getUserAggregatedWords(
-      JSON.stringify(filterMainGame), wordsdataLengthValue,
+      JSON.stringify(filtersObject[window.mainGameModeValue]), wordsdataLengthValue,
     );
-    const todayWordData = shuffleArray(wordsDataResponse[0].paginatedResults);
-    this.setIndicator(todayWordData[0].userWord);
-    this.setState({
-      wordsData: todayWordData,
-      isDataEnabled: true,
-    });
+    if (wordsDataResponse[0].paginatedResults.length === 0) {
+      this.changeAlertPopupState(true, 'У вас нет сложных слов!');
+    } else {
+      const todayWordData = shuffleArray(wordsDataResponse[0].paginatedResults);
+      this.setIndicator(todayWordData[0].userWord);
+      this.setState({
+        wordsData: todayWordData,
+        isDataEnabled: true,
+      });
+    }
   };
 
   render() {
     const {
-      changePopupShowState, initCardComponent, state,
+      changePopupShowState, initCardComponent, state, changeAlertPopupState,
     } = this;
     const {
-      currentWordIndex, wordsData, isDataEnabled, showPopup,
+      currentWordIndex, wordsData, isDataEnabled, showPopup, alertPopupState, alertPopupCaption,
     } = state;
     return (
       <div className="MainGame">
+        {alertPopupState ? (
+          <AlertPopup
+            changeAlertPopupState={changeAlertPopupState}
+          >
+            {alertPopupCaption}
+          </AlertPopup>
+        ) : null}
         {showPopup ? <Popup changePopupShowState={changePopupShowState} /> : null}
         {isDataEnabled
           ? (

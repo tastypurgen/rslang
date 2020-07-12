@@ -13,6 +13,7 @@ const DeleteButton = (props) => {
     wordsData,
     changeCardToLeft,
     changingMode,
+    changeAlertPopupState,
   } = props;
   return (
     <img
@@ -47,6 +48,8 @@ const DeleteButton = (props) => {
             createUserWord(wordsData[currentWordIndex]._id, body);
           }
           changeCardToLeft();
+        } else {
+          changeAlertPopupState(true, 'Вы удалили все слова из текущей сессии.');
         }
       }}
       className="MainGame__delete-button"
