@@ -96,8 +96,8 @@ const Promo = () => (
       </div>
       <div className="video-container">
         <iframe
-          src="http://www.youtube.com/embed/W7qWa52k-nE"
-          width="460"
+          src="http://www.youtube.com/embed/apyX8V8gDQ4"
+          width="530"
           height="285"
           frameBorder="0"
           allowFullScreen
