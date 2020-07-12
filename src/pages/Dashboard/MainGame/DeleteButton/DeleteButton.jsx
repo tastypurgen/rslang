@@ -1,8 +1,6 @@
 import React from 'react';
 import deleteIcon from '../images/delete.svg';
-import {
-  createUserWord, updateUserWord, getAllUserWords,
-} from '../../../../services/userWords';
+import { createUserWord, updateUserWord } from '../../../../services/userWords';
 
 const DeleteButton = (props) => {
   const {
@@ -13,7 +11,7 @@ const DeleteButton = (props) => {
     userWord,
     currentWordIndex,
     wordsData,
-    changeCardToLeft, 
+    changeCardToLeft,
     changingMode,
   } = props;
   return (

@@ -1,8 +1,6 @@
 import React from 'react';
 import pointIcon from '../images/point.svg';
-import {
-  createUserWord, updateUserWord, getAllUserWords,
-} from '../../../../services/userWords';
+import { createUserWord, updateUserWord } from '../../../../services/userWords';
 
 const DifficultyButton = (props) => {
   const {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { getUserStatistics, upsertUserStatistics } from '../../../../services/userStatistics';
+import { upsertUserStatistics } from '../../../../services/userStatistics';
 
 const ArrowButton = (props) => {
   const {

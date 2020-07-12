@@ -1,10 +1,8 @@
 import React from 'react';
 import './AnswerButton.scss';
 import playAudioFunction from '../../../../utils/playAudioFunction';
-import {
-  createUserWord, updateUserWord, getAllUserWords,
-} from '../../../../services/userWords';
-import { getUserStatistics, upsertUserStatistics } from '../../../../services/userStatistics';
+import { createUserWord, updateUserWord } from '../../../../services/userWords';
+import { upsertUserStatistics } from '../../../../services/userStatistics';
 
 const AnswerButton = (props) => {
   const {
@@ -15,7 +13,6 @@ const AnswerButton = (props) => {
     currentWordIndex,
     audio,
     autoPronunciation,
-    settingsData,
     setInputClassesAndReadState,
     setIndicator,
     setShowRightAnswer,
