@@ -1,7 +1,9 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import './Sprint.scss';
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, {
+  useEffect, useState, useRef, useCallback,
+} from 'react';
 import { NavLink } from 'react-router-dom';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import RenderTime from './timer';
@@ -276,7 +278,7 @@ function Sprint() {
             >
               {RenderTime}
             </CountdownCircleTimer>
-          ) : true }
+          ) : true}
         </div>
       </div>
     </section>

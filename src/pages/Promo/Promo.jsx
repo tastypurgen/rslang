@@ -103,6 +103,7 @@ const Promo = () => (
           allowFullScreen
         />
       </div>
+
     </section>
     <section className="advantages-section">
       <div className="advantage-wrapper">
