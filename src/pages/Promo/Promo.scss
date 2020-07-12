@@ -1,0 +1,461 @@
+.promo-section {
+
+    .introduction-section{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        background-image: url(./images/background-products-grey.png);
+        background-color: rgb(248,242,238);
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        background-size: cover;
+        padding: 5%;
+        height: 100vh;
+    }
+
+    .introduction-wrapper {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .boolets-section {
+        display: flex;
+        align-items: flex-start;
+
+        .talking-boolets {
+            position: absolute;
+            left: 250px;
+            top: 170px;
+        }    
+    }
+
+
+    .greeting-section {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        height: 100%;
+
+        .greeting-wrapper {
+            background-color: white;
+            padding: 5%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            border-radius: 15px;
+            box-shadow: 1px 1px 1px 1px;
+            width: 80%;
+            height: 270px;
+
+            h3 {
+                text-align: center;
+                color: gray;
+            }
+
+            p {
+                text-align: center;
+            }
+        }
+    }
+
+    .dog-section {
+       margin-top: 25%;
+    }
+
+    .aims-container {
+        height: 250px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .aims-section {
+        padding: 0 10%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .aims-list {
+        width: 100%;
+
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+
+        li {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            max-width: 200px;
+            justify-content: space-between;
+            
+            div {
+                min-height: 100px;
+                display: flex;
+                align-items: center;
+                min-width: 250px;
+            }
+
+            img {
+                margin-right: 5%;
+                width: 40px;
+                height: 40px;
+            }
+        }
+    }
+
+    .video-section {
+        background-color: #0575E6;
+        height: 400px;
+        display:  flex;
+        justify-content: center;
+        align-items: center;
+
+        .description-container {
+            margin-right: 5%;
+            height: 50%;
+            width: 575px;
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+            color: white;
+
+            h3 {
+                font-size:2rem;
+                font-weight: bold;
+            }
+
+            p {
+                font-size: 1.6rem;
+            }
+        }
+    }
+
+    .advantages-section {
+        background-color: rgb(248,242,238);
+        background-image: url(./images/background-products-grey.png);
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .advantage-wrapper {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+
+        h3 {
+            margin-top:  5%;
+        }
+    }
+
+    .advatnage-list {
+        justify-content: space-around;
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        list-style: none;
+        margin:  5% 0;
+        padding: 0% 10%;
+
+        li {
+            display: flex;
+            flex-direction: column;
+        }
+
+        div {
+            display: flex;
+            align-items: center;
+            width: 500px;
+        }
+
+        img {
+            margin-right: 5%;
+            width: 40px;
+            height: 40px;
+        }
+    }
+    
+    .method-description {
+        padding: 5% 10%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .method-description_wrapper {
+            width: 65%;
+            height: 500px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-direction: column;
+    
+            .description-article {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+    
+                h3 {
+                    margin-bottom: 5%;
+                    font-size: 2rem;
+                }
+            }
+    
+            p {
+                text-align: center;
+                padding: 0% 5%;
+                font-size: 1.2rem;
+            }
+
+            .bullets-section {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+    
+            .bullets-container {
+                width: 70%;
+                div {
+                    margin-bottom: 5%;
+
+                    img {
+                        margin-right: 5%;
+                    }
+                }
+            }
+        }
+    }
+
+    .products-section {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        height: 500px;
+        padding: 0% 10%;
+        background-image: url(./images/background-products-grey.png);
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-color: rgb(248,242,238);
+
+        .products-title {
+            display: flex;
+            width: 100%;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.4s ease 0s;
+
+            h3 {
+                font-size: 1.5rem;
+                margin-bottom: 2%;
+            }
+        }
+
+        .products-list {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            list-style: none;
+
+            li {
+                height: 330px;
+                display: flex;
+                justify-content: space-between;
+                flex-direction: column;
+                margin-right: 5%;
+
+                a:hover {
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+                }
+            }
+            .product-nav {
+
+                height: 150px;
+                display: flex;
+                align-items: center;
+                border: 1px gray solid;
+                border-radius: 10px;
+                padding-right: 5%;
+
+
+                h3 {
+                    color: black;
+                    font-size: 1.5rem;
+                    margin-bottom: 5%;
+                }
+
+                span {
+                    color: rgb(192,192,192);
+                    font-size: 1.1rem;
+                }   
+
+                img {
+                    width: 120px;
+                    height: 120px;
+                    margin: 0% 5%;
+                }
+            }
+                
+        }
+    }
+
+    @media screen and (max-width: 885px)  {
+        .video-section {
+            height: 100%;
+            flex-direction: column;
+
+            .description-container {
+                margin: 0 0 5% 0%;
+
+                h3 {
+                    margin-bottom: 5%;
+                }
+            }
+        }
+
+        .description-article h3 {
+            text-align: center;
+        }
+
+       .products-list li div h3 {
+            margin: 0;
+       }
+    }
+
+
+    @media screen and (max-width: 760px)  {
+        .boolets-section img {
+            height: 300px;
+        }
+    }
+
+    
+    @media screen and (max-width: 630px)  {
+        .aims-list li div {
+            min-width: 190px;
+        }
+
+      .products-section {
+          padding: 5%;
+          height: 100%;
+
+          .products-list {
+              flex-direction: column;
+              
+                li {
+                    margin-bottom: 10%;
+                }
+
+                img {
+                    width: 80px;
+                    height: 90px;
+                }
+          }
+      }
+    }
+
+    @media screen and (max-width: 585px)  {
+
+        .greeting-section{
+            justify-content: center;
+            align-items: center;
+        }
+
+        .greeting-wrapper {
+            width: 100%;
+        }
+
+        .boolets-section img {
+            display: none;
+        }
+
+        .dog-section {
+            display: none;
+        }
+
+        .aims-container {
+            height: 100%;
+        }
+
+        .aims-list {
+            flex-direction: column;
+        }
+
+        .video-section {
+            .description-container {
+                width: 100%;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 585px) {
+    .description-container h3, p {
+        text-align: center;
+    }
+    .video-container {
+        iframe {
+            width: 300px;
+            height: 200px;
+        }
+    }
+
+    
+
+    .promo-section {
+        .method-description {
+            .method-description_wrapper {
+                height: 100%;
+    
+                h3 {
+                    text-align: center;
+                }
+    
+                p {
+                    text-align: center;
+                }
+
+                .bullets-section {
+                    margin-top: 20%;
+                }
+            }
+        }
+
+        .advantage-wrapper {
+            .advatnage-list li div {
+                width: 300px;
+            }
+        }
+    }
+
+
+    @media screen and (max-width: 380px)  {
+        .promo-section {
+            .products-section {
+                .products-list li a img  {
+                    margin: 0;
+                }
+            }
+        }
+    }
+}
+
+
