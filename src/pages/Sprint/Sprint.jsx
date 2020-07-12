@@ -32,7 +32,7 @@ function Sprint() {
     audioSrc: '',
   });
   // eslint-disable-next-line prefer-const
-  let [pageNumber, setPageNumber] = useState(13);
+  let [pageNumber, setPageNumber] = useState(0);
   // eslint-disable-next-line prefer-const
   let [winStreak, setWinStreak] = useState(0);
   // eslint-disable-next-line prefer-const
