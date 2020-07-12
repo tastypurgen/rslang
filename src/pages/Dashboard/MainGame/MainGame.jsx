@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { PureComponent } from 'react';
 import './MainGame.scss';
 import AssessmentButtons from './AssessmentButtons/AssessmentButtons';
