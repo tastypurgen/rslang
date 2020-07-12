@@ -19,50 +19,6 @@ import { getUserSettings } from '../../../services/settingsService';
 import { updateUserWord, getUserWordById } from '../../../services/userWords';
 import { getUserStatistics, upsertUserStatistics } from '../../../services/userStatistics';
 
-const filterMainGame = {
-  $and: [
-    {
-      $and: [
-        {
-          $or: [
-            {
-              $and: [
-                { 'userWord.optional.nextTraining': new Date().toLocaleDateString() },
-              ],
-            },
-            {
-              $and: [
-                { 'userWord.optional.indicator': 2 },
-                { 'userWord.optional.deleted': false },
-              ],
-            },
-            {
-              $and: [
-                { 'userWord.optional.indicator': 3 },
-                { 'userWord.optional.deleted': false },
-              ],
-            },
-            {
-              $and: [
-                { 'userWord.optional.indicator': 4 },
-                { 'userWord.optional.deleted': false },
-              ],
-            },
-            { userWord: null },
-          ],
-        },
-      ],
-    },
-    {
-      $and: [
-        {
-          'userWord.optional.lastTrained': { $ne: new Date().toLocaleDateString() },
-        },
-      ],
-    },
-  ],
-};
-
 const filtersObject = {
   'Все слова': {
     $and: [
@@ -247,8 +203,13 @@ class MainGame extends PureComponent {
       currentStatistic,
     } = this;
     const {
-      settingsData, showRightAnswer, wordsData, currentWordIndex, indicator, inputClasses,
-      inputReadOnlyFlag, difficultyBtnActive, inputValue, isChecking, isWordFinished, alertPopupCaption,
+      settingsData, showRightAnswer, wordsData,
+      currentWordIndex, indicator, inputClasses,
+      inputReadOnlyFlag,
+      difficultyBtnActive,
+      inputValue,
+      isChecking,
+      isWordFinished, alertPopupCaption,
     } = this.state;
 
     const {
