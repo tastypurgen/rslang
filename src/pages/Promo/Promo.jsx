@@ -65,7 +65,7 @@ const Promo = () => (
           <li>
             <div>
               <img src={study} alt="" />
-              <span> Учиться</span>
+              <span>Учиться</span>
             </div>
             <div>
               <img src={book} alt="" />
@@ -112,19 +112,19 @@ const Promo = () => (
             <div>
               <img src={checked} alt="checked" />
               <span>
-                Изучай до 6000 самых распространенных слов.
+                Изучение 6000 самых распространенных слов
               </span>
             </div>
             <div>
               <img src={checked} alt="checked" />
               <span>
-                Гибкие настройки обучения.
+                Гибкие настройки обучения
               </span>
             </div>
             <div>
               <img src={checked} alt="checked" />
               <span>
-                Учи слова в мини-играх.
+                Закрепление слов с помощью мини-игр
               </span>
             </div>
           </li>
@@ -132,20 +132,19 @@ const Promo = () => (
             <div>
               <img src={checked} alt="checked" />
               <span>
-                С помощью списка слов можно легко отслеживать
-                свои результаты обучения.
+                Словарь с изучаемыми словами
               </span>
             </div>
             <div>
               <img src={checked} alt="checked" />
               <span>
-                ue accusantium omnis facere facilis quaerat. El
+                Красочное оформление
               </span>
             </div>
             <div>
               <img src={checked} alt="checked" />
               <span>
-                Lorem ipsum, dolor sit amet consectetur
+                Тренируйся с азартом!
               </span>
             </div>
           </li>
@@ -160,8 +159,11 @@ const Promo = () => (
           </h3>
           <p>
             В алгоритме RS Lang применяется методика интервального повторения,
-            в рамках котрой слова для упражнений отображаются чаще или реже. бла бла бла
-            Упражняйтесь как можно чаще, и всегда прилагайте максимум усилий , чтобы ответить правильно.
+            <br />
+            в рамках котрой каждый день вы изучите новые слова. Чем лучше слово вы изучили - тем позже у вас оно появится снова!
+            <br />
+            <br />
+            Упражняйтесь как можно чаще, и всегда прилагайте максимум усилий, чтобы достичь наилучших результатов!
           </p>
         </div>
         <div className="bullets-section">
@@ -193,7 +195,7 @@ const Promo = () => (
             <div>
               <img src={firstBullet} alt="bullet" />
               <span>
-                Новое слово! Вам оно ещё не встречалось.
+                Новое слово!
               </span>
             </div>
           </div>
@@ -202,8 +204,7 @@ const Promo = () => (
     </section>
     <section className="products-section">
       <div className="products-title">
-        <h3>Продукты</h3>
-        <span>Выберите чем хотите заняться:</span>
+        <h3>И так, чем займемся? :)</h3>
       </div>
       <ul className="products-list">
         <li>
@@ -211,7 +212,7 @@ const Promo = () => (
             <img src={tasks} alt="" />
             <div>
               <h3>
-                Карточки
+                Карточки со словами
               </h3>
               <span>
                 Развивай словарный запас изучая
@@ -239,7 +240,7 @@ const Promo = () => (
                 Игры
               </h3>
               <span>
-                Мини-игры для совершенствования
+                Шесть мини-игр для совершенствования
                 английского
               </span>
             </div>
@@ -251,7 +252,7 @@ const Promo = () => (
                 Словарь
               </h3>
               <span>
-                Повторяй сложные слова
+                Повторение изученных слов
               </span>
             </div>
           </NavLink>
