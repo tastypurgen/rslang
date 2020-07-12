@@ -30,7 +30,7 @@ export default class Savannah extends PureComponent {
               <h3>Тренировка слов на время</h3>
             </div>
             <br />
-            <input className="btn" type="button" value="Play" onClick={this.handleClick} />
+            <input className="btn" type="button" value="Начать" onClick={this.handleClick} />
           </div>
         </div>
       );
