@@ -11,7 +11,7 @@
         background-attachment: fixed;
         background-repeat: no-repeat;
         background-size: cover;
-        padding: 5%;
+        padding: 10%;
         height: 100vh;
     }
 
@@ -282,6 +282,10 @@
                 flex-direction: column;
                 margin-right: 5%;
 
+                a {
+                    background-color: white;
+                }
+
                 a:hover {
                     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
                 }
@@ -395,11 +399,16 @@
             height: 100%;
         }
 
+        .aims-section {
+            padding: 5% 10%;
+        }
+
         .aims-list {
             flex-direction: column;
         }
 
         .video-section {
+            padding: 5% 10%;
             .description-container {
                 width: 100%;
             }
