@@ -68,8 +68,8 @@
     }
 
     .button {
-      width: 140px;
-      height: 45px;
+      width: 149px;
+      height: 34px;
       font-family: 'Roboto', sans-serif;
       font-size: 11px;
       text-transform: uppercase;
@@ -83,6 +83,10 @@
       transition: all 0.3s ease 0s;
       cursor: pointer;
       outline: none;
+      &.start-btn {
+        color: #fff;
+        background-color: #2EE59D;
+      }
     }
 
     .correct:hover {

@@ -41,7 +41,7 @@ const Statistics = (props) => {
           ))}
         </div>
         <div className="word-constructor__buttons word-constructor__buttons_statistics">
-          <button className="word-constructor__btn" type="button" onClick={restartGame}>Ещё раз</button>
+          <button className="word-constructor__btn word-constructor__btn_green" type="button" onClick={restartGame}>Ещё раз</button>
           <NavLink to="/games-panel">
             <button className="word-constructor__btn word-constructor__btn_blue" type="button">Выйти</button>
           </NavLink>
