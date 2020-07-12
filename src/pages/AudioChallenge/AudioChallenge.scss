@@ -98,11 +98,15 @@ $difference: (#b6a4ff - #09607d) / 10;
     }
   }
   
+  .again-button {
+    @extend .button;
+    margin: 2% 0 1%;
+  }
+
   .return-button {
     @extend .button;
-    width: 280px;
     background: #25B6D2;
-    margin: 5% 0;
+    margin: 0;
   }
 
   .answers {

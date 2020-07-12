@@ -7,7 +7,7 @@ export default class MainPage extends React.PureComponent {
     super(props);
     this.state = {
       play: false,
-      value: document.getElementById('difficulty') ? document.getElementById('difficulty').value : 0,
+      value: document.getElementById('difficulty') ? document.getElementById('difficulty').value : 1,
     };
     this.handleClick = this.handleClick.bind(this);
   }
@@ -19,7 +19,11 @@ export default class MainPage extends React.PureComponent {
   render() {
     const { play, value } = this.state;
     if (!play) {
-      getRandomWords(value, 3);
+      if (value === '6') {
+        getRandomWords(0, 3);
+      } else {
+        getRandomWords(value, 3);
+      }
       return (
         <div className="audio-challenge" id="level-0">
           <div>
@@ -31,7 +35,7 @@ export default class MainPage extends React.PureComponent {
       );
     }
     return (
-      <AudioChallenge difficulty={value} />
+      <AudioChallenge />
     );
   }
 }

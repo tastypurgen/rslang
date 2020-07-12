@@ -17,7 +17,11 @@ export default class Savannah extends PureComponent {
     const { isStarted, difficulty } = this.state;
 
     if (!isStarted) {
-      getRandomWords(difficulty, 2);
+      if (difficulty === '6') {
+        getRandomWords(0, 2);
+      } else {
+        getRandomWords(difficulty, 2);
+      }
       return (
         <div className="savannah">
           <div className="start-board">

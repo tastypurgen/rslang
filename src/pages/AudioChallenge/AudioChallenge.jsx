@@ -1,6 +1,8 @@
+/* eslint-disable class-methods-use-this */
 /* eslint-disable no-param-reassign */
 
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import './AudioChallenge.scss';
 import Answers from './Answers';
 import Word from './Word';
@@ -28,17 +30,30 @@ export default class AudioChallenge extends React.PureComponent {
   }
 
   setWords() {
-    const words = JSON.parse(localStorage.words).sort(() => Math.random() - 0.5);
+    let words = JSON.parse(localStorage.words).sort(() => Math.random() - 0.5);
+    const userWords = JSON.parse(localStorage.userWords).sort(() => Math.random() - 0.5);
     this.gameWords.splice(0);
 
-    words.slice(0, wordsPerGame).map((word) => this.gameWords.push({
-      word: word.word,
-      image: URI + word.image,
-      audio: URI + word.audio,
-      translation: word.wordTranslate,
-      transcription: word.transcription,
-      answers: [word.wordTranslate],
-    }));
+    if (localStorage.difficulty === '6') {
+      userWords.slice(0, wordsPerGame).map((word) => this.gameWords.push({
+        word: word.word,
+        image: URI + word.image,
+        audio: URI + word.audio,
+        translation: word.wordTranslate,
+        transcription: word.transcription,
+        answers: [word.wordTranslate],
+      }));
+      words = words.filter((el) => this.filter(el, userWords));
+    } else {
+      words.slice(0, wordsPerGame).map((word) => this.gameWords.push({
+        word: word.word,
+        image: URI + word.image,
+        audio: URI + word.audio,
+        translation: word.wordTranslate,
+        transcription: word.transcription,
+        answers: [word.wordTranslate],
+      }));
+    }
 
     for (let i = wordsPerGame; i <= wordsPerGame * 4; i += wordsPerGame) {
       words.slice(i, i + wordsPerGame).map((word, index) => this.gameWords[index].answers
@@ -50,6 +65,15 @@ export default class AudioChallenge extends React.PureComponent {
       word.rightAnswerIndex = word.answers.indexOf(word.translation);
       return word;
     });
+  }
+
+  filter(el, userWords) {
+    for (let i = 0; i < userWords.length; i += 1) {
+      if (el.word === userWords[i].word) {
+        return false;
+      }
+    }
+    return true;
   }
 
   handleClick() {
@@ -87,7 +111,7 @@ export default class AudioChallenge extends React.PureComponent {
   }
 
   startGame() {
-    const { difficulty } = this.props;
+    const { difficulty } = localStorage;
     this.setState({
       isGameStarted: true,
       currentLevel: 0,
@@ -97,7 +121,11 @@ export default class AudioChallenge extends React.PureComponent {
       mistakes: [],
       know: [],
     });
-    getRandomWords(difficulty, 3);
+    if (difficulty === '6') {
+      getRandomWords(0, 3);
+    } else {
+      getRandomWords(difficulty, 3);
+    }
     this.setWords();
   }
 
@@ -202,13 +230,20 @@ export default class AudioChallenge extends React.PureComponent {
           ))}
         </div>
         <input
-          className="return-button"
+          className="again-button"
           type="button"
-          value="Попробовать еще раз"
+          value="Еще раз"
           onClick={() => {
             this.startGame();
           }}
         />
+        <NavLink to="/games-panel">
+          <input
+            className="return-button"
+            type="button"
+            value="Выйти"
+          />
+        </NavLink>
       </div>
     );
   }

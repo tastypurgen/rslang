@@ -1,6 +1,8 @@
+/* eslint-disable class-methods-use-this */
 import React, { PureComponent } from 'react';
 import { NavLink } from 'react-router-dom';
 import capitalizeWord from '../../utils/capitalizeWord';
+import { getRandomWords } from '../../services/getWords';
 import './Savannah.scss';
 import Word from './Word';
 import Answers from './Answers';
@@ -15,28 +17,44 @@ const gameWords = [];
 const maxLevel = 10;
 
 export default class Savannah extends PureComponent {
-  state = {
-    isGameStarted: true,
-    currentLevel: 0,
-    lives: 3,
-    wrongAnswers: [],
-    rightAnswers: [],
+  constructor(props) {
+    super(props);
+    this.state = {
+      isGameStarted: true,
+      currentLevel: 0,
+      lives: 3,
+      wrongAnswers: [],
+      rightAnswers: [],
+    };
+    this.setWords();
   }
 
   setWords = () => {
     const words = JSON.parse(localStorage.words).sort(() => Math.random() - 0.5);
+    const userWords = JSON.parse(localStorage.userWords).sort(() => Math.random() - 0.5);
+    let newWords = words;
     const wordsPerGame = 10;
     gameWords.splice(0);
 
-    words.slice(0, wordsPerGame).map((word) => gameWords.push({
-      word: word.word,
-      translation: word.wordTranslate,
-      audio: URI + word.audio,
-      answers: [word.wordTranslate],
-    }));
+    if (localStorage.difficulty === '6') {
+      userWords.slice(0, wordsPerGame).map((word) => gameWords.push({
+        word: word.word,
+        translation: word.wordTranslate,
+        audio: URI + word.audio,
+        answers: [word.wordTranslate],
+      }));
+      newWords = words.filter((el) => this.filter(el, userWords));
+    } else {
+      words.slice(0, wordsPerGame).map((word) => gameWords.push({
+        word: word.word,
+        translation: word.wordTranslate,
+        audio: URI + word.audio,
+        answers: [word.wordTranslate],
+      }));
+    }
 
     for (let i = wordsPerGame; i <= wordsPerGame * 4; i += wordsPerGame) {
-      words.slice(i, i + wordsPerGame).map((word, index) => gameWords[index].answers
+      newWords.slice(i, i + wordsPerGame).map((word, index) => gameWords[index].answers
         .push(word.wordTranslate));
     }
 
@@ -49,6 +67,7 @@ export default class Savannah extends PureComponent {
   }
 
   restartGame = () => {
+    const { difficulty } = localStorage;
     this.setState({
       isGameStarted: true,
       currentLevel: 0,
@@ -56,6 +75,12 @@ export default class Savannah extends PureComponent {
       wrongAnswers: [],
       rightAnswers: [],
     });
+    if (difficulty === '6') {
+      getRandomWords(0, 2);
+    } else {
+      getRandomWords(difficulty, 2);
+    }
+    this.setWords();
   }
 
   nextLevel = () => {
@@ -77,12 +102,20 @@ export default class Savannah extends PureComponent {
     }));
   }
 
+  filter(el, userWords) {
+    for (let i = 0; i < userWords.length; i += 1) {
+      if (el.word === userWords[i].word) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   render() {
     const {
       isGameStarted, currentLevel, lives, rightAnswers, wrongAnswers,
     } = this.state;
 
-    this.setWords();
     if (isGameStarted && currentLevel < maxLevel && lives > 0) {
       return (
         <div className="savannah-game">
