@@ -114,7 +114,8 @@ export default class Settings extends PureComponent {
   render() {
     const settings = this.state;
     return (
-      <SettingsForm
+      <>
+      {settings.isDataLoaded ? <SettingsForm
         settings={settings}
         isDataLoaded={settings.isDataLoaded}
         isDataSaved={settings.isDataSaved}
@@ -122,7 +123,8 @@ export default class Settings extends PureComponent {
         setCheckBox={settings.setCheckBox}
         setCheckBoxGroup={settings.setCheckBoxGroup}
         saveSettings={settings.saveSettings}
-      />
+      /> : <div style={{'min-height': '84vh',}}></div>}
+      </>
     );
   }
 }
