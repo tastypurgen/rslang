@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import React, { PureComponent } from 'react';
+import ReactHtmlParser from 'react-html-parser';
 import './MainGame.scss';
 import pointIcon from './images/point.svg';
 import deleteIcon from './images/delete.svg';
@@ -303,7 +304,7 @@ class MainGame extends PureComponent {
                     {wordTranscription ? <p className="word-info__transcription">{transcription}</p> : null}
                     {wordTranslation ? <p className="word-info__translation word-info__full-word--item">{wordData.wordTranslate}</p> : null}
                   </div>
-                  {explanationSentence ? <p className="word-info__second-sentence-example">{textMeaning}</p> : null}
+                  {explanationSentence ? <p className="word-info__second-sentence-example">{ReactHtmlParser(textMeaning)}</p> : null}
                   {showWordAndSentenceTranslation ? <p className="word-info__second-sentence-translation">{textMeaningTranslate}</p> : null}
                 </div>
               </div>
