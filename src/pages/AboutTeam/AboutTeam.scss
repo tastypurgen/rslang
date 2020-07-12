@@ -1,6 +1,6 @@
 .about-page {
   background: #f8f2ee;
-  padding-top: 10px;
+  padding: 20px 10px;
 
   h2 {
     max-width: 1200px;
@@ -23,5 +23,19 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+  }
+
+  @media (max-width: 820px) {
+    .container {
+      margin: 0 auto;
+      display: block;
+      font-size: 0.9em;
+    }
+
+    .about-card {
+      margin: 0 auto 10px;
+      width: 100%;
+      max-width: 440px;
+    }
   }
 }
