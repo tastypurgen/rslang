@@ -386,6 +386,7 @@ class MainGame extends PureComponent {
 
   goToNextCard = () => {
     const { wordsData, currentWordIndex } = this.state;
+    const { history } = this.props;
     if (currentWordIndex < wordsData.length - 1) {
       this.setInputValue('');
       this.setInputClassesAndReadState('Input', false);
@@ -394,8 +395,12 @@ class MainGame extends PureComponent {
         currentWordIndex: currentWordIndex + 1,
         showRightAnswer: false,
       });
-    } else {
+    } else if (!this.currentStatistic.optional.today.isFinished) {
       this.changePopupShowState(true);
+      this.currentStatistic.optional.today.isFinished = true;
+      upsertUserStatistics(this.currentStatistic);
+    } else {
+      history.push('/');
     }
   };
 
