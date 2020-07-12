@@ -476,7 +476,7 @@ class MainGame extends PureComponent {
               <div className="MainGame__progress-bar">
                 <p className="MainGame__progress-index">{currentWordIndex + 1}</p>
                 <Progressbar
-                  progressPercent={(100 / wordsData.length) * currentWordIndex}
+                  progressPercent={(100 / wordsData.length) * (currentWordIndex + 1)}
                 />
                 <p className="MainGame__progress-length">{wordsData.length}</p>
               </div>
