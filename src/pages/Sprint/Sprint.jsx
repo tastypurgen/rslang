@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import './Sprint.scss';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { NavLink } from 'react-router-dom';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import RenderTime from './timer';
@@ -32,13 +32,13 @@ function Sprint() {
     audioSrc: '',
   });
   // eslint-disable-next-line prefer-const
-  let [pageNumber, setPageNumber] = useState(0);
+  let [pageNumber, setPageNumber] = useState(13);
   // eslint-disable-next-line prefer-const
   let [winStreak, setWinStreak] = useState(0);
   // eslint-disable-next-line prefer-const
   let [wordsPool, setWordsPool] = useState([]);
 
-  function loadWord() {
+  const loadWord = useCallback(() => {
     setIsSpinnerOn(true);
     const url = `https://afternoon-falls-25894.herokuapp.com/words?page=${pageNumber}&group=${difficultyLevel.difficulty}&wordsPerExampleSentenceLTE=46&wordsPerPage=46`;
     const wordsData = JSON.parse(localStorage.getItem('wordsPool'));
@@ -53,15 +53,16 @@ function Sprint() {
       localStorage.setItem('wordsPool', JSON.stringify(wordsList));
       return Promise.resolve(wordsList);
     });
-  }
+  }, [difficultyLevel.difficulty, pageNumber]);
 
   function prepareToGame() {
     if (!wordsPool.length) {
       localStorage.removeItem('wordsPool');
       // eslint-disable-next-line no-plusplus
       setPageNumber(++pageNumber);
-      if (pageNumber > 29) {
+      if (pageNumber > 12) {
         pageNumber = 0;
+        setPageNumber(pageNumber);
       }
     } else {
       // eslint-disable-next-line no-use-before-define
@@ -138,10 +139,10 @@ function Sprint() {
 
   useEffect(() => {
     loadWord().then((words) => startGame(words));
-  }, []);
+  }, [loadWord]);
   return (
     <section ref={sprintSection} onKeyDown={answerWithKey} className="sprint-section" tabIndex="0">
-      {isSpinnerOn && !wordsPool.length ? <Spinner /> : true}
+      {isSpinnerOn && !wordsPool.length ? <Spinner className="spinner" /> : true}
       <div className={`start-page ${isGameOn ? 'invisible' : 'flex'}`}>
         <div className="start-page_section">
           <h1>Спринт</h1>
@@ -161,34 +162,36 @@ function Sprint() {
       <div ref={engGameSection} className={`end-game ${!wordsPool.length ? 'flex' : 'invisible'}`}>
         <div className="statistic-section">
           <h2>Конец игры!</h2>
-          <div className="results-section">
-            <h3>
-              Правильно
-              {' '}
-              {correctAnswers.length}
-              :
-            </h3>
-            <h3>
-              Неправильно
-              {' '}
-              {wrongAnswers.length}
-              :
-            </h3>
-          </div>
           <div className="answer-container">
-            <div className="answers">
-              {correctAnswers.map((correctWord, index) => (
-                <div key={(index + 1).toString()}>
-                  <span>{`${correctWord.enWord}`}</span>
-                </div>
-              ))}
+            <div>
+              <h3>
+                Правильно
+                {' '}
+                {correctAnswers.length}
+                :
+              </h3>
+              <div className="answers">
+                {correctAnswers.map((correctWord, index) => (
+                  <div key={(index + 1).toString()}>
+                    <span>{`${correctWord.enWord},`}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="answers">
-              {wrongAnswers.map((wrongWord, index) => (
-                <div key={(index + 1).toString()}>
-                  <span>{`${wrongWord.enWord}`}</span>
-                </div>
-              ))}
+            <div>
+              <h3>
+                Неправильно
+                {' '}
+                {wrongAnswers.length}
+                :
+              </h3>
+              <div className="answers">
+                {wrongAnswers.map((wrongWord, index) => (
+                  <div key={(index + 1).toString()}>
+                    <span>{`${wrongWord.enWord},`}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
           <div className="end-game_buttons">

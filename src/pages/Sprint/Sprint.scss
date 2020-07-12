@@ -10,10 +10,6 @@
   align-items: center;
   font-family: 'Roboto', sans-serif;
 
-  .busy-indicator{
-   
-  }
-
     .start-page {
       z-index: 2;
       width: 100%;
@@ -223,6 +219,10 @@
     font-family: "Roboto";
     text-align: center;
     margin-bottom: 40px;
+  }
+
+  h3 {
+    text-align: center;
   }
   
   .timer-wrapper {
