@@ -387,7 +387,7 @@ class MainGame extends PureComponent {
   goToNextCard = () => {
     const { wordsData, currentWordIndex } = this.state;
     if (currentWordIndex < wordsData.length - 1) {
-      this.clearInputValue('');
+      this.setInputValue('');
       this.setInputClassesAndReadState('Input', false);
       this.setIndicator(wordsData[currentWordIndex + 1].userWord);
       this.setState({
@@ -400,6 +400,7 @@ class MainGame extends PureComponent {
   };
 
   componentDidMount = async () => {
+    console.log(this.props);
     const setingsData = await getUserSettings(localStorage.userToken, localStorage.userId);
     this.setState({
       settingsData: setingsData.optional,
