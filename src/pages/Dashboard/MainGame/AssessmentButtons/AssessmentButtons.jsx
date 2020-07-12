@@ -34,7 +34,7 @@ const AssessmentButtons = (props) => {
         key="3"
         className="AssessmentButtons__button"
         onClick={() => {
-          assessUserWord(1);
+          assessUserWord(0);
         }}
         type="button"
       >
@@ -44,7 +44,7 @@ const AssessmentButtons = (props) => {
         key="4"
         className="AssessmentButtons__button"
         onClick={() => {
-          assessUserWord(2);
+          assessUserWord(1);
         }}
         type="button"
       >
