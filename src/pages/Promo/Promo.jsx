@@ -96,7 +96,7 @@ const Promo = () => (
       </div>
       <div className="video-container">
         <iframe
-          src="http://www.youtube.com/embed/ZDdmB7_zNnA"
+          src="https://www.youtube.com/embed/ZDdmB7_zNnA"
           width="510"
           height="285"
           frameBorder="0"
