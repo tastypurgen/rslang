@@ -83,25 +83,25 @@ class MainGame extends PureComponent {
 
   bestChainCounter = { count: 0 };
 
-  componentDidMount = async () => {
-    const setingsData = await getUserSettings(localStorage.userToken, localStorage.userId);
-    this.setState({
-      settingsData: setingsData.optional,
-    });
+  // componentDidMount = async () => {
+  //   const setingsData = await getUserSettings(localStorage.userToken, localStorage.userId);
+  //   this.setState({
+  //     settingsData: setingsData.optional,
+  //   });
 
-    const wordsDataResponse = await getUserAggregatedWords(
-      JSON.stringify(filterMainGame), setingsData.optional.maxCardsPerDay,
-    );
-    const todayWordData = shuffleArray(wordsDataResponse[0].paginatedResults);
+  //   const wordsDataResponse = await getUserAggregatedWords(
+  //     JSON.stringify(filterMainGame), setingsData.optional.maxCardsPerDay,
+  //   );
+  //   const todayWordData = shuffleArray(wordsDataResponse[0].paginatedResults);
 
-    this.setIndicator(todayWordData[0].userWord);
-    this.setState({
-      wordsData: todayWordData,
-      isDataEnabled: true,
-    });
+  //   this.setIndicator(todayWordData[0].userWord);
+  //   this.setState({
+  //     wordsData: todayWordData,
+  //     isDataEnabled: true,
+  //   });
 
-    document.querySelector('.answer-input').focus();
-  };
+  //   document.querySelector('.answer-input').focus();
+  // };
 
   setIsWordFinished = (value) => {
     this.setState({

@@ -36,10 +36,12 @@ const setDefaultStatistics = async () => {
     learnedWords: 0,
     optional: {
       today: {
+        date: new Date().toLocaleDateString(),
         cards: 0,
         newWords: 0,
         rightAnswers: 0,
         longestChain: 0,
+        finishWordsLeft: 20,
       },
       speakIt: {
         timesPlayed: 0,
