@@ -6,7 +6,6 @@ import './TotalStatistics.scss';
 const TotalStatistics = (props) => {
   const { totalStatistics } = props;
   const { inProgressWordsCount, learnedWordsCount } = totalStatistics;
-  console.log(totalStatistics);
   return (
     <div className="TotalStatistics Dashboard__card">
       <div className="TotalStatistics__title-bar">

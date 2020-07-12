@@ -53,23 +53,6 @@
         }
     }
 
-    // .word-container {
-    //     position: absolute;
-    //     left: 0;
-    //     right: 0;
-    //     top: 0;
-    //     bottom: 0;
-    //     visibility: hidden;
-    //     -webkit-transform-origin: 0 50%;
-    //     transform-origin: 0 50%;
-    //     padding-bottom: 2px;
-    //     border-bottom: 2px solid transparent;
-    //     -webkit-user-select: none;
-    //     -moz-user-select: none;
-    //     -ms-user-select: none;
-    //     user-select: none;
-    // }
-
     .answer-input {
         background: transparent;
         border: 0 none;
@@ -94,7 +77,6 @@
         border-radius: 0;
         -webkit-border-radius: 0;
 
-        // display: inline;
         position: absolute;
         left: 0;
         top: 0;
@@ -104,33 +86,3 @@
         overflow: hidden;
     }
 }
-
-// .Input {
-//     font-size: 18px;
-//     line-height: 21px;
-//     outline: none;
-//     border: none;
-//     height: 24px;
-//     background: rgba(55, 56, 60, 0.1);
-//     padding-left: 9px;
-//     padding-right: 7px;
-//     text-align: center;
-// }
-
-// .Input--right {
-//     background: rgba(50, 190, 166, 0.2);
-// }
-
-// .Input--wrong {
-//     background: rgba(224, 79, 95, 0.1);
-// }
-
-// .Input--default {
-//     background: rgba(37, 182, 210, 0.2);
-// }
-
-// @media (max-width: 350px) {
-//     .Input {
-//         font-size: 16px;
-//     }
-// }

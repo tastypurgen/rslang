@@ -30,15 +30,12 @@ class Dashboard extends React.PureComponent {
   componentDidMount = async () => {
     const userSettingData = await getUserSettings(localStorage.userToken, localStorage.userId);
     this.cardsPerDay = userSettingData.optional.maxCardsPerDay;
-    console.log(userSettingData.optional.maxCardsPerDay);
     const inProgressWords = await getUserAggregatedWords(filters.inProgress);
     const learnedWords = await getUserAggregatedWords(filters.learnedWords);
     this.totalStatistics = {
       inProgressWordsCount: inProgressWords[0]?.totalCount[0]?.count || 0,
       learnedWordsCount: learnedWords[0]?.totalCount[0]?.count || 0,
     };
-    // console.log(inProgressWords);
-    // console.log(learnedWords);
 
     let userStatisticsRequest = await getUserStatistics();
     if (!userStatisticsRequest) {
@@ -46,7 +43,6 @@ class Dashboard extends React.PureComponent {
       userStatisticsRequest = await getUserStatistics();
     }
     this.todayStatisticsData = userStatisticsRequest.optional.today;
-    console.log(this.todayStatisticsData);
     this.setState({
       isdataLoaded: true,
     });

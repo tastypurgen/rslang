@@ -1,10 +1,7 @@
 import React from 'react';
 import './Input.scss';
 import getSentenceByTags from '../../../../utils/getSentenceByTags';
-import {
-  // removed deleteUserWord, getAllUserWords
-  createUserWord, updateUserWord,
-} from '../../../../services/userWords';
+import { createUserWord, updateUserWord } from '../../../../services/userWords';
 import playAudioFunction from '../../../../utils/playAudioFunction';
 import { upsertUserStatistics } from '../../../../services/userStatistics';
 

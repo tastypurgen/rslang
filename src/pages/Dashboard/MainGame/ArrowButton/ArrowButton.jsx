@@ -24,7 +24,6 @@ const ArrowButton = (props) => {
           setInputValue('');
           setInputClassesAndReadState('Input', false);
           setIndicator(wordsData[currentWordIndex + 1].userWord);
-          // changePopupShowState();
           setCurrentIndex(currentWordIndex + 1);
           setShowRightAnswer(false);
           setDifficultyButtonState(false);
@@ -32,7 +31,6 @@ const ArrowButton = (props) => {
           changePopupShowState(true);
           currentStatistic.optional.today.isFinished = true;
           upsertUserStatistics(currentStatistic);
-          console.log(currentStatistic);
         } else {
           props.history.push('/');
         }

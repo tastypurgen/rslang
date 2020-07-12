@@ -23,7 +23,6 @@ const AnswerButton = (props) => {
     bestChainCounter,
   } = props;
   const { word } = wordData;
-  console.log(props);
   return (
     <button
       className="MainGame__answer-button"
@@ -68,7 +67,6 @@ const AnswerButton = (props) => {
         currentStatistic.optional.today.cards += 1;
         currentStatistic.optional.today.finishWordsLeft -= 1;
         upsertUserStatistics(currentStatistic);
-        console.log(currentStatistic);
       }}
     >
       Показать ответ

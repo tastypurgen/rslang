@@ -123,12 +123,6 @@ class MainGame extends PureComponent {
     });
 
     document.querySelector('.answer-input').focus();
-
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    getAllUserWords().then((res) => {
-      console.log('Мои слова');
-      console.log(res);
-    });
   };
 
   changingMode = (bool) => {
@@ -385,7 +379,6 @@ class MainGame extends PureComponent {
 
     const statisticsData = await getUserStatistics();
     const { optional } = statisticsData;
-    console.log(optional.today);
 
     if (optional.today.date !== new Date().toLocaleDateString()) {
       const todayStatistic = {
@@ -412,7 +405,6 @@ class MainGame extends PureComponent {
     let wordsdataLengthValue = this.currentStatistic.optional.today.finishWordsLeft;
     if (this.currentStatistic.optional.today.isFinished) {
       wordsdataLengthValue = setingsData.optional.maxCardsPerDay;
-      console.log(wordsdataLengthValue);
     } else if (this.currentStatistic.optional.today.finishWordsLeft < 1) {
       this.currentStatistic.optional.today.finishWordsLeft = setingsData.optional.maxCardsPerDay;
       wordsdataLengthValue = setingsData.optional.maxCardsPerDay;
@@ -422,19 +414,11 @@ class MainGame extends PureComponent {
       JSON.stringify(filterMainGame), wordsdataLengthValue,
     );
     const todayWordData = shuffleArray(wordsDataResponse[0].paginatedResults);
-    console.log(wordsDataResponse);
     this.setIndicator(todayWordData[0].userWord);
     this.setState({
       wordsData: todayWordData,
       isDataEnabled: true,
     });
-
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    getAllUserWords().then((res) => {
-      console.log('Мои слова');
-      console.log(res);
-    });
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   };
 
   render() {

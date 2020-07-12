@@ -43,12 +43,10 @@ const DeleteButton = (props) => {
           };
           try {
             if (userWord.optional.indicator < 5) {
-              console.log(userWord.optional.indicator);
               updateUserWord(wordsData[currentWordIndex]._id, body);
             }
           } catch {
             createUserWord(wordsData[currentWordIndex]._id, body);
-            console.log('Слова нит');
           }
           changeCardToLeft();
         }
