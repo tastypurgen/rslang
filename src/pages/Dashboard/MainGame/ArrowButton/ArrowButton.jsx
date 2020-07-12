@@ -14,6 +14,7 @@ const ArrowButton = (props) => {
     setCurrentIndex,
     setShowRightAnswer,
     setDifficultyButtonState,
+    setIsWordFinished,
   } = props;
   return (
     <div
@@ -27,6 +28,7 @@ const ArrowButton = (props) => {
           setCurrentIndex(currentWordIndex + 1);
           setShowRightAnswer(false);
           setDifficultyButtonState(false);
+          setIsWordFinished(false);
         } else if (!currentStatistic.optional.today.isFinished) {
           changePopupShowState(true);
           currentStatistic.optional.today.isFinished = true;

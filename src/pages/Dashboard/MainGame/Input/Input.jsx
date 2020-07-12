@@ -25,7 +25,7 @@ const Input = (props) => {
   const {
     textExample, wordData, changeRightAnswerState, exampleSentence, userWord,
     setIndicator, autoPronunciation, inputValue, inputReadOnlyFlag, setInputClassesAndReadState,
-    updateInput, changingMode, isChecking, currentStatistic, bestChainCounter, inputClasses,
+    updateInput, changingMode, isChecking, currentStatistic, bestChainCounter, inputClasses, isWordFinished, setIsWordFinished,
   } = props;
   const { word, _id, audio } = wordData;
 
@@ -63,6 +63,7 @@ const Input = (props) => {
       setIndicator(userWord, userWord.optional.indicator + additionalIndicatorValue);
       updateUserWord(_id, body);
     }
+    setIsWordFinished(true);
   };
 
   const getRightLettersArray = () => word.split('').reduce((acc, rightLetter, i) => {
@@ -79,15 +80,17 @@ const Input = (props) => {
     }
     if (input.toLowerCase() === word.toLowerCase()) {
       indicatorValue = userWord?.optional?.indicator || 2;
-      if (checkFirstAnswer(true)) {
-        if (userWord) {
-          indicatorValue = userWord.optional.indicator + 1;
+      if (!isWordFinished) {
+        if (checkFirstAnswer(true)) {
+          if (userWord) {
+            indicatorValue = userWord.optional.indicator + 1;
+          } else {
+            indicatorValue = 5;
+          }
+          postUserWordData(5, 1);
         } else {
-          indicatorValue = 5;
+          postUserWordData(2, 0);
         }
-        postUserWordData(5, 1);
-      } else {
-        postUserWordData(2, 0);
       }
       changeRightAnswerState(true);
       bestChainCounter.count += 1;

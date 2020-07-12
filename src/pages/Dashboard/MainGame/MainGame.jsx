@@ -76,6 +76,7 @@ class MainGame extends PureComponent {
     difficultyBtnActive: false,
     inputValue: '',
     isChecking: false,
+    isWordFinished: false,
   };
 
   currentStatistic = null;
@@ -87,32 +88,9 @@ class MainGame extends PureComponent {
     this.setState({
       settingsData: setingsData.optional,
     });
-    const filter = {
-      $or: [
-        {
-          $and: [
-            { 'userWord.optional.indicator': 2 },
-            { 'userWord.optional.deleted': false },
-          ],
-        },
-        {
-          $and: [
-            { 'userWord.optional.indicator': 3 },
-            { 'userWord.optional.deleted': false },
-          ],
-        },
-        {
-          $and: [
-            { 'userWord.optional.indicator': 4 },
-            { 'userWord.optional.deleted': false },
-          ],
-        },
-        { userWord: null },
-      ],
-    };
 
     const wordsDataResponse = await getUserAggregatedWords(
-      JSON.stringify(filter), setingsData.optional.maxCardsPerDay,
+      JSON.stringify(filterMainGame), setingsData.optional.maxCardsPerDay,
     );
     const todayWordData = shuffleArray(wordsDataResponse[0].paginatedResults);
 
@@ -124,6 +102,12 @@ class MainGame extends PureComponent {
 
     document.querySelector('.answer-input').focus();
   };
+
+  setIsWordFinished = (value) => {
+    this.setState({
+      isWordFinished: value,
+    });
+  }
 
   changingMode = (bool) => {
     this.setState({ isChecking: bool });
@@ -215,11 +199,13 @@ class MainGame extends PureComponent {
       setShowRightAnswer,
       setInputValue,
       setDifficultyButtonState,
+      changingMode,
+      setIsWordFinished,
       currentStatistic,
     } = this;
     const {
       settingsData, showRightAnswer, wordsData, currentWordIndex, indicator, inputClasses,
-      inputReadOnlyFlag, difficultyBtnActive, inputValue, isChecking,
+      inputReadOnlyFlag, difficultyBtnActive, inputValue, isChecking, isWordFinished,
     } = this.state;
 
     const {
@@ -268,6 +254,7 @@ class MainGame extends PureComponent {
     } else if (displayAssessmentBtns && showRightAnswer) {
       buttonComponent.push(( // showRightAnswer
         <AssessmentButtons
+          changingMode={changingMode}
           key={Math.random()}
           updateInput={this.updateInput}
           setShowRightAnswer={this.setShowRightAnswer}
@@ -286,6 +273,8 @@ class MainGame extends PureComponent {
             <div className="MainGame__sentence-wrapper">
               <p className="MainGame__card-sentence">
                 <Input
+                  isWordFinished={isWordFinished}
+                  setIsWordFinished={setIsWordFinished}
                   bestChainCounter={this.bestChainCounter}
                   currentStatistic={this.currentStatistic}
                   autoPronunciation={autoPronunciation}
@@ -356,6 +345,7 @@ class MainGame extends PureComponent {
         </div>
         {showRightAnswer ? (
           <ArrowButton
+            setIsWordFinished={setIsWordFinished}
             currentStatistic={currentStatistic}
             changePopupShowState={changePopupShowState}
             currentWordIndex={currentWordIndex}
