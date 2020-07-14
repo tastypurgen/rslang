@@ -25,8 +25,7 @@ async function createUserWord(wordId, body) {
       },
       body: JSON.stringify(body),
     });
-    if (rawResponse.status === 417) {
-    } else {
+    if (rawResponse.status !== 417) {
       const response = await rawResponse.json();
       return response;
     }

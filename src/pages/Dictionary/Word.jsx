@@ -23,34 +23,40 @@ export default class Word extends React.PureComponent {
   }
 
   componentDidMount() {
+    this.mounted = true;
     this.getSectionWords();
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   getSectionWords = async () => {
     const { filter } = this.props;
     const content = await getUserAggregatedWords(filter);
-    console.log(content);
     const contentWords = content[0].paginatedResults;
     const stateWords = [];
 
-    contentWords.map((el) => stateWords.push({
-      wordId: el._id,
-      word: el.word,
-      translation: el.wordTranslate,
-      audio: URI + el.audio,
-      meaning: el.textMeaning,
-      meaningTranslate: el.textMeaningTranslate,
-      example: el.textExample,
-      exampleTranslate: el.textExampleTranslate,
-      transcription: el.transcription,
-      image: URI + el.image,
-      indicator: el.userWord.optional.indicator,
-      trained: el.userWord.optional.trained,
-      lastTrained: el.userWord.optional.lastTrained,
-      nextTraining: el.userWord.optional.nextTraining,
-    }));
+    if (this.mounted) {
+      contentWords.map((el) => stateWords.push({
+        wordId: el._id,
+        word: el.word,
+        translation: el.wordTranslate,
+        audio: URI + el.audio,
+        meaning: el.textMeaning,
+        meaningTranslate: el.textMeaningTranslate,
+        example: el.textExample,
+        exampleTranslate: el.textExampleTranslate,
+        transcription: el.transcription,
+        image: URI + el.image,
+        indicator: el.userWord.optional.indicator,
+        trained: el.userWord.optional.trained,
+        lastTrained: el.userWord.optional.lastTrained,
+        nextTraining: el.userWord.optional.nextTraining,
+      }));
 
-    this.setState({ words: stateWords, isSpinnerOn: false });
+      this.setState({ words: stateWords, isSpinnerOn: false });
+    }
   }
 
   returnToLearning(id, indicator, trained, lastTrained, nextTraining) {

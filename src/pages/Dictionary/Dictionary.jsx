@@ -27,31 +27,38 @@ export default class Dictionary extends PureComponent {
   }
 
   componentDidMount() {
+    this.mounted = true;
     this.setStateFromSettings();
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   setStateFromSettings = async () => {
     const response = await getUserSettings(getToken(), getUserId());
     if (response.status === 200) {
-      const {
-        optional: {
-          explanationSentence,
-          exampleSentence,
-          wordTranscription,
-          associationImage,
-          showWordAndSentenceTranslation,
-        },
-      } = response;
-      this.setState({
-        isLoaded: true,
-        wordInfo: {
-          explanationSentence,
-          exampleSentence,
-          wordTranscription,
-          associationImage,
-          showWordAndSentenceTranslation,
-        },
-      });
+      if (this.mounted) {
+        const {
+          optional: {
+            explanationSentence,
+            exampleSentence,
+            wordTranscription,
+            associationImage,
+            showWordAndSentenceTranslation,
+          },
+        } = response;
+        this.setState({
+          isLoaded: true,
+          wordInfo: {
+            explanationSentence,
+            exampleSentence,
+            wordTranscription,
+            associationImage,
+            showWordAndSentenceTranslation,
+          },
+        });
+      }
     }
   }
 

@@ -62,7 +62,7 @@ $media-width: 574px;
       cursor: pointer;
 
       &:hover {
-        background-color: #25B6D2;
+        background-color: #25b6d2;
         color: #ffffff;
         transition: ease-in-out 0.2s;
 
@@ -75,21 +75,21 @@ $media-width: 574px;
     .settings {
       @extend span;
       &::before {
-        content: url('./img/settings.png');
+        content: url("./img/settings.png");
         margin-right: 25px;
       }
     }
 
     .active {
-      @extend .settings:hover;      
+      @extend .settings:hover;
     }
 
-    .exit{
+    .exit {
       outline: none;
 
       &::before {
         @extend .settings::before;
-        content: url('./img/exit.png');
+        content: url("./img/exit.png");
       }
     }
   }
@@ -109,6 +109,7 @@ $media-width: 574px;
     list-style: none;
 
     @media (max-width: $media-width) {
+      font-size: 0.8em;
       flex-direction: column;
       margin: 0 auto;
     }
@@ -118,15 +119,15 @@ $media-width: 574px;
 
       a {
         padding: 7px 25px;
-        border-radius: 320px;  
+        border-radius: 320px;
       }
-      
+
       @media (max-width: $media-width) {
         margin: 5px 0;
       }
 
-      .active{
-        background-color: #25B6D2;
+      .active {
+        background-color: #25b6d2;
         color: #ffffff;
         transition: ease-in-out 0.2s;
       }
@@ -139,7 +140,7 @@ $media-width: 574px;
 
   a,
   .user-links {
-    color: #37383C;
+    color: #37383c;
   }
 
   .hidden {

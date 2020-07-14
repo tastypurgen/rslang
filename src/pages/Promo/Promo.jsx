@@ -23,6 +23,7 @@ import tasks from './images/tasks.png';
 import lp from './images/lp.png';
 import games from './images/games.png';
 import dictionary from './images/words.png';
+import gh from './images/gh.svg';
 
 const Promo = () => (
   <div className="promo-section">
@@ -213,11 +214,10 @@ const Promo = () => (
             <img src={tasks} alt="" />
             <div>
               <h3>
-                Карточки со словами
+                Карточки
               </h3>
               <span>
-                Развивай словарный запас изучая
-                карточки со словами
+                Развивай словарный запас вместе с карточками
               </span>
             </div>
           </NavLink>
@@ -241,8 +241,7 @@ const Promo = () => (
                 Игры
               </h3>
               <span>
-                Шесть мини-игр для совершенствования
-                английского
+                Шесть мини-игр для развития английского
               </span>
             </div>
           </NavLink>
@@ -259,6 +258,13 @@ const Promo = () => (
           </NavLink>
         </li>
       </ul>
+    </section>
+    <section className="github">
+      <a href="https://github.com/tastypurgen/rslang" target="_blank" rel="noopener noreferrer">
+        <img src={gh} alt="" />
+        {' '}
+        GitHub
+      </a>
     </section>
   </div>
 );

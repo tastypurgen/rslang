@@ -240,6 +240,7 @@ class MainGame extends PureComponent {
     if (displayShowAnswerBtn && !showRightAnswer) {
       buttonComponent.push((
         <AnswerButton
+          key={Math.random()}
           setIsWordFinished={setIsWordFinished}
           isWordFinished={isWordFinished}
           settingsData={settingsData}

@@ -22,16 +22,23 @@ class GamesPanel extends React.PureComponent {
   }
 
   componentDidMount() {
+    this.mounted = true;
     this.setUserWords();
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   setUserWords = async () => {
     const checkWords = await checkUserWordsForGames();
-    this.setState({ checkUserWords: checkWords });
-    if (checkWords) {
-      await getUserWordsForGames();
-    } else {
-      localStorage.userWords = '[]';
+    if (this.mounted) {
+      this.setState({ checkUserWords: checkWords });
+      if (checkWords) {
+        await getUserWordsForGames();
+      } else {
+        localStorage.userWords = '[]';
+      }
     }
   };
 

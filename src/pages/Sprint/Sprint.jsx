@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import './Sprint.scss';
@@ -33,11 +34,8 @@ function Sprint() {
   const [soundSrc, setSoundSrc] = useState({
     audioSrc: '',
   });
-  // eslint-disable-next-line prefer-const
   let [pageNumber, setPageNumber] = useState(0);
-  // eslint-disable-next-line prefer-const
   let [winStreak, setWinStreak] = useState(0);
-  // eslint-disable-next-line prefer-const
   let [wordsPool, setWordsPool] = useState([]);
 
   const loadWord = useCallback(() => {
@@ -57,21 +55,6 @@ function Sprint() {
     });
   }, [difficultyLevel.difficulty, pageNumber]);
 
-  function prepareToGame() {
-    if (!wordsPool.length) {
-      localStorage.removeItem('wordsPool');
-      // eslint-disable-next-line no-plusplus
-      setPageNumber(++pageNumber);
-      if (pageNumber > 12) {
-        pageNumber = 0;
-        setPageNumber(pageNumber);
-      }
-    } else {
-      // eslint-disable-next-line no-use-before-define
-      startGame(wordsPool);
-    }
-  }
-
   function startGame(wordsList) {
     const wordsListTempo = wordsList.slice();
     const useCorrectWord = Math.random() >= 0.5;
@@ -85,35 +68,31 @@ function Sprint() {
       audioSrc: source + lastWord.audio,
     });
 
-    // eslint-disable-next-line no-unused-expressions
-    useCorrectWord
-      ? setWord({
+    if (useCorrectWord) {
+      setWord({
         enWord: lastWord.word,
         ruWord: lastWord.wordTranslate,
         correct: true,
-      })
-      : setWord({
+      });
+    } else {
+      setWord({
         enWord: lastWord.word,
         ruWord: randomWord.wordTranslate,
         correct: false,
       });
+    }
   }
 
-  function updateScore(isAnswerCorrect) {
-    if (isAnswerCorrect) {
-      // eslint-disable-next-line no-use-before-define
-      playSound(correctSound);
-      setCorrectAnswers((prevAnswers) => prevAnswers.concat([word]));
-      // eslint-disable-next-line no-plusplus
-      setWinStreak(++winStreak);
-      // eslint-disable-next-line no-unused-expressions
-      winStreak >= 4 ? setScore(score + 20) : setScore(score + 10);
+  function prepareToGame() {
+    if (!wordsPool.length) {
+      localStorage.removeItem('wordsPool');
+      setPageNumber(pageNumber + 1);
+      if (pageNumber > 12) {
+        pageNumber = 0;
+        setPageNumber(pageNumber);
+      }
     } else {
-      // eslint-disable-next-line no-use-before-define
-      playSound(errorSound);
-      setWrongAnswers((prevAnswers) => prevAnswers.concat([word]));
-      setWinStreak(0);
-      setScore(score);
+      startGame(wordsPool);
     }
   }
 
@@ -124,14 +103,28 @@ function Sprint() {
     sound.play();
   }
 
+  function updateScore(isAnswerCorrect) {
+    if (isAnswerCorrect) {
+      playSound(correctSound);
+      setCorrectAnswers((prevAnswers) => prevAnswers.concat([word]));
+      setWinStreak(winStreak + 1);
+      if (winStreak >= 4) setScore(score + 20);
+      else setScore(score + 10);
+    } else {
+      playSound(errorSound);
+      setWrongAnswers((prevAnswers) => prevAnswers.concat([word]));
+      setWinStreak(0);
+      setScore(score);
+    }
+  }
+
   function answerWithKey(event) {
     if (wordsPool.length) {
-      // eslint-disable-next-line default-case
       switch (event.key) {
         case 'ArrowLeft':
           updateScore(!word.correct);
           break;
-        case 'ArrowRight':
+        default:
           updateScore(word.correct);
           break;
       }
