@@ -2,7 +2,7 @@ $media-width: 699px;
 
 .dictionary {
   background: #f8f2ee;
-  min-height: 84vh;
+  min-height: calc(100vh - 115px);
 
   .container {
     margin: 0 auto;
@@ -60,6 +60,7 @@ $media-width: 699px;
     border-right: 1px solid #c4c4c4;
     border-bottom: 1px solid #c4c4c4;
     border-radius: 0 0 10px 10px;
+    min-height: 72vh;
   }
 
   table {

@@ -1,10 +1,10 @@
 .Dashboard {
   position: relative;
   background: url('./img/Big-Ben.png') no-repeat;
-  background-position: bottom;
-  background-size: contain;
+  background-position: bottom right;
+  background-size: 60%;
   background-color: #f8f2ee;
-  min-height: 83vh;
+  min-height: calc(100vh - 115px);
   font-style: normal;
   font-weight: normal;
   padding-top: 49px;

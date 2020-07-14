@@ -206,7 +206,7 @@ const Promo = () => (
     </section>
     <section className="products-section">
       <div className="products-title">
-        <h3>И так, чем займемся? :)</h3>
+        <h3>Итак, чем займемся? :)</h3>
       </div>
       <ul className="products-list">
         <li>
