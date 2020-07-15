@@ -30,7 +30,6 @@ export default class App extends Component {
   };
 
   componentDidMount = async () => {
-    // check if token valid
     if (localStorage.userToken) {
       const response = await checkUserToken();
       if (response) {

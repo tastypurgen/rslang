@@ -419,8 +419,6 @@ class MainGame extends PureComponent {
     this.setState({
       settingsData: setingsData.optional,
     });
-    // const statisticsData = await getUserStatistics();
-    // const { optional } = statisticsData;
 
     const userStatistics = await getUserStatistics();
     delete userStatistics.id;
