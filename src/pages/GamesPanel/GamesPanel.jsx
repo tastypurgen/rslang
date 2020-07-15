@@ -80,7 +80,7 @@ class GamesPanel extends React.PureComponent {
             </NavLink>
             <NavLink to="/english-puzzle">
               <GameCard
-                name="Мозайка"
+                name="Мозаика"
                 description="Собери предложение"
                 img={puzzleImg}
               />

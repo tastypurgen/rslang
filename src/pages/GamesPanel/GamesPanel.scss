@@ -4,6 +4,7 @@
   .container {
     margin: 0 auto;
     max-width: 1200px;
+    min-height: calc(100vh - 115px);
 
     .mode {
       font-family: Rubik;
