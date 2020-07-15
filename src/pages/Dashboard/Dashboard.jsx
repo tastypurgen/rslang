@@ -28,10 +28,6 @@ class Dashboard extends React.PureComponent {
     };
   }
 
-  updateNextTrainedWords = async () => {
-    
-  }
-
   componentDidMount = async () => {
     window.mainGameModeValue = 'Все слова';
     const userSettingData = await getUserSettings(localStorage.userToken, localStorage.userId);
