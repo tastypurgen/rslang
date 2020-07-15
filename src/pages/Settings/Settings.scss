@@ -140,7 +140,7 @@
       top: calc(50% - 4.5px);
       width: 11px;
       height: 9px;
-      background-image: url(./SettingsForm/img/checkbox.svg);
+      background-image: url("./SettingsForm/img/checkbox.svg");
       opacity: 0;
     }
     input:checked + label:before {
