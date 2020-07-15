@@ -51,8 +51,8 @@ const Input = (props) => {
         deleted: false,
         difficult: difficultValue,
         indicator: indicatorValue,
-        lastTrained: today,
-        nextTraining: tomorrow,
+        lastTrained: today.toLocaleDateString(),
+        nextTraining: tomorrow.toLocaleDateString(),
         trained: trainedValue,
       },
     };

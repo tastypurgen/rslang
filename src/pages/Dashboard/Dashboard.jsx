@@ -27,6 +27,10 @@ class Dashboard extends React.PureComponent {
     };
   }
 
+  updateNextTrainedWords = async () => {
+    
+  }
+
   componentDidMount = async () => {
     window.mainGameModeValue = 'Все слова';
     const userSettingData = await getUserSettings(localStorage.userToken, localStorage.userId);
@@ -44,6 +48,24 @@ class Dashboard extends React.PureComponent {
       userStatisticsRequest = await getUserStatistics();
     }
     this.todayStatisticsData = userStatisticsRequest.optional.today;
+    //
+    const test = new Date();
+    const filter = {
+      $and: [
+        { 'userWord.optional.nextTraining': { $lt: test.toLocaleDateString() } },
+        { 'userWord.optional.deleted': false },
+      ],
+    };
+    const udatingWords = await getUserAggregatedWords(JSON.stringify(filter));
+    const wordsAlias = udatingWords[0].paginatedResults;
+    console.log(wordsAlias);
+    if (wordsAlias.length !== 0) {
+      wordsAlias.forEach((it) => {
+        console.log(it.userWord.optional.nextTraining);
+      });
+    }
+
+    //
     this.setState({
       isdataLoaded: true,
     });
