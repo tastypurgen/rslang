@@ -264,6 +264,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-color: rgb(248, 242, 238);
+    margin-bottom: -30px;
 
     .products-title {
       display: flex;
@@ -327,28 +328,34 @@
   }
 
   .github {
-    background-color: #37383c;
+    padding-top: 12px;
     text-align: center;
     z-index: 999;
+
+    @media (max-width: 767px) {
+      & {
+        background-color: #37383c;
+      }
+    }
+    
     a {
       color: #f8f2ee;
       font-size: 16px;
       vertical-align: middle;
-      display: block;
       position: relative;
-      margin-bottom: -34px;
-      z-index: 1000;
 
       img {
         width: 15px;
         filter: invert(1);
       }
     }
-    @media screen and (max-width: 768px) {
-        a {
-          margin-bottom: 0;
-          padding-top: 12px;
-        }
+
+    @media (min-width: 768px) {
+      a {
+        display: inline-block;
+        margin-bottom: -65px;
+        z-index: 1000;
+      }
     }
   }
 
