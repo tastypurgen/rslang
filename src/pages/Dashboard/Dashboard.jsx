@@ -3,7 +3,7 @@ import Spinner from '../../components/Spinner/Spinner';
 import TodayGoal from './TodayGoal/TodayGoal';
 import TodayStatistics from './TodayStatistics/TodayStatistics';
 import TotalStatistics from './TotalStatistics/TotalStatistics';
-import { setDefaultStatistics, getUserStatistics } from '../../services/userStatistics';
+import { setDefaultStatistics, getUserStatistics, upsertUserStatistics } from '../../services/userStatistics';
 import { getUserSettings } from '../../services/settingsService';
 import getUserAggregatedWords from '../../services/userAggregatedWords';
 import './Dashboard.scss';
@@ -43,7 +43,25 @@ class Dashboard extends React.PureComponent {
       await setDefaultStatistics();
       userStatisticsRequest = await getUserStatistics();
     }
+
+    if (userStatisticsRequest.optional.today.date !== new Date().toLocaleDateString()) {
+      const todayStatistic = {
+        learnedWords: 0,
+        optional: {
+          today: {
+            date: new Date().toLocaleDateString(),
+            cards: 0,
+            newWords: 0,
+            rightAnswers: 0,
+            longestChain: 0,
+            finishWordsLeft: userSettingData.optional.maxCardsPerDay,
+          },
+        },
+      };
+      upsertUserStatistics(todayStatistic);
+    }
     this.todayStatisticsData = userStatisticsRequest.optional.today;
+
     this.setState({
       isdataLoaded: true,
     });
