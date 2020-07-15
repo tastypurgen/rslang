@@ -5,6 +5,7 @@ import TodayStatistics from './TodayStatistics/TodayStatistics';
 import TotalStatistics from './TotalStatistics/TotalStatistics';
 import { setDefaultStatistics, getUserStatistics } from '../../services/userStatistics';
 import { getUserSettings } from '../../services/settingsService';
+import { updateUserWord } from '../../services/userWords';
 import getUserAggregatedWords from '../../services/userAggregatedWords';
 import './Dashboard.scss';
 
@@ -48,24 +49,22 @@ class Dashboard extends React.PureComponent {
       userStatisticsRequest = await getUserStatistics();
     }
     this.todayStatisticsData = userStatisticsRequest.optional.today;
-    //
-    const test = new Date();
-    const filter = {
+
+    const udatingWords = await getUserAggregatedWords(JSON.stringify({
       $and: [
-        { 'userWord.optional.nextTraining': { $lt: test.toLocaleDateString() } },
+        { 'userWord.optional.nextTraining': { $lt: new Date().toLocaleDateString() } },
         { 'userWord.optional.deleted': false },
       ],
-    };
-    const udatingWords = await getUserAggregatedWords(JSON.stringify(filter));
+    }));
     const wordsAlias = udatingWords[0].paginatedResults;
-    console.log(wordsAlias);
     if (wordsAlias.length !== 0) {
       wordsAlias.forEach((it) => {
-        console.log(it.userWord.optional.nextTraining);
+        const updatedWord = it.userWord;
+        updatedWord.optional.nextTraining = new Date().toLocaleDateString();
+        updateUserWord(it._id, updatedWord);
       });
     }
 
-    //
     this.setState({
       isdataLoaded: true,
     });

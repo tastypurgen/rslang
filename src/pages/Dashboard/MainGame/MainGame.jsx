@@ -420,30 +420,9 @@ class MainGame extends PureComponent {
       settingsData: setingsData.optional,
     });
 
-    const statisticsData = await getUserStatistics();
-    const { optional } = statisticsData;
-
-    if (optional.today.date !== new Date().toLocaleDateString()) {
-      const todayStatistic = {
-        learnedWords: 0,
-        optional: {
-          today: {
-            date: new Date().toLocaleDateString(),
-            cards: 0,
-            newWords: 0,
-            rightAnswers: 0,
-            longestChain: 0,
-            finishWordsLeft: setingsData.optional.maxCardsPerDay,
-          },
-        },
-      };
-      this.currentStatistic = todayStatistic;
-      upsertUserStatistics(todayStatistic);
-    } else {
-      const userStatistics = await getUserStatistics();
-      delete userStatistics.id;
-      this.currentStatistic = userStatistics;
-    }
+    const userStatistics = await getUserStatistics();
+    delete userStatistics.id;
+    this.currentStatistic = userStatistics;
 
     let wordsdataLengthValue = this.currentStatistic.optional.today.finishWordsLeft;
     if (this.currentStatistic.optional.today.isFinished) {

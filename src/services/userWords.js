@@ -1,17 +1,6 @@
 import { API } from '../utils/constants';
 import { getToken, getUserId } from './postUserData';
 
-// example of body:
-// const testObj = {
-//   'difficulty': 'easy',
-//   'optional': {
-//       indicator: 4,
-//       deleted: false,
-//       difficult: false,
-//   }
-// }
-
-// difficulty: easy, medium, hard
 async function createUserWord(wordId, body) {
   let rawResponse;
   try {
