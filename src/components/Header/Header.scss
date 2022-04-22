@@ -67,7 +67,7 @@ $media-width: 574px;
         transition: ease-in-out 0.2s;
 
         a {
-          @extend span:hover;
+          @extend span, :hover;
         }
       }
     }
@@ -81,14 +81,14 @@ $media-width: 574px;
     }
 
     .active {
-      @extend .settings:hover;
+      @extend .settings, :hover;
     }
 
     .exit {
       outline: none;
 
       &::before {
-        @extend .settings::before;
+        @extend .settings, ::before;
         content: url("./img/exit.png");
       }
     }
@@ -99,7 +99,7 @@ $media-width: 574px;
     right: 3.33%;
 
     &:hover {
-      @extend .user:hover;
+      @extend .user, :hover;
     }
   }
 

@@ -15,11 +15,11 @@ html {
   transition: ease-in-out 0.2s;
 }
 
-$difference: (#b6a4ff - #09607d) / 10;
+$difference: #b6a4ff;
 
 @for $i from 0 through 10 {
   #level-#{$i} {
-    background-color: #09607d + $difference * $i;
+    background-color: #09607d;
 
     @if($i == 10) {
       text-shadow: none;
@@ -93,7 +93,7 @@ $difference: (#b6a4ff - #09607d) / 10;
     }
     
     &:active {
-      @extend .button:hover;
+      @extend .button, :hover;
       box-shadow: inset 0px 8px 8px rgba(0, 0, 0, 0.2);
     }
   }
